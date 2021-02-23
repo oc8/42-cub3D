@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/16 18:10:05 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 15:35:25 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define KEY_AD 125
 # define KEY_UP 18
 # define KEY_DOWN 19
+# define KEY_m 46
 
 # include "mlx.h"
 # include "libft.h"
@@ -33,7 +34,9 @@
 # include <unistd.h>
 # include <stdlib.h>
 // # include <limits.h>
-#include <stdio.h>
+# include <stdio.h>
+// thread
+# include <pthread.h>
 
 typedef struct	s_mlx
 {
@@ -68,6 +71,7 @@ typedef struct	s_key
 	char	au;
 	char	up;
 	char	down;
+	char	m;
 }				t_key;
 
 typedef struct	s_plan_sprite
@@ -126,8 +130,6 @@ typedef struct	s_temp
 	int		pos;
 	t_p		*plans;
 	int		nbr_plan;
-	float	*rs_plans_x;
-	float	*rs_plans_y;
 	float	*rs_plans;
 }				t_temp;
 
@@ -164,7 +166,6 @@ typedef struct	s_ptr
 	float	agl_vrt;
 	int		emalloc;
 	int		epars;
-	t_axe	axe;
 	t_mlx	mlx;
 	t_img	screen;
 	t_img	switched;
@@ -176,7 +177,20 @@ typedef struct	s_ptr
 	t_c		pos;
 	t_c		*dir;
 	t_key	key;
+	float	*rs_plans_x;
+	float	*rs_plans_y;
+	// thread
+	int		thread_nb;
+	pthread_t	thread[4];
+	int		nbr;
+	t_agl	agl;
 }				t_ptr;
+
+typedef struct s_thread
+{
+	t_ptr* ptr;
+	int id;
+} 			t_thread;
 
 typedef enum	e_pars
 {

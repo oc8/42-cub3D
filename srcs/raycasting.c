@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/23 12:40:21 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 15:59:03 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static int	ft_texture(t_c pixel, t_img img, char axe)
 	return (img.pixels[i_img.y * (int)(img.s_l * 0.25) + i_img.x]);
 }
 
-static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_c dir, t_p *p, float t)
+static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_c dir, t_p *p, float t, char axe)
 {
 	t_i			i_map;
 
 	pixel->z = ptr->pos.z + dir.z * t;
 	if (pixel->z > 0 && pixel->z < 1)
 	{
-		if (ptr->axe.axe == 'x')
+		if (axe == 'x')
 		{
 			pixel->y = ptr->pos.y + dir.y * t; //
 			i_map.x = p->d * -1;
@@ -59,7 +59,7 @@ static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_c dir, t_p *p, float t)
 	return (0);
 }
 
-static float	ft_ray_wall(t_ptr *ptr, t_p *p, t_c *pixel, t_c dir, int i)
+static float	ft_ray_wall(t_ptr *ptr, t_p *p, t_c *pixel, t_c dir, float rs_p, t_axe *axe)
 {
 	float		rs_dir;
 	float		t;
@@ -69,37 +69,39 @@ static float	ft_ray_wall(t_ptr *ptr, t_p *p, t_c *pixel, t_c dir, int i)
 		rs_dir = p->a * dir.x + p->b * dir.y + p->c * dir.z;
 		if (rs_dir)
 		{
-			t = ptr->axe.rs_plans[i] / rs_dir;
-			if (t > 0 && ft_is_wall(ptr, pixel, dir, p, t))
+			t = rs_p / rs_dir;
+			if (t > 0 && ft_is_wall(ptr, pixel, dir, p, t, axe->axe))
 				return (t);
 		}
 	}
 	return (0);
 }
 
-static float	ft_ray_axe_(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel)
+static float	ft_ray_axe_(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *axe)
 {
 	float		t;
 	int			i;
 
-	i = ptr->axe.pos;
+	i = axe->pos;
 	if (dir.x > 0)
 		i += 1;// ?
 	if (i < 0)
 		i = 0;
-	if (i >= ptr->axe.nbr_plan)
-		i = ptr->axe.nbr_plan - 1;
-	if (ptr->axe.dir != 0)
-		while (i >= 0 && i < ptr->axe.nbr_plan)
+	if (i >= axe->nbr_plan)
+		i = axe->nbr_plan - 1;
+	if (axe->dir != 0)
+		while (i >= 0 && i < axe->nbr_plan)
 		{
-			t = ft_ray_wall(ptr, &plans[i], pixel, dir, i);
+			t = ft_ray_wall(ptr, &plans[i], pixel, dir, axe->rs_plans[i], axe);
 			if (t)
 				return (t);
 			if (plans->nbr)
-{			t = ft_ray_sprite(ptr, dir, pixel, &plans[i]); //
-			if (t)
-				return (t);}
-			if (ptr->axe.dir > 0)
+			{
+				t = ft_ray_sprite(ptr, dir, pixel, &plans[i]); //
+				if (t)
+					return (t);
+			}
+			if (axe->dir > 0)
 				i++;
 			else
 				i--;
@@ -113,29 +115,29 @@ int		ft_ray(t_ptr *ptr, t_c dir)
 	float	t_y;
 	t_c		pixel_x;
 	t_c		pixel_y;
+	t_axe	axe;
 
 	t_x = 0;
 	t_y = 0;
-	ptr->axe.axe = 'y';
-	ptr->axe.dir = dir.y;
-	ptr->axe.pos = (int)ptr->pos.y;
-	ptr->axe.nbr_plan = ptr->pars->nbr_map.y;
-	ptr->axe.rs_plans = ptr->axe.rs_plans_y;
+	axe.axe = 'y';
+	axe.dir = dir.y;
+	axe.pos = (int)ptr->pos.y;
+	axe.nbr_plan = ptr->pars->nbr_map.y;
+	axe.rs_plans = ptr->rs_plans_y;
 	// dir.z limit ?
 	if (dir.y > 0)
-		t_y = ft_ray_axe_(ptr, ptr->pars->plans_so, dir, &pixel_y);
+		t_y = ft_ray_axe_(ptr, ptr->pars->plans_so, dir, &pixel_y, &axe);
 	else if (dir.y < 0)
-		t_y = ft_ray_axe_(ptr, ptr->pars->plans_no, dir, &pixel_y);
-	ptr->axe.axe = 'x';
-	ptr->axe.dir = dir.x;
-	ptr->axe.pos = (int)ptr->pos.x;
-	ptr->axe.nbr_plan = ptr->pars->nbr_map.x;
-	ptr->axe.rs_plans = ptr->axe.rs_plans_x;
+		t_y = ft_ray_axe_(ptr, ptr->pars->plans_no, dir, &pixel_y, &axe);
+	axe.axe = 'x';
+	axe.dir = dir.x;
+	axe.pos = (int)ptr->pos.x;
+	axe.nbr_plan = ptr->pars->nbr_map.x;
+	axe.rs_plans = ptr->rs_plans_x;
 	if (dir.x > 0)
-		t_x = ft_ray_axe_(ptr, ptr->pars->plans_ea, dir, &pixel_x);
+		t_x = ft_ray_axe_(ptr, ptr->pars->plans_ea, dir, &pixel_x, &axe);
 	else if (dir.x < 0)
-		t_x = ft_ray_axe_(ptr, ptr->pars->plans_we, dir, &pixel_x);
-
+		t_x = ft_ray_axe_(ptr, ptr->pars->plans_we, dir, &pixel_x, &axe);
 
 	if (t_x && t_y)
 	{

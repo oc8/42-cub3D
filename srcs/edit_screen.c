@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/23 12:42:36 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 15:45:17 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,32 @@
 static t_c	ft_rotation(t_c dir, const t_agl *agl, t_ptr *ptr)
 {
 	t_c		new;
+	t_c		hor;
+	t_c		vrt;
 	// t_c		new2;
 
 	(void)ptr;
 	// dir.y = ptr->agl_hor;
-	new.x = agl->cos_hor * dir.x - agl->sin_hor * dir.y;
-	new.y = agl->cos_vrt * agl->sin_hor * dir.x + agl->cos_vrt * agl->cos_hor * dir.y - agl->sin_vrt * dir.z;
-	new.z = agl->sin_vrt * agl->sin_hor * dir.x + agl->sin_vrt * agl->cos_hor * dir.y + agl->cos_vrt * dir.z;
 
-	// new.x = cos.x *dir.x - sin.x * dir.y;
-	// new.y = sin.x * dir.x + cos.x * dir.y;
-	// new.z = dir.z;
 
-	// new2.y = cos.z * dir.y - sin.z * dir.z;
-	// new2.z = sin.z * dir.y + cos.z * dir.z;
+	if (ptr->key.m % 2 == 0)
+	{
+		new.x = agl->cos_hor * dir.x - agl->sin_hor * dir.y;
+		new.y = agl->cos_vrt * agl->sin_hor * dir.x + agl->cos_vrt * agl->cos_hor * dir.y - agl->sin_vrt * dir.z;
+		new.z = agl->sin_vrt * agl->sin_hor * dir.x + agl->sin_vrt * agl->cos_hor * dir.y + agl->cos_vrt * dir.z;
+	}
+	else
+	{
+		hor.x = agl->cos_hor * dir.x - agl->sin_hor * dir.y;
+		hor.y = agl->sin_hor * dir.x + agl->cos_hor * dir.y;
+		hor.z = dir.z;
+		vrt.x = dir.x;
+		vrt.y = agl->cos_vrt * dir.y - agl->sin_vrt * dir.z;
+		vrt.z = agl->sin_vrt * dir.y + agl->cos_vrt * dir.z;
+		new.x = hor.x * vrt.x;
+		new.y = hor.y * vrt.y;
+		new.z = hor.z * vrt.z;
+	}
 
 	return (new);
 }
@@ -50,32 +62,97 @@ static void	ft_before_calc(t_ptr *ptr, float *rs, t_p *plans_1, t_p *plans_2, in
 	}
 }
 
+// static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen)
+// {
+// 	int		i;
+// 	int		j;
+// 	t_agl	agl;
+
+// 	agl.cos_hor = cos(ptr->agl_hor);
+// 	agl.sin_hor = sin(ptr->agl_hor);
+// 	agl.cos_vrt = cos(ptr->agl_vrt);
+// 	agl.sin_vrt = sin(ptr->agl_vrt);
+// 	ft_before_calc(ptr, ptr->axe.rs_plans_y, ptr->pars->plans_so, ptr->pars->plans_no, ptr->pars->nbr_map.y);
+// 	ft_before_calc(ptr, ptr->axe.rs_plans_x, ptr->pars->plans_ea, ptr->pars->plans_we, ptr->pars->nbr_map.x);
+// 	j = -1;
+// 	while (++j < ptr->mlx.height)
+// 	{
+// 		i = -1;
+// 		while (++i < ptr->mlx.width)
+// 			screen[j * ptr->mlx.width + i] = ft_ray(ptr, ft_rotation(ptr->dir[j * ptr->mlx.width + i], &agl, ptr));
+// 	}
+// }
+
+void	*launch_print(void *work)
+{
+	t_ptr	*ptr;
+	t_thread	*wptr;
+	int		thread_nb;
+	int		j;
+	int 	i;
+	unsigned int	*screen;
+
+	wptr = (t_thread*)work;
+	ptr = (t_ptr*)wptr->ptr;
+	thread_nb = wptr->id;
+
+// dprintf(1, "thread_nb = %d\n", thread_nb);
+
+	// if (thread_nb < 3)
+	// {
+	// 	pthread_create(&ptr->thread[thread_nb], NULL, &launch_print, (void*)ptr);
+	// 	// pthread_join(ptr->thread[thread_nb], NULL);
+	// }
+	// if (ptr->nbr == 0)
+	screen = ptr->screen.pixels;
+	// else
+		// screen = ptr->switched.pixels;
+	
+	j = (ptr->mlx.height / 4) * thread_nb;
+	while (j < (ptr->mlx.height / 4) * (thread_nb + 1))
+	{
+		i = -1;
+		while (++i < ptr->mlx.width)
+			screen[j * ptr->mlx.width + i] = ft_ray(ptr, ft_rotation(ptr->dir[j * ptr->mlx.width + i], &ptr->agl, ptr));
+		j++;
+	}
+	return (ptr);
+}
+
 static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen)
 {
-	int		i;
-	int		j;
 	t_agl	agl;
-
+	// pthread_t	thread[4];
+	
+	(void)screen;
 	agl.cos_hor = cos(ptr->agl_hor);
 	agl.sin_hor = sin(ptr->agl_hor);
 	agl.cos_vrt = cos(ptr->agl_vrt);
 	agl.sin_vrt = sin(ptr->agl_vrt);
-	ft_before_calc(ptr, ptr->axe.rs_plans_y, ptr->pars->plans_so, ptr->pars->plans_no, ptr->pars->nbr_map.y);
-	ft_before_calc(ptr, ptr->axe.rs_plans_x, ptr->pars->plans_ea, ptr->pars->plans_we, ptr->pars->nbr_map.x);
-	j = -1;
-	while (++j < ptr->mlx.height)
-	{
-		i = -1;
-		while (++i < ptr->mlx.width)
-			screen[j * ptr->mlx.width + i] = ft_ray(ptr, ft_rotation(ptr->dir[j * ptr->mlx.width + i], &agl, ptr));
-	}
+	ptr->agl = agl;
+	ft_before_calc(ptr, ptr->rs_plans_y, ptr->pars->plans_so, ptr->pars->plans_no, ptr->pars->nbr_map.y);
+	ft_before_calc(ptr, ptr->rs_plans_x, ptr->pars->plans_ea, ptr->pars->plans_we, ptr->pars->nbr_map.x);
+
+	t_thread w0 = (t_thread){ptr, 0};
+	pthread_create(&ptr->thread[0], NULL, &launch_print, (void*)&w0);
+	t_thread w1 = (t_thread){ptr, 1};
+	pthread_create(&ptr->thread[1], NULL, &launch_print, (void*)&w1);
+	t_thread w2 = (t_thread){ptr, 2};
+	pthread_create(&ptr->thread[2], NULL, &launch_print, (void*)&w2);
+	t_thread w3 = (t_thread){ptr, 3};
+	pthread_create(&ptr->thread[3], NULL, &launch_print, (void*)&w3);
+
+	pthread_join(ptr->thread[0], NULL);
+	pthread_join(ptr->thread[1], NULL);
+	pthread_join(ptr->thread[2], NULL);
+	pthread_join(ptr->thread[3], NULL);
 }
 
 void	ft_edit_img(t_ptr *ptr)
 {
-	static int	nbr = 1;
+	// static int	nbr = 1;
 
-	ft_create_plan_sprite(ptr);
+	//ft_create_plan_sprite(ptr);
 
 	// //
 	// int		i;
@@ -123,16 +200,22 @@ void	ft_edit_img(t_ptr *ptr)
 	// }
 	// //
 
-	if (nbr)
-	{
+		mlx_sync(MLX_SYNC_WIN_CMD_COMPLETED, ptr->mlx.window);
+		mlx_sync(MLX_SYNC_IMAGE_WRITABLE, ptr->screen.ptr);
+
 		ft_put_pixels(ptr, ptr->screen.pixels);
-		nbr = 0;
 		mlx_put_image_to_window(ptr->mlx.ptr, ptr->mlx.window, ptr->screen.ptr, 0, 0);
-	}
-	else
-	{
-		ft_put_pixels(ptr, ptr->switched.pixels);
-		nbr = 1;
-		mlx_put_image_to_window(ptr->mlx.ptr, ptr->mlx.window, ptr->switched.ptr, 0, 0); // switched
-	}
+		mlx_sync(MLX_SYNC_WIN_FLUSH_CMD, ptr->mlx.window);
+	// if (nbr)
+	// {
+	// 	ft_put_pixels(ptr, ptr->screen.pixels);
+	// 	nbr = 0;
+	// 	mlx_put_image_to_window(ptr->mlx.ptr, ptr->mlx.window, ptr->screen.ptr, 0, 0);
+	// }
+	// else
+	// {
+	// 	ft_put_pixels(ptr, ptr->switched.pixels);
+	// 	nbr = 1;
+	// 	mlx_put_image_to_window(ptr->mlx.ptr, ptr->mlx.window, ptr->switched.ptr, 0, 0); // switched
+	// }
 }

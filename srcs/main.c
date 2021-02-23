@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/23 12:44:26 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 16:12:10 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	ft_close(t_ptr *ptr, int error)
 		free(ptr->pars->plans_sprite);
 	}
 	if (ptr->emalloc & e_rs_x)
-		free(ptr->axe.rs_plans_x);
+		free(ptr->rs_plans_x);
 	if (ptr->emalloc & e_rs_y)
-		free(ptr->axe.rs_plans_y);
+		free(ptr->rs_plans_y);
 	free(ptr);
 	exit(0);
 }
@@ -66,9 +66,9 @@ int		ft_loop(t_ptr *ptr)
 	new_pos_y = ptr->pos.y;
 	if (ptr->key.al)
 		ptr->agl_hor -= 0.08;
-	else if (ptr->key.ar)
+	if (ptr->key.ar)
 		ptr->agl_hor += 0.08;
-	else if (ptr->key.w)
+	if (ptr->key.w)
 	{
 		// printf("dir : x = %f, y = %f\n", ptr->dir.x, ptr->dir.y);
 		// printf("pos : x = %f, y = %f\n\n", ptr->pos.x, ptr->pos.y);
@@ -77,29 +77,29 @@ int		ft_loop(t_ptr *ptr)
 		new_pos_y -= cos(ptr->agl_hor) * ptr->speed;
 		// printf("x = %f, y = %f\n\n", new_pos_x, new_pos_y);
 	}
-	else if (ptr->key.s)
+	if (ptr->key.s)
 	{
 		// printf("dir :\nx = %f, y = %f\n\n", ptr->dir->x, ptr->dir->y);
 		new_pos_x -= sin(ptr->agl_hor) * ptr->speed;
 		new_pos_y += cos(ptr->agl_hor) * ptr->speed;
 	}
-	else if (ptr->key.a)
+	if (ptr->key.a)
 	{
 		new_pos_x += sin(ptr->agl_hor - M_PI_2) * ptr->speed;
 		new_pos_y -= cos(ptr->agl_hor - M_PI_2) * ptr->speed;
 	}
-	else if (ptr->key.d)
+	if (ptr->key.d)
 	{
 		new_pos_x += sin(ptr->agl_hor + M_PI_2) * ptr->speed;
 		new_pos_y -= cos(ptr->agl_hor + M_PI_2) * ptr->speed;
 	}
-	else if (ptr->key.ad)
+	if (ptr->key.ad)
 		ptr->agl_vrt -= 0.05;
-	else if (ptr->key.au)
+	if (ptr->key.au)
 		ptr->agl_vrt += 0.05;
-	else if (ptr->key.up)
+	if (ptr->key.up)
 		ptr->pos.z += 0.5;
-	else if (ptr->key.down)
+	if (ptr->key.down)
 		ptr->pos.z -= 0.5;
 
 	new_pos.x = (int)new_pos_x;
@@ -143,6 +143,8 @@ int		ft_key(int key, t_ptr *ptr)
 		ptr->key.up = 1;
 	else if (key == KEY_DOWN)
 		ptr->key.down = 1;
+	else if (key == KEY_m)
+		ptr->key.m++;
 	else if (key == KEY_esc)
 		ft_close(ptr, 0);
 	return (0);
@@ -150,7 +152,7 @@ int		ft_key(int key, t_ptr *ptr)
 
 int		ft_key_release(int key, t_ptr *ptr)
 {
-	printf("release = %d\n", key);
+	// printf("release = %d\n", key);
 	if (key == KEY_AL)
 		ptr->key.al = 0;
 	else if (key == KEY_AR)
@@ -176,13 +178,13 @@ int		ft_key_release(int key, t_ptr *ptr)
 
 int		ft_mouse(int x, int y, t_ptr *ptr)
 {
-	printf("x = %d, y = %d\n", x, y);
+	// printf("x = %d, y = %d\n", x, y);
 	x -= ptr->mlx.width / 2;
 	y -= ptr->mlx.height / 2;
-	printf("x = %d, y = %d\n\n", x, y);
+	// printf("x = %d, y = %d\n\n", x, y);
 	ptr->agl_hor += x / (3.14 * 180);
 	// ptr->agl_vrt += y / (M_PI * 180);
-	ft_edit_img(ptr);
+	// ft_edit_img(ptr);
 	// ptr->agl_vrt += y / 10;
 	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, ptr->mlx.height * 0.5);
 	return (0);
@@ -262,7 +264,7 @@ int		main(int argc, char *argv[])
 	ptr->screen.pixels = (unsigned int *)mlx_get_data_addr(ptr->screen.ptr, &ptr->screen.bpp, &ptr->screen.s_l, &ptr->screen.endian);
 	ptr->switched.ptr = mlx_new_image(ptr->mlx.ptr, ptr->mlx.width, ptr->mlx.height);
 	ptr->switched.pixels = (unsigned int *)mlx_get_data_addr(ptr->switched.ptr, &ptr->switched.bpp, &ptr->switched.s_l, &ptr->switched.endian);
-	fov = 60 * (M_PI / 180);
+	fov = 100 * (M_PI / 180);
 	// printf("fov = %f\n", fov);
 
 	ptr->fov_x = 2 * tan(fov / 2);
@@ -281,9 +283,9 @@ int		main(int argc, char *argv[])
 			ptr->dir[j * ptr->mlx.width + i].z = ptr->fov_y / ptr->mlx.height * (j - ptr->mlx.height * 0.5);
 		}
 	}
-	ptr->axe.rs_plans_x = ft_check_calloc(ptr, ptr->pars->nbr_map.x, sizeof(float));
+	ptr->rs_plans_x = ft_check_calloc(ptr, ptr->pars->nbr_map.x, sizeof(float));
 	ptr->emalloc |= e_rs_x;
-	ptr->axe.rs_plans_y = ft_check_calloc(ptr, ptr->pars->nbr_map.y, sizeof(float));
+	ptr->rs_plans_y = ft_check_calloc(ptr, ptr->pars->nbr_map.y, sizeof(float));
 	ptr->emalloc |= e_rs_y;
 	ft_edit_img(ptr);
 
