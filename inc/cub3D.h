@@ -164,6 +164,7 @@ typedef struct	s_ptr
 	float	agl_vrt;
 	int		emalloc;
 	int		epars;
+	t_axe	axe;
 	t_mlx	mlx;
 	t_img	screen;
 	t_img	switched;
@@ -218,7 +219,7 @@ int				ft_parsing(char *path, t_ptr *ptr);
 void			ft_parsing_map(t_ptr *ptr, char *line, int j, t_i *first_pos);
 int				ft_malloc_map(t_ptr *ptr, char *path);
 void			ft_edit_img(t_ptr *ptr);
-int				ft_ray(t_ptr *ptr, t_c dir, t_axe *axe);
+int				ft_ray(t_ptr *ptr, t_c dir);
 int				ft_check_map(t_ptr *ptr, char **map, int i, int j);
 int				ft_ray_sprite(t_ptr *ptr, t_c dir, t_c *pixel, t_p *plan);
 void			ft_create_plan_sprite(t_ptr *ptr);

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/12 17:33:39 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 12:44:26 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ void	ft_close(t_ptr *ptr, int error)
 		printf("sprite free\n");
 		free(ptr->pars->plans_sprite);
 	}
+	if (ptr->emalloc & e_rs_x)
+		free(ptr->axe.rs_plans_x);
+	if (ptr->emalloc & e_rs_y)
+		free(ptr->axe.rs_plans_y);
 	free(ptr);
 	exit(0);
 }
@@ -277,6 +281,10 @@ int		main(int argc, char *argv[])
 			ptr->dir[j * ptr->mlx.width + i].z = ptr->fov_y / ptr->mlx.height * (j - ptr->mlx.height * 0.5);
 		}
 	}
+	ptr->axe.rs_plans_x = ft_check_calloc(ptr, ptr->pars->nbr_map.x, sizeof(float));
+	ptr->emalloc |= e_rs_x;
+	ptr->axe.rs_plans_y = ft_check_calloc(ptr, ptr->pars->nbr_map.y, sizeof(float));
+	ptr->emalloc |= e_rs_y;
 	ft_edit_img(ptr);
 
 	// i = -1;

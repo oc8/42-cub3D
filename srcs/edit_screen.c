@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/13 15:26:57 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 12:42:36 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,46 +36,39 @@ static t_c	ft_rotation(t_c dir, const t_agl *agl, t_ptr *ptr)
 	return (new);
 }
 
-// static	float	*ft_before_calc(t_ptr *ptr, t_p *plans, int nbr)
-// {
-// 	float	*rs;
-// 	int		i;
+static void	ft_before_calc(t_ptr *ptr, float *rs, t_p *plans_1, t_p *plans_2, int nbr)
+{
+	int		i;
 
-// 	rs = ft_check_calloc(ptr, nbr, sizeof(float));
-// 	i = -1;
-// 	while (++i < nbr)
-// 		rs[i] = - (plans[i].a * ptr->pos.x + plans[i].b * ptr->pos.y + plans[i].c * ptr->pos.z + plans[i].d);
-// 	return (rs);
-// }
+	i = -1;
+	while (++i < nbr)
+	{
+		if (plans_1[i].d)
+			rs[i] = - (plans_1[i].a * ptr->pos.x + plans_1[i].b * ptr->pos.y + plans_1[i].c * ptr->pos.z + plans_1[i].d);
+		else if (plans_2[i].d)
+			rs[i] = - (plans_2[i].a * ptr->pos.x + plans_2[i].b * ptr->pos.y + plans_2[i].c * ptr->pos.z + plans_2[i].d);
+	}
+}
 
 static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen)
 {
 	int		i;
 	int		j;
 	t_agl	agl;
-	t_axe	axe;
 
 	agl.cos_hor = cos(ptr->agl_hor);
 	agl.sin_hor = sin(ptr->agl_hor);
 	agl.cos_vrt = cos(ptr->agl_vrt);
 	agl.sin_vrt = sin(ptr->agl_vrt);
-	// axe.rs_plans_x = ft_before_calc(ptr, ptr->pars->plans_x, ptr->pars->nbr_map.x);
-	// ptr->emalloc |= e_rs_x;
-	// // ft_before_calc(ptr, ptr->pars->plans_so, ptr->pars->nbr_map.x, e_rs_so);
-	// axe.rs_plans_y = ft_before_calc(ptr, ptr->pars->plans_ea, ptr->pars->nbr_map.y);
-	// ptr->emalloc |= e_rs_y;
-	// ft_before_calc(ptr, ptr->pars->plans_we, ptr->pars->nbr_map.y, e_rs_we);
+	ft_before_calc(ptr, ptr->axe.rs_plans_y, ptr->pars->plans_so, ptr->pars->plans_no, ptr->pars->nbr_map.y);
+	ft_before_calc(ptr, ptr->axe.rs_plans_x, ptr->pars->plans_ea, ptr->pars->plans_we, ptr->pars->nbr_map.x);
 	j = -1;
 	while (++j < ptr->mlx.height)
 	{
 		i = -1;
 		while (++i < ptr->mlx.width)
-			screen[j * ptr->mlx.width + i] = ft_ray(ptr, ft_rotation(ptr->dir[j * ptr->mlx.width + i], &agl, ptr), &axe);
+			screen[j * ptr->mlx.width + i] = ft_ray(ptr, ft_rotation(ptr->dir[j * ptr->mlx.width + i], &agl, ptr));
 	}
-	// free(axe.rs_plans_x);
-	// ptr->emalloc &= e_rs_x;
-	// free(axe.rs_plans_y);
-	// ptr->emalloc &= e_rs_y; // & ?			mettre dans ft_close
 }
 
 void	ft_edit_img(t_ptr *ptr)
