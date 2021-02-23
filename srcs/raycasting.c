@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/23 15:59:03 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 16:46:09 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static float	ft_ray_axe_(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *axe
 			t = ft_ray_wall(ptr, &plans[i], pixel, dir, axe->rs_plans[i], axe);
 			if (t)
 				return (t);
-			if (plans->nbr)
+			if (plans[i].nbr)
 			{
 				t = ft_ray_sprite(ptr, dir, pixel, &plans[i]); //
 				if (t)

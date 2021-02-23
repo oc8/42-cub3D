@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/23 15:35:25 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 16:44:24 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,6 @@ typedef struct	s_ptr
 	int		epars;
 	t_mlx	mlx;
 	t_img	screen;
-	t_img	switched;
 	t_img	we;
 	t_img	no;
 	t_img	so;

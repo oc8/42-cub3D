@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/23 15:45:17 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 18:04:01 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,19 @@ static t_c	ft_rotation(t_c dir, const t_agl *agl, t_ptr *ptr)
 
 	(void)ptr;
 	// dir.y = ptr->agl_hor;
-
+	if (ptr->agl_hor >= M_PI)
+		ptr->agl_hor -= 2 * M_PI;
+	else if (ptr->agl_hor <= - M_PI)
+		ptr->agl_hor += 2 * M_PI;
 
 	if (ptr->key.m % 2 == 0)
 	{
 		new.x = agl->cos_hor * dir.x - agl->sin_hor * dir.y;
 		new.y = agl->cos_vrt * agl->sin_hor * dir.x + agl->cos_vrt * agl->cos_hor * dir.y - agl->sin_vrt * dir.z;
 		new.z = agl->sin_vrt * agl->sin_hor * dir.x + agl->sin_vrt * agl->cos_hor * dir.y + agl->cos_vrt * dir.z;
-	}
+	} // v = rot z
+	// w = rot x
+	// new = v + w - dir
 	else
 	{
 		hor.x = agl->cos_hor * dir.x - agl->sin_hor * dir.y;
@@ -62,27 +67,6 @@ static void	ft_before_calc(t_ptr *ptr, float *rs, t_p *plans_1, t_p *plans_2, in
 	}
 }
 
-// static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen)
-// {
-// 	int		i;
-// 	int		j;
-// 	t_agl	agl;
-
-// 	agl.cos_hor = cos(ptr->agl_hor);
-// 	agl.sin_hor = sin(ptr->agl_hor);
-// 	agl.cos_vrt = cos(ptr->agl_vrt);
-// 	agl.sin_vrt = sin(ptr->agl_vrt);
-// 	ft_before_calc(ptr, ptr->axe.rs_plans_y, ptr->pars->plans_so, ptr->pars->plans_no, ptr->pars->nbr_map.y);
-// 	ft_before_calc(ptr, ptr->axe.rs_plans_x, ptr->pars->plans_ea, ptr->pars->plans_we, ptr->pars->nbr_map.x);
-// 	j = -1;
-// 	while (++j < ptr->mlx.height)
-// 	{
-// 		i = -1;
-// 		while (++i < ptr->mlx.width)
-// 			screen[j * ptr->mlx.width + i] = ft_ray(ptr, ft_rotation(ptr->dir[j * ptr->mlx.width + i], &agl, ptr));
-// 	}
-// }
-
 void	*launch_print(void *work)
 {
 	t_ptr	*ptr;
@@ -108,8 +92,8 @@ void	*launch_print(void *work)
 	// else
 		// screen = ptr->switched.pixels;
 	
-	j = (ptr->mlx.height / 4) * thread_nb;
-	while (j < (ptr->mlx.height / 4) * (thread_nb + 1))
+	j = (ptr->mlx.height * 0.25) * thread_nb;
+	while (j < (ptr->mlx.height * 0.25) * (thread_nb + 1))
 	{
 		i = -1;
 		while (++i < ptr->mlx.width)
@@ -150,9 +134,8 @@ static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen)
 
 void	ft_edit_img(t_ptr *ptr)
 {
-	// static int	nbr = 1;
 
-	//ft_create_plan_sprite(ptr);
+	ft_create_plan_sprite(ptr);
 
 	// //
 	// int		i;
@@ -200,22 +183,9 @@ void	ft_edit_img(t_ptr *ptr)
 	// }
 	// //
 
-		mlx_sync(MLX_SYNC_WIN_CMD_COMPLETED, ptr->mlx.window);
-		mlx_sync(MLX_SYNC_IMAGE_WRITABLE, ptr->screen.ptr);
-
-		ft_put_pixels(ptr, ptr->screen.pixels);
-		mlx_put_image_to_window(ptr->mlx.ptr, ptr->mlx.window, ptr->screen.ptr, 0, 0);
-		mlx_sync(MLX_SYNC_WIN_FLUSH_CMD, ptr->mlx.window);
-	// if (nbr)
-	// {
-	// 	ft_put_pixels(ptr, ptr->screen.pixels);
-	// 	nbr = 0;
-	// 	mlx_put_image_to_window(ptr->mlx.ptr, ptr->mlx.window, ptr->screen.ptr, 0, 0);
-	// }
-	// else
-	// {
-	// 	ft_put_pixels(ptr, ptr->switched.pixels);
-	// 	nbr = 1;
-	// 	mlx_put_image_to_window(ptr->mlx.ptr, ptr->mlx.window, ptr->switched.ptr, 0, 0); // switched
-	// }
+	mlx_sync(MLX_SYNC_WIN_CMD_COMPLETED, ptr->mlx.window);
+	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, ptr->screen.ptr);
+	ft_put_pixels(ptr, ptr->screen.pixels);
+	mlx_put_image_to_window(ptr->mlx.ptr, ptr->mlx.window, ptr->screen.ptr, 0, 0);
+	mlx_sync(MLX_SYNC_WIN_FLUSH_CMD, ptr->mlx.window);
 }

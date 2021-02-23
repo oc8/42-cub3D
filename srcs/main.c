@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/23 16:12:10 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 16:44:42 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,8 +262,6 @@ int		main(int argc, char *argv[])
 //	index = ft_wall(pos, dir, map, &intersection);
 	ptr->screen.ptr = mlx_new_image(ptr->mlx.ptr, ptr->mlx.width, ptr->mlx.height);
 	ptr->screen.pixels = (unsigned int *)mlx_get_data_addr(ptr->screen.ptr, &ptr->screen.bpp, &ptr->screen.s_l, &ptr->screen.endian);
-	ptr->switched.ptr = mlx_new_image(ptr->mlx.ptr, ptr->mlx.width, ptr->mlx.height);
-	ptr->switched.pixels = (unsigned int *)mlx_get_data_addr(ptr->switched.ptr, &ptr->switched.bpp, &ptr->switched.s_l, &ptr->switched.endian);
 	fov = 100 * (M_PI / 180);
 	// printf("fov = %f\n", fov);
 

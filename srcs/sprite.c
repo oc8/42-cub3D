@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/22 11:56:31 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 16:49:02 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ void	ft_create_plan_sprite(t_ptr *ptr)
 			if (ptr->pars->map[y][x] == 2)
 			{
 				p = ptr->pars->plans_sprite;
-				p[i].a = y + 0.5 - ptr->pos.x;
-				p[i].b = x + 0.5 - ptr->pos.y;
-				p[i].c = 0.5 - ptr->pos.z;
-				p[i].d = - p[i].a - p[i].b - p[i].c;
+				p[i].a = ptr->dir->x;
+				p[i].b = ptr->dir->y;
+				p[i].c = ptr->dir->z;
+				p[i].d = - p[i].a * ptr->pos.x - p[i].b * ptr->pos.y - p[i].c * ptr->pos.z;
 				i++;
 				// printf("\t\t\t\t\t%d\n", ptr->pars->plans_sprite[i].index.y);
 			}
@@ -102,10 +102,9 @@ static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_c dir, float t, t_i index)
 		pixel->y = ptr->pos.y + dir.y * t;
 		i_map.x = (int)pixel->x;
 		i_map.y = (int)pixel->y;
-		printf("x = %d\ny = %d\n\n", i_map.x, i_map.y);
-		if (i_map.x == index.x && i_map.y == index.y)
+		// printf("x = %d\ny = %d\n\n", i_map.x, i_map.y);
+		if (i_map.x == index.x && i_map.y == index.y && ft_check_sprite(ptr))
 		{
-			if (ft_check_sprite(ptr))
 				return (1);
 		}
 	}
@@ -126,10 +125,12 @@ int		ft_ray_sprite(t_ptr *ptr, t_c dir, t_c *pixel, t_p *plan)
 		rs_dir = p[i]->a * dir.x + p[i]->b * dir.y + p[i]->c * dir.z;
 		if (rs_dir)
 		{
-			t = - (p[i]->a * ptr->pos.y + p[i]->b * ptr->pos.y + p[i]->c * ptr->pos.z + p[i]->d) / rs_dir;
+			t = - (p[i]->a * ptr->pos.x + p[i]->b * ptr->pos.y + p[i]->c * ptr->pos.z + p[i]->d) / rs_dir;
+			// printf("t = %f\n", t);
 			if (t > 0 && ft_is_sprite(ptr, pixel, dir, t, p[i]->index))
 			{
-				return (t);}
+				return (t);
+			}
 		}
 	}
 	return (0);
