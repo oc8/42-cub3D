@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/23 18:04:01 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/24 17:29:35 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,39 +18,35 @@
 static t_c	ft_rotation(t_c dir, const t_agl *agl, t_ptr *ptr)
 {
 	t_c		new;
-	t_c		hor;
-	t_c		vrt;
-	// t_c		new2;
+	t_c		m_z;
+	t_c		m_x;
 
-	(void)ptr;
-	// dir.y = ptr->agl_hor;
 	if (ptr->agl_hor >= M_PI)
 		ptr->agl_hor -= 2 * M_PI;
 	else if (ptr->agl_hor <= - M_PI)
 		ptr->agl_hor += 2 * M_PI;
-
 	if (ptr->key.m % 2 == 0)
 	{
-		new.x = agl->cos_hor * dir.x - agl->sin_hor * dir.y;
-		new.y = agl->cos_vrt * agl->sin_hor * dir.x + agl->cos_vrt * agl->cos_hor * dir.y - agl->sin_vrt * dir.z;
-		new.z = agl->sin_vrt * agl->sin_hor * dir.x + agl->sin_vrt * agl->cos_hor * dir.y + agl->cos_vrt * dir.z;
-	} // v = rot z
-	// w = rot x
-	// new = v + w - dir
+		m_x.x = dir.x;
+		m_x.y = agl->cos_vrt * dir.y - agl->sin_vrt * dir.z;
+		m_x.z = agl->sin_vrt * dir.y + agl->cos_vrt * dir.z;
+		m_z.x = agl->cos_hor * m_x.x - agl->sin_hor * m_x.y;
+		m_z.y = agl->sin_hor * m_x.x + agl->cos_hor * m_x.y;
+		m_z.z = m_x.z;
+	}
 	else
 	{
-		hor.x = agl->cos_hor * dir.x - agl->sin_hor * dir.y;
-		hor.y = agl->sin_hor * dir.x + agl->cos_hor * dir.y;
-		hor.z = dir.z;
-		vrt.x = dir.x;
-		vrt.y = agl->cos_vrt * dir.y - agl->sin_vrt * dir.z;
-		vrt.z = agl->sin_vrt * dir.y + agl->cos_vrt * dir.z;
-		new.x = hor.x * vrt.x;
-		new.y = hor.y * vrt.y;
-		new.z = hor.z * vrt.z;
+		m_z.x = agl->cos_hor * dir.x - agl->sin_hor * dir.y;
+		m_z.y = agl->sin_hor * dir.x + agl->cos_hor * dir.y;
+		m_z.z = dir.z;
+		m_x.x = dir.x;
+		m_x.y = agl->cos_vrt * dir.y - agl->sin_vrt * dir.z;
+		m_x.z = agl->sin_vrt * dir.y + agl->cos_vrt * dir.z;
+		new.x = m_z.x * m_x.x;
+		new.y = m_z.y * m_x.y;
+		new.z = m_z.z * m_x.z;
 	}
-
-	return (new);
+	return (m_z);
 }
 
 static void	ft_before_calc(t_ptr *ptr, float *rs, t_p *plans_1, t_p *plans_2, int nbr)

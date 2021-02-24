@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/23 16:44:42 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/24 18:07:40 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,15 +178,21 @@ int		ft_key_release(int key, t_ptr *ptr)
 
 int		ft_mouse(int x, int y, t_ptr *ptr)
 {
-	// printf("x = %d, y = %d\n", x, y);
-	x -= ptr->mlx.width / 2;
-	y -= ptr->mlx.height / 2;
+	// y = -y;
+	printf("x = %d, y = %d\n", x, y);
+	x -= ptr->mlx.width * 0.5;
+	y -= ptr->mlx.height * 0.5;
+	// y *= -1;
 	// printf("x = %d, y = %d\n\n", x, y);
+	// printf("hor = %f, ver = %f\n", ptr->agl_hor, ptr->agl_vrt);
 	ptr->agl_hor += x / (3.14 * 180);
-	// ptr->agl_vrt += y / (M_PI * 180);
+	ptr->agl_vrt += y / (3.14 * 180);
+	// printf("hor = %f, ver = %f\n\n", ptr->agl_hor, ptr->agl_vrt);
+	// printf("x = %d, y = %d\n\n", x, y);
 	// ft_edit_img(ptr);
 	// ptr->agl_vrt += y / 10;
-	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, ptr->mlx.height * 0.5);
+	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, ptr->mlx.height * 0.25);
+	// mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, ptr->mlx.height / 2);
 	return (0);
 }
 
@@ -241,12 +247,12 @@ int		main(int argc, char *argv[])
 	// if (image_front)
 	// 	mlx_destroy_image(mlx.mlx, image_front);
 	ptr->mlx.window = mlx_new_window(ptr->mlx.ptr, ptr->mlx.width, ptr->mlx.height, "Cub3D");
+	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, ptr->mlx.height * 0.5);
 	mlx_hook(ptr->mlx.window, 6, 1L<<6, ft_mouse, ptr);
 	mlx_hook(ptr->mlx.window, 2, 1L<<0, ft_key, ptr);
 	mlx_hook(ptr->mlx.window, 3, 1L<<1, ft_key_release, ptr);
 	mlx_hook(ptr->mlx.window, 17, 0, ft_quit_X, ptr);
-	mlx_mouse_hide();
-	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, ptr->mlx.height * 0.5);
+	// mlx_mouse_hide();
 
 	ptr->no.ptr = mlx_xpm_file_to_image(ptr->mlx.ptr, ptr->pars->path_no, &ptr->no.width, &ptr->no.height);
 	ptr->no.pixels = (unsigned int *)mlx_get_data_addr(ptr->no.ptr, &ptr->no.bpp, &ptr->no.s_l, &ptr->no.endian);

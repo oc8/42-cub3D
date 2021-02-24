@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/23 16:46:09 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/24 16:15:05 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ static float	ft_ray_wall(t_ptr *ptr, t_p *p, t_c *pixel, t_c dir, float rs_p, t_
 	return (0);
 }
 
-static float	ft_ray_axe_(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *axe)
+static t_dist	ft_ray_axe_(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *axe)
 {
-	float		t;
+	t_dist		dist;
 	int			i;
 
 	i = axe->pos;
@@ -92,33 +92,38 @@ static float	ft_ray_axe_(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *axe
 	if (axe->dir != 0)
 		while (i >= 0 && i < axe->nbr_plan)
 		{
-			t = ft_ray_wall(ptr, &plans[i], pixel, dir, axe->rs_plans[i], axe);
-			if (t)
-				return (t);
+			dist.t = ft_ray_wall(ptr, &plans[i], pixel, dir, axe->rs_plans[i], axe);
+			if (dist.t)
+			{
+				dist.flag = 'w';
+				return (dist);
+			}
 			if (plans[i].nbr)
 			{
-				t = ft_ray_sprite(ptr, dir, pixel, &plans[i]); //
-				if (t)
-					return (t);
+				dist.t = ft_ray_sprite(ptr, dir, pixel, &plans[i]); //
+				if (dist.t)
+				{
+					dist.flag = 's';
+					return (dist);
+				}
 			}
 			if (axe->dir > 0)
 				i++;
 			else
 				i--;
 		}
-		return (0);
+		dist.flag = 0;
+		return (dist);
 }
 
 int		ft_ray(t_ptr *ptr, t_c dir)
 {
-	float	t_x;
-	float	t_y;
+	t_dist	dist_x;
+	t_dist	dist_y;
 	t_c		pixel_x;
 	t_c		pixel_y;
 	t_axe	axe;
 
-	t_x = 0;
-	t_y = 0;
 	axe.axe = 'y';
 	axe.dir = dir.y;
 	axe.pos = (int)ptr->pos.y;
@@ -126,29 +131,29 @@ int		ft_ray(t_ptr *ptr, t_c dir)
 	axe.rs_plans = ptr->rs_plans_y;
 	// dir.z limit ?
 	if (dir.y > 0)
-		t_y = ft_ray_axe_(ptr, ptr->pars->plans_so, dir, &pixel_y, &axe);
+		dist_y = ft_ray_axe_(ptr, ptr->pars->plans_so, dir, &pixel_y, &axe);
 	else if (dir.y < 0)
-		t_y = ft_ray_axe_(ptr, ptr->pars->plans_no, dir, &pixel_y, &axe);
+		dist_y = ft_ray_axe_(ptr, ptr->pars->plans_no, dir, &pixel_y, &axe);
 	axe.axe = 'x';
 	axe.dir = dir.x;
 	axe.pos = (int)ptr->pos.x;
 	axe.nbr_plan = ptr->pars->nbr_map.x;
 	axe.rs_plans = ptr->rs_plans_x;
 	if (dir.x > 0)
-		t_x = ft_ray_axe_(ptr, ptr->pars->plans_ea, dir, &pixel_x, &axe);
+		dist_x = ft_ray_axe_(ptr, ptr->pars->plans_ea, dir, &pixel_x, &axe);
 	else if (dir.x < 0)
-		t_x = ft_ray_axe_(ptr, ptr->pars->plans_we, dir, &pixel_x, &axe);
+		dist_x = ft_ray_axe_(ptr, ptr->pars->plans_we, dir, &pixel_x, &axe);
 
-	if (t_x && t_y)
+	if (dist_x.flag && dist_y.flag)
 	{
-		if (t_x < t_y)
+		if (dist_x.t < dist_y.t)
 		{
 			if (dir.x < 0)
 				return (ft_texture(pixel_x, ptr->we, 'x'));
 			else
 				return (ft_texture(pixel_x, ptr->ea, 'x'));
 		}
-		else // if (t_y < t_x)
+		else // if (dist_y < dist_x.t)
 		{
 			if (dir.y < 0)
 				return (ft_texture(pixel_y, ptr->no, 'y'));
@@ -156,14 +161,14 @@ int		ft_ray(t_ptr *ptr, t_c dir)
 				return (ft_texture(pixel_y, ptr->so, 'y'));
 		}
 	}
-	else if (t_y)
+	else if (dist_y.flag)
 	{
 		if (dir.y < 0)
 			return (ft_texture(pixel_y, ptr->no, 'y'));
 		else
 			return (ft_texture(pixel_y, ptr->so, 'y'));
 	}
-	else if (t_x)
+	else if (dist_x.flag)
 	{
 		if (dir.x < 0)
 			return (ft_texture(pixel_x, ptr->we, 'x'));

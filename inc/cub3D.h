@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/23 16:44:24 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/24 16:26:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,12 @@ typedef struct	s_agl
 	float	sin_vrt;
 }				t_agl;
 
+typedef struct	s_dist
+{
+	float	t;
+	char	flag;
+}				t_dist;
+
 typedef struct	s_axe
 {
 	char	axe;
@@ -123,15 +129,10 @@ typedef struct	s_axe
 	float	*rs_plans;
 }				t_axe;
 
-typedef struct	s_temp
-{
-	char	axe;
-	float	dir;
-	int		pos;
-	t_p		*plans;
-	int		nbr_plan;
-	float	*rs_plans;
-}				t_temp;
+// typedef struct	s_matrice
+// {
+// 	float	;
+// }				t_matrice;
 
 typedef struct	s_pars
 {
