@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/24 16:15:05 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/25 15:24:16 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static float	ft_ray_wall(t_ptr *ptr, t_p *p, t_c *pixel, t_c dir, float rs_p, t_
 	return (0);
 }
 
-static t_dist	ft_ray_axe_(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *axe)
+static t_dist	ft_ray_axe(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *axe)
 {
 	t_dist		dist;
 	int			i;
@@ -100,7 +100,7 @@ static t_dist	ft_ray_axe_(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *ax
 			}
 			if (plans[i].nbr)
 			{
-				dist.t = ft_ray_sprite(ptr, dir, pixel, &plans[i]); //
+				dist.t = ft_ray_sprite(ptr, dir, pixel, &plans[i], &dist); //
 				if (dist.t)
 				{
 					dist.flag = 's';
@@ -131,23 +131,25 @@ int		ft_ray(t_ptr *ptr, t_c dir)
 	axe.rs_plans = ptr->rs_plans_y;
 	// dir.z limit ?
 	if (dir.y > 0)
-		dist_y = ft_ray_axe_(ptr, ptr->pars->plans_so, dir, &pixel_y, &axe);
+		dist_y = ft_ray_axe(ptr, ptr->pars->plans_so, dir, &pixel_y, &axe);
 	else if (dir.y < 0)
-		dist_y = ft_ray_axe_(ptr, ptr->pars->plans_no, dir, &pixel_y, &axe);
+		dist_y = ft_ray_axe(ptr, ptr->pars->plans_no, dir, &pixel_y, &axe);
 	axe.axe = 'x';
 	axe.dir = dir.x;
 	axe.pos = (int)ptr->pos.x;
 	axe.nbr_plan = ptr->pars->nbr_map.x;
 	axe.rs_plans = ptr->rs_plans_x;
 	if (dir.x > 0)
-		dist_x = ft_ray_axe_(ptr, ptr->pars->plans_ea, dir, &pixel_x, &axe);
+		dist_x = ft_ray_axe(ptr, ptr->pars->plans_ea, dir, &pixel_x, &axe);
 	else if (dir.x < 0)
-		dist_x = ft_ray_axe_(ptr, ptr->pars->plans_we, dir, &pixel_x, &axe);
+		dist_x = ft_ray_axe(ptr, ptr->pars->plans_we, dir, &pixel_x, &axe);
 
 	if (dist_x.flag && dist_y.flag)
 	{
 		if (dist_x.t < dist_y.t)
 		{
+			if (dist_x.flag == 's')
+				return (dist_x.color_sprite);
 			if (dir.x < 0)
 				return (ft_texture(pixel_x, ptr->we, 'x'));
 			else
@@ -155,6 +157,8 @@ int		ft_ray(t_ptr *ptr, t_c dir)
 		}
 		else // if (dist_y < dist_x.t)
 		{
+			if (dist_y.flag == 's')
+				return (dist_y.color_sprite);
 			if (dir.y < 0)
 				return (ft_texture(pixel_y, ptr->no, 'y'));
 			else
@@ -163,6 +167,8 @@ int		ft_ray(t_ptr *ptr, t_c dir)
 	}
 	else if (dist_y.flag)
 	{
+		if (dist_y.flag == 's')
+			return (dist_y.color_sprite);
 		if (dir.y < 0)
 			return (ft_texture(pixel_y, ptr->no, 'y'));
 		else
@@ -170,6 +176,8 @@ int		ft_ray(t_ptr *ptr, t_c dir)
 	}
 	else if (dist_x.flag)
 	{
+		if (dist_x.flag == 's')
+			return (dist_x.color_sprite);
 		if (dir.x < 0)
 			return (ft_texture(pixel_x, ptr->we, 'x'));
 		else

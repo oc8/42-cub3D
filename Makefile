@@ -36,7 +36,7 @@ NAME		= Cub3D
 INCLUDES	= inc/cub3D.h
 CC			= clang
 RM			= rm -f
-FLAGS		= -Wall -Wextra -Werror  # -fsanitize=address -g3
+FLAGS		= -Wall -Wextra -Werror #  -fsanitize=address -g3
 CFLAGS		= -I./includes -I./libft/ -I./minilibx -I./mlx
 AR			= ar
 ARFLAGS		= rcs

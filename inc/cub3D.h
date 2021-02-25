@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/24 16:26:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/25 16:48:55 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ typedef struct	s_key
 
 typedef struct	s_plan_sprite
 {
-	int		a;
-	int		b;
-	int		c;
-	int		d;
+	float		a;
+	float		b;
+	float		c;
+	float		d;
 	t_i		index;
 }				t_p_sprite;
 
@@ -116,6 +116,7 @@ typedef struct	s_dist
 {
 	float	t;
 	char	flag;
+	int		color_sprite;
 }				t_dist;
 
 typedef struct	s_axe
@@ -235,12 +236,13 @@ int				ft_malloc_map(t_ptr *ptr, char *path);
 void			ft_edit_img(t_ptr *ptr);
 int				ft_ray(t_ptr *ptr, t_c dir);
 int				ft_check_map(t_ptr *ptr, char **map, int i, int j);
-int				ft_ray_sprite(t_ptr *ptr, t_c dir, t_c *pixel, t_p *plan);
-void			ft_create_plan_sprite(t_ptr *ptr);
 void			*ft_check_calloc(t_ptr *ptr, size_t nmemb, size_t size);
 void			ft_create_plans_x(t_ptr *ptr);
 void			ft_create_plans_y(t_ptr *ptr);
+int				ft_ray_sprite(t_ptr *ptr, t_c dir, t_c *pixel, t_p *plan, t_dist *dist);
+void			ft_create_plan_sprite(t_ptr *ptr);
 t_p_sprite		*ft_search_sprite(t_ptr *ptr, int y, int x);
 void			ft_malloc_sprite(t_ptr *ptr);
+// int				ft_texutre_sprite(t_p_sprite *sprite, t_c pixel);
 
 #endif

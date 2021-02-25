@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/24 13:34:55 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/25 17:59:36 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ t_p_sprite	*ft_search_sprite(t_ptr *ptr, int y, int x)
 	return (&ptr->pars->plans_sprite[i]);
 }
 
+// int		ft_texture_sprite(t_ptr *ptr, t_c pixel)
+// {
+// 	(void)ptr;
+// 	(void)pixel;
+// 	return (0);
+// }
+
 void	ft_create_plan_sprite(t_ptr *ptr)
 {
 	int		y;
@@ -73,27 +80,42 @@ void	ft_create_plan_sprite(t_ptr *ptr)
 			if (ptr->pars->map[y][x] == 2)
 			{
 				p = ptr->pars->plans_sprite;
-				p[i].a = ptr->dir->x;
-				p[i].b = ptr->dir->y;
-				p[i].c = ptr->dir->z;
-				p[i].d = - p[i].a * ptr->pos.x - p[i].b * ptr->pos.y - p[i].c * ptr->pos.z;
+				p[i].a = (x + 0.5) - ptr->pos.x;
+				p[i].b = (y + 0.5) - ptr->pos.y;
+				p[i].c = 0.5 - ptr->pos.z;
+				p[i].d = - p[i].a * (x + 0.5) - p[i].b * (y + 0.5) - p[i].c * 0.5;
 				i++;
 				// printf("\t\t\t\t\t%d\n", ptr->pars->plans_sprite[i].index.y);
 			}
 	}
 }
 
-static int	ft_check_sprite(t_ptr *ptr)
+static unsigned int	ft_check_sprite(t_img *sprite, t_c *pixel, t_i index)
 {
-	(void)ptr;
+	t_i		i_img;
+	unsigned int		rs;
 	// center & z -> ok
 	// trouver x / y
-	return (1);
+	(void)index;
+	// (void)sprite;
+	// (void)pixel;
+	// printf("x = %f, y = %f, z = %f\n", pixel->x, pixel->y, pixel->z);
+	i_img.y = (int)((pixel->z - (int)pixel->z) * sprite->height);
+	i_img.x = (int)((pixel->x - (int)pixel->x) * sprite->width);
+	rs = sprite->pixels[i_img.y * (int)(sprite->s_l * 0.25) + i_img.x];
+	// printf("rs = %d\n", rs);
+	// if (rs == 0xf4fee9)
+		// return (rs);
+	if (rs != sprite->pixels[0])
+		return (rs);
+// rs = f4fee9
+	return (0);
 }
 
-static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_c dir, float t, t_i index)
+static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_c dir, float t, t_p_sprite *sprite)
 {
 	t_i			i_map;
+	int			color;
 
 	pixel->z = ptr->pos.z + dir.z * t;
 	if (pixel->z > 0 && pixel->z < 1)
@@ -103,15 +125,15 @@ static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_c dir, float t, t_i index)
 		i_map.x = (int)pixel->x;
 		i_map.y = (int)pixel->y;
 		// printf("x = %d\ny = %d\n\n", i_map.x, i_map.y);
-		if (i_map.x == index.x && i_map.y == index.y && ft_check_sprite(ptr))
+		if (i_map.x == sprite->index.x && i_map.y == sprite->index.y && (color = ft_check_sprite(&ptr->sprite, pixel, sprite->index)))
 		{
-				return (1);
+				return (color);
 		}
 	}
 	return (0);
 }
 
-int		ft_ray_sprite(t_ptr *ptr, t_c dir, t_c *pixel, t_p *plan)
+int		ft_ray_sprite(t_ptr *ptr, t_c dir, t_c *pixel, t_p *plan, t_dist *dist)
 {
 	t_p_sprite		**p;
 	float			rs_dir;
@@ -127,7 +149,7 @@ int		ft_ray_sprite(t_ptr *ptr, t_c dir, t_c *pixel, t_p *plan)
 		{
 			t = - (p[i]->a * ptr->pos.x + p[i]->b * ptr->pos.y + p[i]->c * ptr->pos.z + p[i]->d) / rs_dir;
 			// printf("t = %f\n", t);
-			if (t > 0 && ft_is_sprite(ptr, pixel, dir, t, p[i]->index))
+			if (t > 0 && (dist->color_sprite = ft_is_sprite(ptr, pixel, dir, t, p[i])))
 			{
 				return (t);
 			}

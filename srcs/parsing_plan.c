@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:58:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/12 16:10:21 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/25 16:50:08 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,52 +36,52 @@ t_p		ft_new_plan(char x_y, int c)
 
 int			ft_create_plan(t_ptr *ptr)
 {
-	int		i;
-	unsigned int	j;
+	// int		i;
+	// unsigned int	j;
 
 	ft_create_plans_x(ptr);
 	ft_create_plans_y(ptr);
 
-	t_p		p;
-	i = -1;
-	while (++i < (ptr->pars->nbr_map.y))
-	{
-		p = ptr->pars->plans_no[i];
-		printf("plan_no %d : %d %d %d %d\t| nbr = %d\n", i, p.a, p.b, p.c, p.d, p.nbr);
-		j = -1;
-		while (++j < p.nbr)
-			printf("sprite : %d %d %d %d\t| x = %d, y = %d\n", p.sprite[j]->a, p.sprite[j]->b, p.sprite[j]->c, p.sprite[j]->d, p.sprite[j]->index.x, p.sprite[j]->index.y);
-		printf("\n");
-	}
-	i = -1;
-	while (++i < (ptr->pars->nbr_map.y))
-	{
-		p = ptr->pars->plans_so[i];
-		printf("plan_so %d : %d %d %d %d\t| nbr = %d\n", i, p.a, p.b, p.c, p.d, p.nbr);
-		j = -1;
-		while (++j < p.nbr)
-			printf("sprite : %d %d %d %d\t| x = %d, y = %d\n", p.sprite[j]->a, p.sprite[j]->b, p.sprite[j]->c, p.sprite[j]->d, p.sprite[j]->index.x, p.sprite[j]->index.y);
-		printf("\n");
-	}
-	i = -1;
-	while (++i < (ptr->pars->nbr_map.x))
-	{
-		p = ptr->pars->plans_ea[i];
-		printf("plan_ea %d : %d %d %d %d\t| nbr = %d\n", i, p.a, p.b, p.c, p.d, p.nbr);
-		j = -1;
-		while (++j < p.nbr)
-			printf("sprite : %d %d %d %d\t| x = %d, y = %d\n", p.sprite[j]->a, p.sprite[j]->b, p.sprite[j]->c, p.sprite[j]->d, p.sprite[j]->index.x, p.sprite[j]->index.y);
-		printf("\n");
-	}
-	i = -1;
-	while (++i < (ptr->pars->nbr_map.x))
-	{
-		p = ptr->pars->plans_we[i];
-		printf("plan_we %d : %d %d %d %d\t| nbr = %d\n", i, p.a, p.b, p.c, p.d, p.nbr);
-		j = -1;
-		while (++j < p.nbr)
-			printf("sprite : %d %d %d %d\t| x = %d, y = %d\n", p.sprite[j]->a, p.sprite[j]->b, p.sprite[j]->c, p.sprite[j]->d, p.sprite[j]->index.x, p.sprite[j]->index.y);
-		printf("\n");
-	}
+	// t_p		p;
+	// i = -1;
+	// while (++i < (ptr->pars->nbr_map.y))
+	// {
+	// 	p = ptr->pars->plans_no[i];
+	// 	printf("plan_no %d : %d %d %d %d\t| nbr = %d\n", i, p.a, p.b, p.c, p.d, p.nbr);
+	// 	j = -1;
+	// 	while (++j < p.nbr)
+	// 		printf("sprite : %d %d %d %d\t| x = %d, y = %d\n", p.sprite[j]->a, p.sprite[j]->b, p.sprite[j]->c, p.sprite[j]->d, p.sprite[j]->index.x, p.sprite[j]->index.y);
+	// 	printf("\n");
+	// }
+	// i = -1;
+	// while (++i < (ptr->pars->nbr_map.y))
+	// {
+	// 	p = ptr->pars->plans_so[i];
+	// 	printf("plan_so %d : %d %d %d %d\t| nbr = %d\n", i, p.a, p.b, p.c, p.d, p.nbr);
+	// 	j = -1;
+	// 	while (++j < p.nbr)
+	// 		printf("sprite : %d %d %d %d\t| x = %d, y = %d\n", p.sprite[j]->a, p.sprite[j]->b, p.sprite[j]->c, p.sprite[j]->d, p.sprite[j]->index.x, p.sprite[j]->index.y);
+	// 	printf("\n");
+	// }
+	// i = -1;
+	// while (++i < (ptr->pars->nbr_map.x))
+	// {
+	// 	p = ptr->pars->plans_ea[i];
+	// 	printf("plan_ea %d : %d %d %d %d\t| nbr = %d\n", i, p.a, p.b, p.c, p.d, p.nbr);
+	// 	j = -1;
+	// 	while (++j < p.nbr)
+	// 		printf("sprite : %d %d %d %d\t| x = %d, y = %d\n", p.sprite[j]->a, p.sprite[j]->b, p.sprite[j]->c, p.sprite[j]->d, p.sprite[j]->index.x, p.sprite[j]->index.y);
+	// 	printf("\n");
+	// }
+	// i = -1;
+	// while (++i < (ptr->pars->nbr_map.x))
+	// {
+	// 	p = ptr->pars->plans_we[i];
+	// 	printf("plan_we %d : %d %d %d %d\t| nbr = %d\n", i, p.a, p.b, p.c, p.d, p.nbr);
+	// 	j = -1;
+	// 	while (++j < p.nbr)
+	// 		printf("sprite : %d %d %d %d\t| x = %d, y = %d\n", p.sprite[j]->a, p.sprite[j]->b, p.sprite[j]->c, p.sprite[j]->d, p.sprite[j]->index.x, p.sprite[j]->index.y);
+	// 	printf("\n");
+	// }
 	return (0);
 }

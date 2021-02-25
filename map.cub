@@ -5,7 +5,8 @@ R 1280 720
 WE textures/NO_wood.xpm
 EA textures/pierre.xpm
 
-S textures/Rick_Sanchez.xpm
+S textures/portail.xpm
+#S textures/Rick_Sanchez
 F 300,100,0
 C 225,30,0
 
