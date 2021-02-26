@@ -36,7 +36,7 @@ NAME		= Cub3D
 INCLUDES	= inc/cub3D.h
 CC			= clang
 RM			= rm -f
-FLAGS		= -Wall -Wextra -Werror #  -fsanitize=address -g3
+FLAGS		= -Wall -Wextra -Werror -g3 -fsanitize=address
 CFLAGS		= -I./includes -I./libft/ -I./minilibx -I./mlx
 AR			= ar
 ARFLAGS		= rcs
@@ -44,7 +44,7 @@ PATH_SRCS	= $(addprefix srcs/,$(SRCS))
 PATH_OBJS	= $(addprefix srcs/,$(OBJS))
 
 $(NAME):	compilation $(PATH_OBJS)
-			$(CC) -L./libft -lft -L./minilibx -lmlx -o $@ $(PATH_OBJS)
+			$(CC) $(FLAGS) -L./libft -lft -L./minilibx -lmlx -o $@ $(PATH_OBJS)
 			printf "$(ERASE)$(CYAN)> $(NAME) : $(RED)ok$(END)\n"
 
 no_flag:	compilation $(PATH_OBJS)
@@ -56,8 +56,9 @@ compilation	:
 			cp ./minilibx/libmlx.dylib ./
 			printf "$(ERASE)$(CYAN)> mlx : $(RED)ok$(END)\n"
 
-%.o:		%.c $(INCLUDES)
+.o:		.c $(INCLUDES)
 			$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
+			# $(CC) -Wall -Wextra -Werror $(CFLAGS) -c $< -o $@
 			printf "$(ERASE)$(CYAN)> $(NAME) : $(RED)[$<]"
 
 all:		$(NAME)
@@ -75,3 +76,65 @@ re:			fclean all
 
 .PHONY:		all clean fclean re no_flag
 .SILENT:	fclean clean $(PATH_OBJS) re $(NAME) no_flag compilation all
+
+
+
+
+
+
+
+
+
+
+# SRCS	=	main.o \
+# parsing.o \
+# parsing_map.o \
+# parsing_plan.o \
+# parsing_plan_x.o \
+# parsing_plan_y.o \
+# edit_screen.o \
+# raycasting.o \
+# sprite.o \
+# utils.o
+
+# OBJS = ${SRCS:.c=.o}
+
+# LIBFT = ./libft/libft.a
+# LIBMLX = libmlx.dylib
+
+# INC		= inc/cub3D.h
+# NAME	= cub3D
+# CC		= clang
+# RM		= rm -f
+# CFLAGS	= -Wall -Wextra -Werror -fsanitize=address -g3 -I./includes -L. -lmlx -L./libft -lft
+
+# $(NAME) :	$(OBJS) $(INC) $(LIBFT) $(LIBMLX)
+# 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+
+# $(OBJS) :	$(INC)
+
+# .c.o:
+# 	$(CC) -c $< -o $@
+
+# $(LIBFT) :
+# 	@$(MAKE) all -C ./libft 
+
+# $(LIBMLX) : 
+# 	@$(MAKE) all -C ./minilibx
+# 	mv ./minilibx/libmlx.dylib .
+
+# all :		$(NAME)
+
+# clean :
+# 	$(RM) $(OBJS)
+# 	@$(MAKE) clean -C ./libft
+# 	@$(MAKE) clean -C ./minilibx
+
+# fclean : 	clean
+# 	$(RM) $(NAME)
+# 	$(RM) $(LIBFT)
+# 	$(RM) $(LIBMLX)
+
+# re :		fclean all
+
+# .PHONY :	all clean fclean re $(LIBFT) $(LIBMLX)

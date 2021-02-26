@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/25 17:59:36 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/26 15:30:46 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ static unsigned int	ft_check_sprite(t_img *sprite, t_c *pixel, t_i index)
 {
 	t_i		i_img;
 	unsigned int		rs;
+	float	ab;
+	float	bc;
+	float	ac;
 	// center & z -> ok
 	// trouver x / y
 	(void)index;
@@ -101,8 +104,27 @@ static unsigned int	ft_check_sprite(t_img *sprite, t_c *pixel, t_i index)
 	// (void)pixel;
 	// printf("x = %f, y = %f, z = %f\n", pixel->x, pixel->y, pixel->z);
 	i_img.y = (int)((pixel->z - (int)pixel->z) * sprite->height);
-	i_img.x = (int)((pixel->x - (int)pixel->x) * sprite->width);
+	ab = pixel->x - (index.x + 0.5);
+	bc = pixel->y - (index.y + 0.5);
+	// printf("ab = %f, bc = %f\n", ab, bc);
+	if (ab > 0.5 || ab < -0.5 || bc > 0.5 || bc < -0.5)
+		return (0);
+	ac = bc * bc + ab * ab;
+	ac = sqrt(ac);
+	if (ab >= 0)
+		ac += 0.5;
+	else if (ab < 0)
+		ac = 0.5 - ac;
+	// else
+	// {
+	// 	if (bc > 0)
+	// 		ac += 0.5;
+	// 	else if (bc < 0)
+	// 		ac = 0.5 - ac;
+	// }
+	i_img.x = (int)(ac * sprite->width);
 	rs = sprite->pixels[i_img.y * (int)(sprite->s_l * 0.25) + i_img.x];
+	// printf("AC = %f, rs = %d\n", (sqrt(ac) + test), rs);
 	// printf("rs = %d\n", rs);
 	// if (rs == 0xf4fee9)
 		// return (rs);

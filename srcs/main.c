@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/25 12:28:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/26 16:47:05 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,11 +143,20 @@ int		ft_key(int key, t_ptr *ptr)
 		ptr->key.up = 1;
 	else if (key == KEY_DOWN)
 		ptr->key.down = 1;
-	else if (key == KEY_m)
-		ptr->key.m++;
 	else if (key == KEY_esc)
 		ft_close(ptr, 0);
 	return (0);
+}
+
+float	ft_key_action(char *flag, float rs_1, float rs_2)
+{
+	if (*flag)
+	{
+		*flag = 0;
+		return (rs_1);
+	}
+	*flag = 1;
+	return (rs_2);
 }
 
 int		ft_key_release(int key, t_ptr *ptr)
@@ -173,28 +182,33 @@ int		ft_key_release(int key, t_ptr *ptr)
 		ptr->key.up = 0;
 	else if (key == KEY_DOWN)
 		ptr->key.down = 0;
+	else if (key == KEY_ctrl)
+		ptr->pos.z += ft_key_action(&ptr->key.ctrl, -0.2, 0.2); // reduire la vitesse
+	else if (key == KEY_m)
+		ptr->key.m++;
 	return (0);
 }
 
 int		ft_mouse(int x, int y, t_ptr *ptr)
 {
 	float	rs;
+	//mlx_mouse_get_pos(ptr->mlx.window, &x, &y);
 	// y = -y;
-	// printf("x = %d, y = %d\n", x, y);
+	 printf("x = %d, y = %d\n", x, y);
 	x -= ptr->mlx.width * 0.5;
 	y -= ptr->mlx.height * 0.5;
 	y *= -1;
 	// printf("x = %d, y = %d\n\n", x, y);
 	// printf("hor = %f, ver = %f\n", ptr->agl_hor, ptr->agl_vrt);
-	ptr->agl_hor += x / (3.14 * 180);
-	rs = ptr->agl_vrt + y / (3.14 * 180);
+	ptr->agl_hor += x / (M_PI * 180);
+	rs = ptr->agl_vrt + y / (M_PI * 180);
 	if (rs < M_PI_2 && rs > - M_PI_2)
 		ptr->agl_vrt = rs;
 	// printf("hor = %f, ver = %f\n\n", ptr->agl_hor, ptr->agl_vrt);
 	// printf("x = %d, y = %d\n\n", x, y);
 	// ft_edit_img(ptr);
 	// ptr->agl_vrt += y / 10;
-	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, -135);
+	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, -(ptr->mlx.height * 0.5 -200));
 	// mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, ptr->mlx.height * 0.5);
 	return (0);
 }
@@ -248,17 +262,18 @@ int		main(int argc, char *argv[])
 	ft_parsing(argv[1], ptr);
 
 	// if (image_front)
-	// 	mlx_destroy_image(mlx.mlx, image_front);
+		// mlx_destroy_image(mlx.mlx, image_front);
 	ptr->mlx.window = mlx_new_window(ptr->mlx.ptr, ptr->mlx.width, ptr->mlx.height, "Cub3D");
 	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, ptr->mlx.height * 0.5);
 	mlx_hook(ptr->mlx.window, 6, 1L<<6, ft_mouse, ptr);
 	mlx_hook(ptr->mlx.window, 2, 1L<<0, ft_key, ptr);
 	mlx_hook(ptr->mlx.window, 3, 1L<<1, ft_key_release, ptr);
 	mlx_hook(ptr->mlx.window, 17, 0, ft_quit_X, ptr);
-	mlx_mouse_hide();
+	// mlx_mouse_hide();
 
 	ptr->no.ptr = mlx_xpm_file_to_image(ptr->mlx.ptr, ptr->pars->path_no, &ptr->no.width, &ptr->no.height);
 	ptr->no.pixels = (unsigned int *)mlx_get_data_addr(ptr->no.ptr, &ptr->no.bpp, &ptr->no.s_l, &ptr->no.endian);
+	
 	ptr->so.ptr = mlx_xpm_file_to_image(ptr->mlx.ptr, ptr->pars->path_so, &ptr->so.width, &ptr->so.height);
 	ptr->so.pixels = (unsigned int *)mlx_get_data_addr(ptr->so.ptr, &ptr->so.bpp, &ptr->so.s_l, &ptr->so.endian);
 	ptr->we.ptr = mlx_xpm_file_to_image(ptr->mlx.ptr, ptr->pars->path_we, &ptr->we.width, &ptr->we.height);

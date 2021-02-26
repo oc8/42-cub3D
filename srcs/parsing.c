@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/12 16:18:10 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/26 15:38:30 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ static int	ft_parsing_criteria(t_ptr *ptr, char *line)
 		return (0);
 	else if (line[i] == 'R')
 	{
+		if (ptr->epars & e_R)
+			ft_close(ptr, 3);
 		i++;
 		if (line[i] != ' ' && line[i] != '\t')
 			ft_close(ptr, 3);
@@ -88,30 +90,40 @@ static int	ft_parsing_criteria(t_ptr *ptr, char *line)
 	}
 	else if (line[i] == 'N' && line[i + 1] == 'O')
 	{
+		if (ptr->epars & e_NO)
+			ft_close(ptr, 3);
 		ptr->pars->path_no = ft_copy_str(ptr, line, &i);
 		ptr->emalloc |= e_NO_m;
 		ptr->epars |= e_NO;
 	}
 	else if (line[i] == 'S' && line[i + 1] == 'O')
 	{
+		if (ptr->epars & e_SO)
+			ft_close(ptr, 3);
 		ptr->pars->path_so = ft_copy_str(ptr, line, &i);
 		ptr->emalloc |= e_SO_m;
 		ptr->epars |= e_SO;
 	}
 	else if (line[i] == 'W' && line[i + 1] == 'E')
 	{
+		if (ptr->epars & e_WE)
+			ft_close(ptr, 3);
 		ptr->pars->path_we = ft_copy_str(ptr, line, &i);
 		ptr->emalloc |= e_WE_m;
 		ptr->epars |= e_WE;
 	}
 	else if (line[i] == 'E' && line[i + 1] == 'A')
 	{
+		if (ptr->epars & e_EA)
+			ft_close(ptr, 3);
 		ptr->pars->path_ea = ft_copy_str(ptr, line, &i);
 		ptr->emalloc |= e_EA_m;
 		ptr->epars |= e_EA;
 	}
 	else if (line[i] == 'S')
 	{
+		if (ptr->epars & e_S)
+			ft_close(ptr, 3);
 		i--;
 		ptr->pars->path_sprite = ft_copy_str(ptr, line, &i);
 		ptr->emalloc |= e_S_m;
@@ -119,6 +131,8 @@ static int	ft_parsing_criteria(t_ptr *ptr, char *line)
 	}
 	else if (line[i] == 'F')
 	{
+		if (ptr->epars & e_F)
+			ft_close(ptr, 3);
 		i++;
 		if (line[i] != ' ' && line[i] != '\t')
 			ft_close(ptr, 3);
@@ -128,6 +142,8 @@ static int	ft_parsing_criteria(t_ptr *ptr, char *line)
 	}
 	else if (line[i] == 'C')
 	{
+		if (ptr->epars & e_C)
+			ft_close(ptr, 3);
 		i++;
 		if (line[i] != ' ' && line[i] != '\t')
 			ft_close(ptr, 3);

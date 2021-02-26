@@ -1,12 +1,12 @@
 
 NO textures/pierre.xpm
 SO  textures/NO_wood.xpm
-R 1280 720										
-WE textures/NO_wood.xpm
+R 1280 720			
+WE textures/aquarium.xpm
 EA textures/pierre.xpm
 
-S textures/portail.xpm
-#S textures/Rick_Sanchez
+#S textures/portail.xpm
+S textures/Rick_Sanchez.xpm
 F 300,100,0
 C 225,30,0
 

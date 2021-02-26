@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/25 16:48:55 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/02/26 16:31:02 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define KEY_UP 18
 # define KEY_DOWN 19
 # define KEY_m 46
+# define KEY_ctrl 256
 
 # include "mlx.h"
 # include "libft.h"
@@ -72,6 +73,7 @@ typedef struct	s_key
 	char	up;
 	char	down;
 	char	m;
+	char	ctrl;
 }				t_key;
 
 typedef struct	s_plan_sprite
