@@ -21,7 +21,9 @@ parsing_plan_y.c \
 edit_screen.c \
 raycasting.c \
 sprite.c \
-utils.c
+utils.c \
+close.c \
+action.c
 OBJS		= main.o \
 parsing.o \
 parsing_map.o \
@@ -31,7 +33,9 @@ parsing_plan_y.o \
 edit_screen.o \
 raycasting.o \
 sprite.o \
-utils.o
+utils.o \
+close.o \
+action.o
 NAME		= Cub3D
 INCLUDES	= inc/cub3D.h
 CC			= clang
@@ -45,7 +49,7 @@ PATH_OBJS	= $(addprefix srcs/,$(OBJS))
 
 $(NAME):	compilation $(PATH_OBJS)
 			$(CC) $(FLAGS) -L./libft -lft -L./minilibx -lmlx -o $@ $(PATH_OBJS)
-			printf "$(ERASE)$(CYAN)> $(NAME) : $(RED)ok$(END)\n"
+			printf "$(ERASE)$(CYAN)> $(NAME) : $(GREEN)ok$(END)\n"
 
 no_flag:	compilation $(PATH_OBJS)
 
@@ -54,7 +58,7 @@ compilation	:
 			make -C ./Libft/
 			cp ./Libft/libft.a ./
 			cp ./minilibx/libmlx.dylib ./
-			printf "$(ERASE)$(CYAN)> mlx : $(RED)ok$(END)\n"
+			printf "$(ERASE)$(CYAN)> mlx : $(GREEN)ok$(END)\n"
 
 .o:		.c $(INCLUDES)
 			$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
@@ -65,7 +69,7 @@ all:		$(NAME)
 
 clean:		
 			$(RM) $(PATH_OBJS) $(BONUS)
-			printf "$(ERASE)$(CYAN)> $(NAME) : $(RED)clean$(END)\n"
+			printf "$(ERASE)$(CYAN)> $(NAME) : $(GREEN)clean$(END)\n"
 			make fclean -C ./Libft/
 
 fclean:		clean

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/26 16:31:02 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 11:35:29 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,11 @@
 # include "mlx.h"
 # include "libft.h"
 
-# include <limits.h>
+// # include <limits.h>
 # include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
-// # include <limits.h>
 # include <stdio.h>
-// thread
 # include <pthread.h>
 
 typedef struct	s_mlx
@@ -239,12 +237,23 @@ void			ft_edit_img(t_ptr *ptr);
 int				ft_ray(t_ptr *ptr, t_c dir);
 int				ft_check_map(t_ptr *ptr, char **map, int i, int j);
 void			*ft_check_calloc(t_ptr *ptr, size_t nmemb, size_t size);
+
 void			ft_create_plans_x(t_ptr *ptr);
+
 void			ft_create_plans_y(t_ptr *ptr);
+
 int				ft_ray_sprite(t_ptr *ptr, t_c dir, t_c *pixel, t_p *plan, t_dist *dist);
 void			ft_create_plan_sprite(t_ptr *ptr);
 t_p_sprite		*ft_search_sprite(t_ptr *ptr, int y, int x);
 void			ft_malloc_sprite(t_ptr *ptr);
 // int				ft_texutre_sprite(t_p_sprite *sprite, t_c pixel);
+
+int		ft_mouse(int x, int y, t_ptr *ptr);
+int		ft_key(int key, t_ptr *ptr);
+int		ft_key_release(int key, t_ptr *ptr);
+float	ft_key_action(char *flag, float rs_1, float rs_2); // ?
+
+int		ft_quit_X(t_ptr *ptr);
+void	ft_close(t_ptr *ptr, int error);
 
 #endif
