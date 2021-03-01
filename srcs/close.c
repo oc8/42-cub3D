@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:13:27 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 14:01:19 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 14:04:14 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,6 @@ void	ft_close(t_ptr *ptr, int error)
 		printf("mlx error\n");
 	if (ptr->screen.ptr)
 		mlx_destroy_image(ptr->mlx.ptr, ptr->screen.ptr);
-	// if (ptr->malloc)
-	// {
-	// 	ft_lstiter(ptr->malloc, free);
-	// }
 	ft_lstclear(&ptr->malloc, free);
 	free(ptr);
 	exit(0);

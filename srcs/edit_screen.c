@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/26 11:53:27 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 14:38:28 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,11 @@ void	*launch_print(void *work)
 	{
 		i = -1;
 		while (++i < ptr->mlx.width)
+		{
 			screen[j * ptr->mlx.width + i] = ft_ray(ptr, ft_rotation(ptr->dir[j * ptr->mlx.width + i], &ptr->agl, ptr));
+		if (j == i)
+			screen[j * ptr->mlx.width + i] = 0x0000000;
+		}
 		j++;
 	}
 	return (ptr);
