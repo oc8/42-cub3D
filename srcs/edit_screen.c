@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 14:38:28 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 15:37:59 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void	*launch_print(void *work)
 	t_ptr	*ptr;
 	t_thread	*wptr;
 	int		thread_nb;
-	int		j;
-	int 	i;
+	int 	x;
+	int		y;
 	unsigned int	*screen;
 
 	wptr = (t_thread*)work;
@@ -88,25 +88,30 @@ void	*launch_print(void *work)
 	// else
 		// screen = ptr->switched.pixels;
 	
-	j = (ptr->mlx.height * 0.25) * thread_nb;
-	while (j < (ptr->mlx.height * 0.25) * (thread_nb + 1))
+	y = (ptr->mlx.height * 0.25) * thread_nb;
+	while (y < (ptr->mlx.height * 0.25) * (thread_nb + 1))
 	{
-		i = -1;
-		while (++i < ptr->mlx.width)
-		{
-			screen[j * ptr->mlx.width + i] = ft_ray(ptr, ft_rotation(ptr->dir[j * ptr->mlx.width + i], &ptr->agl, ptr));
-		if (j == i)
-			screen[j * ptr->mlx.width + i] = 0x0000000;
-		}
-		j++;
+		x = -1;
+		while (++x < ptr->mlx.width)
+		// {
+			screen[y * (ptr->screen.s_l / 4) + x ] = ft_ray(ptr, ft_rotation(ptr->dir[y * ptr->mlx.width + x], &ptr->agl, ptr));
+		// if (j == i)
+		// 	screen[j * ptr->mlx.width + i] = 0x0000000;
+		// }
+		y++;
 	}
 	return (ptr);
 }
 
+// static void	ft_thread(t_ptr *ptr, int i)
+// {
+// 	t_thread w0 = (t_thread){ptr, i};
+// 	pthread_create(&ptr->thread[i], NULL, &launch_print, (void*)&w0);
+// }
+
 static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen)
 {
 	t_agl	agl;
-	// pthread_t	thread[4];
 	
 	(void)screen;
 	agl.cos_hor = cos(ptr->agl_hor);
@@ -117,8 +122,6 @@ static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen)
 	ft_before_calc(ptr, ptr->rs_plans_y, ptr->pars->plans_so, ptr->pars->plans_no, ptr->pars->nbr_map.y);
 	ft_before_calc(ptr, ptr->rs_plans_x, ptr->pars->plans_ea, ptr->pars->plans_we, ptr->pars->nbr_map.x);
 
-	t_thread w0 = (t_thread){ptr, 0};
-	pthread_create(&ptr->thread[0], NULL, &launch_print, (void*)&w0);
 	t_thread w1 = (t_thread){ptr, 1};
 	pthread_create(&ptr->thread[1], NULL, &launch_print, (void*)&w1);
 	t_thread w2 = (t_thread){ptr, 2};
@@ -183,6 +186,7 @@ void	ft_edit_img(t_ptr *ptr)
 	// }
 	//
 // gettimeofday();
+// mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y, int color, char *string);
 	mlx_sync(MLX_SYNC_WIN_CMD_COMPLETED, ptr->mlx.window);
 	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, ptr->screen.ptr);
 	ft_put_pixels(ptr, ptr->screen.pixels);

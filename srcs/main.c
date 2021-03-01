@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 14:42:05 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 15:22:19 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ int		main(int argc, char *argv[])
 {
 	float	fov;
 	t_ptr	*ptr;
-	int		i;
-	int		j;
+	int		x;
+	int		y;
 	// t_c	intersection;
 	// t_i	index;
 
@@ -143,6 +143,7 @@ int		main(int argc, char *argv[])
 //	index = ft_wall(pos, dir, map, &intersection);
 	ptr->screen.ptr = mlx_new_image(ptr->mlx.ptr, ptr->mlx.width, ptr->mlx.height);
 	ptr->screen.pixels = (unsigned int *)mlx_get_data_addr(ptr->screen.ptr, &ptr->screen.bpp, &ptr->screen.s_l, &ptr->screen.endian);
+	printf("bpp = %d\n", ptr->screen.bpp);
 	fov = 100 * (M_PI / 180);
 	// printf("fov = %f\n", fov);
 
@@ -151,15 +152,15 @@ int		main(int argc, char *argv[])
 	// printf("fov_x = %f\n", ptr->fov_x);
 	// ft_ray(ptr);
 	ptr->dir = ft_check_calloc(ptr, ptr->mlx.height * ptr->mlx.width, sizeof(t_c));
-	j = -1;
-	while (++j < ptr->mlx.height)
+	y = -1;
+	while (++y < ptr->mlx.height)
 	{
-		i = -1;
-		while (++i < ptr->mlx.width)
+		x = -1;
+		while (++x < ptr->mlx.width)
 		{
-			ptr->dir[j * ptr->mlx.width + i].x = ptr->fov_x / ptr->mlx.width * (i - ptr->mlx.width * 0.5);
-			ptr->dir[j * ptr->mlx.width + i].y = -1;
-			ptr->dir[j * ptr->mlx.width + i].z = ptr->fov_y / ptr->mlx.height * (j - ptr->mlx.height * 0.5);
+			ptr->dir[y * ptr->mlx.width + x].x = ptr->fov_x / ptr->mlx.width * (x - ptr->mlx.width * 0.5);
+			ptr->dir[y * ptr->mlx.width + x].y = -1;
+			ptr->dir[y * ptr->mlx.width + x].z = ptr->fov_y / ptr->mlx.height * (y - ptr->mlx.height * 0.5);
 		}
 	}
 	ptr->rs_plans_x = ft_check_calloc(ptr, ptr->pars->nbr_map.x, sizeof(float));
