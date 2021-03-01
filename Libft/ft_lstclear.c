@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 12:14:19 by odroz-ba          #+#    #+#             */
-/*   Updated: 2020/12/02 18:51:40 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 14:00:25 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
 	t_list	*start;
+	t_list	*tmp;
 
 	start = *lst;
 	while (start)
@@ -25,8 +26,9 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 	start = *lst;
 	while (start)
 	{
+		tmp = start->next;
 		free(start);
-		start = start->next;
+		start = tmp;
 	}
 	*lst = 0;
 }

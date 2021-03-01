@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/26 15:30:46 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 13:40:46 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	ft_malloc_sprite(t_ptr *ptr) /////
 				ptr->pars->nbr_sprite += 1;
 	}
 	ptr->pars->plans_sprite = ft_check_calloc(ptr, ptr->pars->nbr_sprite, sizeof(t_p_sprite));
-	ptr->emalloc |= e_sprite;
 	
 	t_p_sprite	*p;
 

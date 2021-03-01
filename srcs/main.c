@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 11:17:27 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 12:05:57 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int		ft_loop(t_ptr *ptr)
 
 int		ft_init_struct(t_ptr *ptr)
 {
-	ptr->emalloc = 0;
 	ptr->epars = 0;
 	ptr->screen.ptr = 0;
 	ptr->speed = 0.5;
@@ -164,9 +163,7 @@ int		main(int argc, char *argv[])
 		}
 	}
 	ptr->rs_plans_x = ft_check_calloc(ptr, ptr->pars->nbr_map.x, sizeof(float));
-	ptr->emalloc |= e_rs_x;
 	ptr->rs_plans_y = ft_check_calloc(ptr, ptr->pars->nbr_map.y, sizeof(float));
-	ptr->emalloc |= e_rs_y;
 	ft_edit_img(ptr);
 
 	// i = -1;

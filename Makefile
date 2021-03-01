@@ -22,6 +22,7 @@ edit_screen.c \
 raycasting.c \
 sprite.c \
 utils.c \
+utils_malloc.c \
 close.c \
 action.c
 OBJS		= main.o \
@@ -34,6 +35,7 @@ edit_screen.o \
 raycasting.o \
 sprite.o \
 utils.o \
+utils_malloc.o \
 close.o \
 action.o
 NAME		= Cub3D

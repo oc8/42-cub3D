@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/26 15:38:30 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 13:37:28 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,13 @@ static int	ft_parsing_criteria(t_ptr *ptr, char *line)
 			ft_close(ptr, 3);
 		ptr->mlx.width = ft_atoi_cub(line, &i, ptr);
 		ptr->mlx.height = ft_atoi_cub(line, &i, ptr);
+		int		x;
+		int		y;
+		mlx_get_screen_size(ptr->mlx.ptr, &x, &y);
+		if (ptr->mlx.width > x)
+			ptr->mlx.width = x;
+		if (ptr->mlx.height > y)
+			ptr->mlx.height = y;
 		ptr->epars |= e_R;
 	}
 	else if (line[i] == 'N' && line[i + 1] == 'O')
@@ -93,7 +100,6 @@ static int	ft_parsing_criteria(t_ptr *ptr, char *line)
 		if (ptr->epars & e_NO)
 			ft_close(ptr, 3);
 		ptr->pars->path_no = ft_copy_str(ptr, line, &i);
-		ptr->emalloc |= e_NO_m;
 		ptr->epars |= e_NO;
 	}
 	else if (line[i] == 'S' && line[i + 1] == 'O')
@@ -101,7 +107,6 @@ static int	ft_parsing_criteria(t_ptr *ptr, char *line)
 		if (ptr->epars & e_SO)
 			ft_close(ptr, 3);
 		ptr->pars->path_so = ft_copy_str(ptr, line, &i);
-		ptr->emalloc |= e_SO_m;
 		ptr->epars |= e_SO;
 	}
 	else if (line[i] == 'W' && line[i + 1] == 'E')
@@ -109,7 +114,6 @@ static int	ft_parsing_criteria(t_ptr *ptr, char *line)
 		if (ptr->epars & e_WE)
 			ft_close(ptr, 3);
 		ptr->pars->path_we = ft_copy_str(ptr, line, &i);
-		ptr->emalloc |= e_WE_m;
 		ptr->epars |= e_WE;
 	}
 	else if (line[i] == 'E' && line[i + 1] == 'A')
@@ -117,7 +121,6 @@ static int	ft_parsing_criteria(t_ptr *ptr, char *line)
 		if (ptr->epars & e_EA)
 			ft_close(ptr, 3);
 		ptr->pars->path_ea = ft_copy_str(ptr, line, &i);
-		ptr->emalloc |= e_EA_m;
 		ptr->epars |= e_EA;
 	}
 	else if (line[i] == 'S')
@@ -126,7 +129,6 @@ static int	ft_parsing_criteria(t_ptr *ptr, char *line)
 			ft_close(ptr, 3);
 		i--;
 		ptr->pars->path_sprite = ft_copy_str(ptr, line, &i);
-		ptr->emalloc |= e_S_m;
 		ptr->epars |= e_S;
 	}
 	else if (line[i] == 'F')

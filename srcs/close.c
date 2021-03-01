@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:13:27 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 11:14:57 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 14:01:19 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,11 @@ void	ft_close(t_ptr *ptr, int error)
 		printf("mlx error\n");
 	if (ptr->screen.ptr)
 		mlx_destroy_image(ptr->mlx.ptr, ptr->screen.ptr);
-	i = -1;
-	if (ptr->emalloc & e_MAP)
-	{
-		printf("map free\n");
-		while (++i < ptr->pars->nbr_map.y)
-			free(ptr->pars->map[i]);
-		free(ptr->pars->map);
-	}
-	if (ptr->emalloc & E_PLANS_X)
-		free(ptr->pars->plans_x);
-	if (ptr->emalloc & E_PLANS_Y)
-	{
-		printf("plans free\n");
-		free(ptr->pars->plans_y);
-	}
-	if (ptr->emalloc & e_sprite)
-	{
-		printf("sprite free\n");
-		free(ptr->pars->plans_sprite);
-	}
-	if (ptr->emalloc & e_rs_x)
-		free(ptr->rs_plans_x);
-	if (ptr->emalloc & e_rs_y)
-		free(ptr->rs_plans_y);
+	// if (ptr->malloc)
+	// {
+	// 	ft_lstiter(ptr->malloc, free);
+	// }
+	ft_lstclear(&ptr->malloc, free);
 	free(ptr);
 	exit(0);
 }

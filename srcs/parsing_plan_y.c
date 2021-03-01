@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 16:22:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/12 15:24:31 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 13:40:39 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,7 @@ void		ft_create_plans_y(t_ptr *ptr)
 	int	i;
 
 	ptr->pars->plans_no = ft_check_calloc(ptr, ptr->pars->nbr_map.y, sizeof(t_p));
-	ptr->emalloc |= e_plans_no;
 	ptr->pars->plans_so = ft_check_calloc(ptr, ptr->pars->nbr_map.y, sizeof(t_p));
-	ptr->emalloc |= e_plans_so;
 	i = 0;
 	y = 0;
 	ptr->pars->plans_no[i].d = 0;

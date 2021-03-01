@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 11:35:29 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 13:58:57 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include "mlx.h"
 # include "libft.h"
 
-// # include <limits.h>
+# include <limits.h>
 # include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -166,7 +166,7 @@ typedef struct	s_ptr
 	float	speed;
 	float	agl_hor;
 	float	agl_vrt;
-	int		emalloc;
+	t_list	*malloc;
 	int		epars;
 	t_mlx	mlx;
 	t_img	screen;
@@ -206,27 +206,6 @@ typedef enum	e_pars
 	e_C = 256
 }				t_e_pars;
 
-typedef enum	e_malloc
-{
-	e_MAP = 1,
-	E_PLANS_X = 2,
-	E_PLANS_Y = 4,
-	e_NO_m = 8,////////
-	e_SO_m = 16,
-	e_EA_m = 32,
-	e_S_m = 64,
-	e_WE_m = 128,
-	e_sprite = 256,
-	e_plans_no = 512,
-	e_plans_so = 1024,
-	e_plans_ea = 2048,
-	e_plans_we = 4096,
-	e_rs_x = 8192,
-	e_rs_y = 16384,
-	e_rs_ea = 32768,
-	e_rs_we = 65536
-}				t_e_malloc;
-
 t_p				ft_new_plan(char x_y, int c);
 int				ft_create_plan(t_ptr *ptr);
 void			ft_close(t_ptr *ptr, int error);
@@ -236,7 +215,8 @@ int				ft_malloc_map(t_ptr *ptr, char *path);
 void			ft_edit_img(t_ptr *ptr);
 int				ft_ray(t_ptr *ptr, t_c dir);
 int				ft_check_map(t_ptr *ptr, char **map, int i, int j);
-void			*ft_check_calloc(t_ptr *ptr, size_t nmemb, size_t size);
+
+void			*ft_check_calloc(t_ptr *ptr, size_t nbr, size_t size);
 
 void			ft_create_plans_x(t_ptr *ptr);
 
