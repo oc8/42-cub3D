@@ -1,12 +1,12 @@
 
-NO textures/pierre.xpm
-SO  textures/NO_wood.xpm
-R 500 500			
-WE textures/aquarium.xpm
-EA textures/pierre.xpm
+NO textures/snk/mur1.xpm
+SO  textures/snk/mur2.xpm
+R 1280 720			
+WE textures/snk/mur2.xpm
+EA textures/snk/mur1.xpm
 
-#S textures/portail.xpm
 S textures/Rick_Sanchez.xpm
+#S textures/snk/sprite.xpm
 F 300,100,0
 C 225,30,0
 
@@ -27,9 +27,9 @@ C 225,30,0
 #11111
 
 111111111111
-10001S100001
+100010100001
 100000000001
 100000000001
-100022200001
+1E0022200001
 100000000001
 111111111111

@@ -13,27 +13,27 @@ UNDER	= \033[4m
 SUR		= \033[7m
 
 SRCS		= main.c \
-parsing.c \
-parsing_map.c \
-parsing_plan.c \
-parsing_plan_x.c \
-parsing_plan_y.c \
-edit_screen.c \
-raycasting.c \
-sprite.c \
+parsing/parsing.c \
+parsing/parsing_map.c \
+parsing/parsing_plan.c \
+parsing/parsing_plan_x.c \
+parsing/parsing_plan_y.c \
+display/edit_screen.c \
+display/raycasting.c \
+display/sprite.c \
 utils.c \
 utils_malloc.c \
 close.c \
 action.c
 OBJS		= main.o \
-parsing.o \
-parsing_map.o \
-parsing_plan.o \
-parsing_plan_x.o \
-parsing_plan_y.o \
-edit_screen.o \
-raycasting.o \
-sprite.o \
+parsing/parsing.o \
+parsing/parsing_map.o \
+parsing/parsing_plan.o \
+parsing/parsing_plan_x.o \
+parsing/parsing_plan_y.o \
+display/edit_screen.o \
+display/raycasting.o \
+display/sprite.o \
 utils.o \
 utils_malloc.o \
 close.o \

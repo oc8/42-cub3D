@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:17:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 14:35:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 17:05:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ int		ft_key_release(int key, t_ptr *ptr)
 		ptr->key.down = 0;
 	else if (key == KEY_ctrl)
 		ptr->pos.z += ft_key_action(&ptr->key.ctrl, -0.2, 0.2); // reduire la vitesse
-	else if (key == KEY_m)
-		ptr->key.m++;
 	return (0);
 }
 
@@ -100,7 +98,7 @@ int		ft_mouse(int x, int y, t_ptr *ptr)
 	// printf("x = %d, y = %d\n\n", x, y);
 	// ft_edit_img(ptr);
 	// ptr->agl_vrt += y / 10;
-	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, -(ptr->mlx.height * 0.5));
+	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, -(ptr->mlx.height * 0.5 - 40));
 	// mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, ptr->mlx.height * 0.5);
 	return (0);
 }

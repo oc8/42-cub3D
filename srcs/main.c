@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 15:22:19 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 17:00:50 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int		main(int argc, char *argv[])
 	mlx_hook(ptr->mlx.window, 2, 1L<<0, ft_key, ptr);
 	mlx_hook(ptr->mlx.window, 3, 1L<<1, ft_key_release, ptr);
 	mlx_hook(ptr->mlx.window, 17, 0, ft_quit_X, ptr);
-	// mlx_mouse_hide();
+	mlx_mouse_hide();
 
 	ptr->no.ptr = mlx_xpm_file_to_image(ptr->mlx.ptr, ptr->pars->path_no, &ptr->no.width, &ptr->no.height);
 	ptr->no.pixels = (unsigned int *)mlx_get_data_addr(ptr->no.ptr, &ptr->no.bpp, &ptr->no.s_l, &ptr->no.endian);
@@ -143,8 +143,8 @@ int		main(int argc, char *argv[])
 //	index = ft_wall(pos, dir, map, &intersection);
 	ptr->screen.ptr = mlx_new_image(ptr->mlx.ptr, ptr->mlx.width, ptr->mlx.height);
 	ptr->screen.pixels = (unsigned int *)mlx_get_data_addr(ptr->screen.ptr, &ptr->screen.bpp, &ptr->screen.s_l, &ptr->screen.endian);
-	printf("bpp = %d\n", ptr->screen.bpp);
-	fov = 100 * (M_PI / 180);
+	// printf("bpp = %d\n", ptr->screen.bpp);
+	fov = 60 * (M_PI / 180);
 	// printf("fov = %f\n", fov);
 
 	ptr->fov_x = 2 * tan(fov / 2);

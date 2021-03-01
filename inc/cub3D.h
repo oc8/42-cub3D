@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 13:58:57 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 17:21:08 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # define KEY_AD 125
 # define KEY_UP 18
 # define KEY_DOWN 19
-# define KEY_m 46
 # define KEY_ctrl 256
 
 # include "mlx.h"
@@ -217,6 +216,7 @@ int				ft_ray(t_ptr *ptr, t_c dir);
 int				ft_check_map(t_ptr *ptr, char **map, int i, int j);
 
 void			*ft_check_calloc(t_ptr *ptr, size_t nbr, size_t size);
+int				create_trgb(int t, int r, int g, int b);
 
 void			ft_create_plans_x(t_ptr *ptr);
 

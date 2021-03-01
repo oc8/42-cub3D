@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 13:40:46 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 17:02:14 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	ft_create_plan_sprite(t_ptr *ptr)
 	}
 }
 
-static unsigned int	ft_check_sprite(t_img *sprite, t_c *pixel, t_i index)
+static unsigned int	ft_check_sprite(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i index)
 {
 	t_i		i_img;
 	unsigned int		rs;
@@ -110,26 +110,33 @@ static unsigned int	ft_check_sprite(t_img *sprite, t_c *pixel, t_i index)
 		return (0);
 	ac = bc * bc + ab * ab;
 	ac = sqrt(ac);
-	if (ab >= 0)
-		ac += 0.5;
-	else if (ab < 0)
-		ac = 0.5 - ac;
-	// else
-	// {
-	// 	if (bc > 0)
-	// 		ac += 0.5;
-	// 	else if (bc < 0)
-	// 		ac = 0.5 - ac;
-	// }
+	if (ptr->pos.y > (index.y + 0.5))
+	{
+		if (ab >= 0)
+			ac += 0.5;
+		else
+			ac = 0.5 - ac;
+	}
+	else if (!ab)
+	{
+		if (bc < 0)
+			ac = 0.5 - ac;
+		else
+			ac += 0.5;
+	}
+	else
+	{
+		if (ab >= 0)
+			ac = 0.5 - ac;
+		else
+			ac += 0.5;
+	}
 	i_img.x = (int)(ac * sprite->width);
 	rs = sprite->pixels[i_img.y * (int)(sprite->s_l * 0.25) + i_img.x];
 	// printf("AC = %f, rs = %d\n", (sqrt(ac) + test), rs);
 	// printf("rs = %d\n", rs);
-	// if (rs == 0xf4fee9)
-		// return (rs);
 	if (rs != sprite->pixels[0])
 		return (rs);
-// rs = f4fee9
 	return (0);
 }
 
@@ -146,7 +153,7 @@ static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_c dir, float t, t_p_sprite *sp
 		i_map.x = (int)pixel->x;
 		i_map.y = (int)pixel->y;
 		// printf("x = %d\ny = %d\n\n", i_map.x, i_map.y);
-		if (i_map.x == sprite->index.x && i_map.y == sprite->index.y && (color = ft_check_sprite(&ptr->sprite, pixel, sprite->index)))
+		if (i_map.x == sprite->index.x && i_map.y == sprite->index.y && (color = ft_check_sprite(ptr, &ptr->sprite, pixel, sprite->index)))
 		{
 				return (color);
 		}

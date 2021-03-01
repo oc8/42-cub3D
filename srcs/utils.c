@@ -6,9 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 15:37:28 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 11:57:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 17:20:23 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3D.h"
 
+int		create_trgb(int t, int r, int g, int b)
+{
+	return(t << 24 | r << 16 | g << 8 | b);
+}
