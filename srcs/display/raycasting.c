@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/02/26 16:15:37 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/02 16:28:47 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ static int	ft_texture(t_c pixel, t_img img, char axe)
 		i_img.x = (int)((pixel.x - (int)pixel.x) * img.width);
 	else
 		i_img.x = (int)((pixel.y - (int)pixel.y) * img.width);
-	i_img.y = (int)((pixel.z - (int)pixel.z) * img.height);
-	// printf("x = %d\ny = %d\n\n", i_img.x, i_img.y);
+	i_img.y = (int)((1 - pixel.z - (int)pixel.z) * img.height);
 	return (img.pixels[i_img.y * (int)(img.s_l * 0.25) + i_img.x]);
 }
 
@@ -84,7 +83,7 @@ static t_dist	ft_ray_axe(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *axe
 
 	i = axe->pos;
 	if (dir.x > 0)
-		i += 1;// ?
+		i += 1;
 	if (i < 0)
 		i = 0;
 	if (i >= axe->nbr_plan)
@@ -112,8 +111,8 @@ static t_dist	ft_ray_axe(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *axe
 			else
 				i--;
 		}
-		dist.flag = 0;
-		return (dist);
+	dist.flag = 0;
+	return (dist);
 }
 
 int		ft_ray(t_ptr *ptr, t_c dir)
@@ -143,7 +142,6 @@ int		ft_ray(t_ptr *ptr, t_c dir)
 		dist_x = ft_ray_axe(ptr, ptr->pars->plans_ea, dir, &pixel_x, &axe);
 	else if (dir.x < 0)
 		dist_x = ft_ray_axe(ptr, ptr->pars->plans_we, dir, &pixel_x, &axe);
-
 	if (dist_x.flag && dist_y.flag)
 	{
 		if (dist_x.t < dist_y.t)
@@ -184,6 +182,6 @@ int		ft_ray(t_ptr *ptr, t_c dir)
 			return (ft_texture(pixel_x, ptr->ea, 'x'));
 	}
 	if (pixel_x.z > 0.5 || pixel_y.z > 0.5)
-		return (0x000f00);
-	return (0xffffff);
+		return (ptr->pars->col_sky);
+	return (ptr->pars->col_floor);
 }

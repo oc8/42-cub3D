@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 17:51:18 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/02 12:13:26 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int	ft_atoi_nbr(t_ptr *ptr, char *line, int *i)
 {
 	int		rs;
 
-	(void)ptr;
 	while (line[*i] && (line[*i] == ' ' || line[*i] == '\t'))
 		*i += 1;
 	rs = 0;
@@ -25,6 +24,8 @@ static int	ft_atoi_nbr(t_ptr *ptr, char *line, int *i)
 		rs = rs * 10 + line[*i] - '0';
 		*i += 1;
 	}
+	if (!rs)
+		ft_close(ptr, 3);
 	return (rs);
 }
 
@@ -64,13 +65,44 @@ static char	*ft_copy_str(t_ptr *ptr, char *line, int *i)
 	return (rs);
 }
 
-int		ft_atoi_color(t_ptr *ptr, char *line, int *i)
+static int	ft_atoi_color_util(t_ptr *ptr, char *line, int *i)
+{
+	int		rs;
+	int		flag;
+
+	flag = 0;
+	while (line[*i] && (line[*i] == ' ' || line[*i] == '\t' || line[*i] == ','))
+	{
+		if (line[*i] == ',')
+			flag++;
+		*i += 1;
+	}
+	if (flag > 1)
+		ft_close(ptr, 6);
+	flag = 0;
+	rs = 0;
+	while (line[*i] && line[*i] >= '0' && line[*i] <= '9')
+	{
+		rs = rs * 10 + line[*i] - '0';
+		*i += 1;
+		flag++;
+	}
+	if (rs < 0 || rs > 255 || !flag)
+		ft_close(ptr, 6);
+	return (rs);
+}
+
+static int	ft_atoi_color(t_ptr *ptr, char *line, int *i)
 {
 	int		r;
 	int		g;
 	int		b;
 
-	ft_atoi_nbr(ptr, line, i); // atoi special
+	r = ft_atoi_color_util(ptr, line, i);
+	g = ft_atoi_color_util(ptr, line, i);
+	b = ft_atoi_color_util(ptr, line, i);
+	printf("r = %d, g = %d, b = %d\n", r, g, b);
+	return (create_trgb(1, r, g, b));
 }
 
 static int	ft_parsing_criteria(t_ptr *ptr, char *line)
@@ -93,8 +125,8 @@ static int	ft_parsing_criteria(t_ptr *ptr, char *line)
 			ft_close(ptr, 3);
 		ptr->mlx.width = ft_atoi_nbr(ptr, line, &i);
 		ptr->mlx.height = ft_atoi_nbr(ptr, line, &i);
-		if (!ptr->mlx.width || !ptr->mlx.height)
-			ft_close(ptr, 3);
+		// if (ptr->mlx.width < 1 || ptr->mlx.height < 1)
+		// 	ft_close(ptr, 3);
 		int		x;
 		int		y;
 		mlx_get_screen_size(ptr->mlx.ptr, &x, &y);
@@ -147,9 +179,8 @@ static int	ft_parsing_criteria(t_ptr *ptr, char *line)
 		i++;
 		if (line[i] != ' ' && line[i] != '\t')
 			ft_close(ptr, 3);
-		ptr->pars->col_floor = ft_atoi_color(ptr, line, &i);////////////////////////////////////
+		ptr->pars->col_floor = ft_atoi_color(ptr, line, &i);
 		ptr->epars |= e_F;
-		return (0);//
 	}
 	else if (line[i] == 'C')
 	{
@@ -158,9 +189,8 @@ static int	ft_parsing_criteria(t_ptr *ptr, char *line)
 		i++;
 		if (line[i] != ' ' && line[i] != '\t')
 			ft_close(ptr, 3);
-		ptr->pars->col_sky = ft_atoi_color(ptr, line, &i);////////////////////////////////////
+		ptr->pars->col_sky = ft_atoi_color(ptr, line, &i);
 		ptr->epars |= e_C;
-		return (0);//
 	}
 	i = ft_skip_spaces(line, i);
 	if (line[i])

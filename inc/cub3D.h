@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 17:21:08 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/02 12:44:18 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,8 @@ typedef struct	s_ptr
 	float	speed;
 	float	agl_hor;
 	float	agl_vrt;
-	t_list	*malloc;
+	t_list	*malloc_lst;
+	t_list	*mlx_lst;
 	int		epars;
 	t_mlx	mlx;
 	t_img	screen;
@@ -207,13 +208,13 @@ typedef enum	e_pars
 
 t_p				ft_new_plan(char x_y, int c);
 int				ft_create_plan(t_ptr *ptr);
-void			ft_close(t_ptr *ptr, int error);
 int				ft_parsing(char *path, t_ptr *ptr);
 void			ft_parsing_map(t_ptr *ptr, char *line, int j, t_i *first_pos);
 int				ft_malloc_map(t_ptr *ptr, char *path);
+int				ft_check_map(t_ptr *ptr, char **map, int i, int j);
+
 void			ft_edit_img(t_ptr *ptr);
 int				ft_ray(t_ptr *ptr, t_c dir);
-int				ft_check_map(t_ptr *ptr, char **map, int i, int j);
 
 void			*ft_check_calloc(t_ptr *ptr, size_t nbr, size_t size);
 int				create_trgb(int t, int r, int g, int b);
@@ -228,12 +229,12 @@ t_p_sprite		*ft_search_sprite(t_ptr *ptr, int y, int x);
 void			ft_malloc_sprite(t_ptr *ptr);
 // int				ft_texutre_sprite(t_p_sprite *sprite, t_c pixel);
 
-int		ft_mouse(int x, int y, t_ptr *ptr);
-int		ft_key(int key, t_ptr *ptr);
-int		ft_key_release(int key, t_ptr *ptr);
-float	ft_key_action(char *flag, float rs_1, float rs_2); // ?
+int				ft_mouse(int x, int y, t_ptr *ptr);
+int				ft_key(int key, t_ptr *ptr);
+int				ft_key_release(int key, t_ptr *ptr);
+float			ft_key_action(char *flag, float rs_1, float rs_2); // ?
 
-int		ft_quit_X(t_ptr *ptr);
-void	ft_close(t_ptr *ptr, int error);
+int				ft_quit_x(t_ptr *ptr);
+void			ft_close(t_ptr *ptr, int error);
 
 #endif

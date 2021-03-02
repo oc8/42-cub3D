@@ -6,7 +6,7 @@
 #    By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 17:35:36 by odroz-ba          #+#    #+#              #
-#    Updated: 2021/03/01 11:28:17 by odroz-ba         ###   ########lyon.fr    #
+#    Updated: 2021/03/02 15:58:48 by odroz-ba         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,11 +78,11 @@ ARFLAGS		= rcs
 
 $(NAME):	$(OBJS)
 			$(AR) $(ARFLAGS) $(NAME) $?
-			printf "$(ERASE)$(CYAN)> $(NAME) : $(GREEN)ok$(END)\n"
+			printf "$(ERASE)$(GREEN)⤖ $(CYAN)$(NAME) : $(GREEN)ok$(END)\n"
 
 %.o:		%.c $(INCLUDES)
 			$(CC) $(CFLAGS) -c $< -o $@
-			printf "$(ERASE)$(CYAN)> $(NAME) : $(RED)[$<]"
+			printf "$(ERASE)$(CYAN)⤖ $(NAME) : $(RED)[$<]"
 
 all:		$(NAME)
 
@@ -91,7 +91,7 @@ clean:
 
 fclean:		clean
 			$(RM) $(NAME)
-			printf "$(ERASE)$(CYAN)> $(NAME) : $(GREEN)clean$(END)\n"
+			printf "$(ERASE)$(GREEN)⤖ $(CYAN)$(NAME) : $(GREEN)clean$(END)\n"
 
 re:			fclean all
 

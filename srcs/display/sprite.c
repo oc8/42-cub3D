@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 17:02:14 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/02 18:05:59 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	ft_create_plan_sprite(t_ptr *ptr)
 				p = ptr->pars->plans_sprite;
 				p[i].a = (x + 0.5) - ptr->pos.x;
 				p[i].b = (y + 0.5) - ptr->pos.y;
-				p[i].c = 0.5 - ptr->pos.z;
+				p[i].c = 0;
 				p[i].d = - p[i].a * (x + 0.5) - p[i].b * (y + 0.5) - p[i].c * 0.5;
 				i++;
 				// printf("\t\t\t\t\t%d\n", ptr->pars->plans_sprite[i].index.y);
@@ -102,7 +102,7 @@ static unsigned int	ft_check_sprite(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i i
 	// (void)sprite;
 	// (void)pixel;
 	// printf("x = %f, y = %f, z = %f\n", pixel->x, pixel->y, pixel->z);
-	i_img.y = (int)((pixel->z - (int)pixel->z) * sprite->height);
+	i_img.y = (int)((2 - pixel->z) * (sprite->height * 0.5));
 	ab = pixel->x - (index.x + 0.5);
 	bc = pixel->y - (index.y + 0.5);
 	// printf("ab = %f, bc = %f\n", ab, bc);
@@ -146,7 +146,7 @@ static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_c dir, float t, t_p_sprite *sp
 	int			color;
 
 	pixel->z = ptr->pos.z + dir.z * t;
-	if (pixel->z > 0 && pixel->z < 1)
+	if (pixel->z > 0 && pixel->z < 2)
 	{
 		pixel->x = ptr->pos.x + dir.x * t;
 		pixel->y = ptr->pos.y + dir.y * t;

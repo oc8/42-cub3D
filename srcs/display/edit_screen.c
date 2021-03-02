@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 17:04:18 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/02 15:12:37 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 */
 static t_c	ft_rotation(t_c dir, const t_agl *agl, t_ptr *ptr)
 {
-	t_c		new;
 	t_c		m_z;
 	t_c		m_x;
 
@@ -54,11 +53,7 @@ void	*ft_put_pixels(void *work)
 	{
 		x = -1;
 		while (++x < ptr->mlx.width)
-		// {
-			screen[y * (ptr->screen.s_l / 4) + x] = ft_ray(ptr, ft_rotation(ptr->dir[y * ptr->mlx.width + x], &ptr->agl, ptr));
-		// if (y == x)
-		// 	screen[y * (ptr->screen.s_l / 4) + x] = 0x0000000;
-		// }
+			screen[y * (int)(ptr->screen.s_l * 0.25) + x] = ft_ray(ptr, ft_rotation(ptr->dir[y * ptr->mlx.width + x], &ptr->agl, ptr));
 		y++;
 	}
 	return (ptr);
@@ -113,52 +108,7 @@ static void	ft_before_calc(t_ptr *ptr, unsigned int *screen)
 void	ft_edit_img(t_ptr *ptr)
 {
 	ft_create_plan_sprite(ptr);
-	// //
-	// int		i;
-	// unsigned int j;
-	// t_p		p;
-	// i = -1;
-	// while (++i < (ptr->pars->nbr_map.y))
-	// {
-	// 	p = ptr->pars->plans_no[i];
-	// 	printf("plan_no %d : %d %d %d %d\t| nbr = %d\n", i, p.a, p.b, p.c, p.d, p.nbr);
-	// 	j = -1;
-	// 	while (++j < p.nbr)
-	// 		printf("sprite : %f %f %f %f\t| x = %d, y = %d\n", p.sprite[j]->a, p.sprite[j]->b, p.sprite[j]->c, p.sprite[j]->d, p.sprite[j]->index.x, p.sprite[j]->index.y);
-	// 	printf("\n");
-	// }
-	// i = -1;
-	// while (++i < (ptr->pars->nbr_map.y))
-	// {
-	// 	p = ptr->pars->plans_so[i];
-	// 	printf("plan_so %d : %d %d %d %d\t| nbr = %d\n", i, p.a, p.b, p.c, p.d, p.nbr);
-	// 	j = -1;
-	// 	while (++j < p.nbr)
-	// 		printf("sprite : %f %f %f %f\t| x = %d, y = %d\n", p.sprite[j]->a, p.sprite[j]->b, p.sprite[j]->c, p.sprite[j]->d, p.sprite[j]->index.x, p.sprite[j]->index.y);
-	// 	printf("\n");
-	// }
-	// i = -1;
-	// while (++i < (ptr->pars->nbr_map.x))
-	// {
-	// 	p = ptr->pars->plans_ea[i];
-	// 	printf("plan_ea %d : %d %d %d %d\t| nbr = %d\n", i, p.a, p.b, p.c, p.d, p.nbr);
-	// 	j = -1;
-	// 	while (++j < p.nbr)
-	// 		printf("sprite : %f %f %f %f\t| x = %d, y = %d\n", p.sprite[j]->a, p.sprite[j]->b, p.sprite[j]->c, p.sprite[j]->d, p.sprite[j]->index.x, p.sprite[j]->index.y);
-	// 	printf("\n");
-	// }
-	// i = -1;
-	// while (++i < (ptr->pars->nbr_map.x))
-	// {
-	// 	p = ptr->pars->plans_we[i];
-	// 	printf("plan_we %d : %d %d %d %d\t| nbr = %d\n", i, p.a, p.b, p.c, p.d, p.nbr);
-	// 	j = -1;
-	// 	while (++j < p.nbr)
-	// 		printf("sprite : %f %f %f %f\t| x = %d, y = %d\n", p.sprite[j]->a, p.sprite[j]->b, p.sprite[j]->c, p.sprite[j]->d, p.sprite[j]->index.x, p.sprite[j]->index.y);
-	// 	printf("\n");
-	// }
-	//
-// gettimeofday();
+	// gettimeofday();
 	mlx_sync(MLX_SYNC_WIN_CMD_COMPLETED, ptr->mlx.window);
 	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, ptr->screen.ptr);
 	ft_before_calc(ptr, ptr->screen.pixels);

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 12:10:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/02 16:17:17 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int		ft_malloc_map(t_ptr *ptr, char *path)
 	{
 		ptr->pars->nbr_map.x = size_line_max;
 		ptr->pars->nbr_map.y = count_line;
-		free(ptr->pars->map);
+		// free(ptr->pars->map);
 		if (!(ptr->pars->map = ft_check_calloc(ptr, count_line, sizeof(char *))))
 			return (-1);
 		vr = -1;

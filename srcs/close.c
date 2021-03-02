@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:13:27 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 14:04:14 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/02 15:12:49 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 void	ft_close(t_ptr *ptr, int error)
 {
-	int		i;
-
-	printf("close :\n");
+	printf("\033[34m> close :(\n\033[31m");
 	if (error == 1)
 		printf("malloc error\n");
 	else if (error == 2)
@@ -25,14 +23,18 @@ void	ft_close(t_ptr *ptr, int error)
 		printf("map error\n");
 	else if (error == 4)
 		printf("mlx error\n");
+	else if (error == 5)
+		printf("arg error\n");
+	else if (error == 6)
+		printf("pars color error\n");
 	if (ptr->screen.ptr)
 		mlx_destroy_image(ptr->mlx.ptr, ptr->screen.ptr);
-	ft_lstclear(&ptr->malloc, free);
+	ft_lstclear(&ptr->malloc_lst, free);
 	free(ptr);
 	exit(0);
 }
 
-int		ft_quit_X(t_ptr *ptr)
+int		ft_quit_x(t_ptr *ptr)
 {
 	ft_close(ptr, 0);
 	return (0);

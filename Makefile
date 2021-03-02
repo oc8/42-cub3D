@@ -12,20 +12,8 @@ BOLD	= \033[1m
 UNDER	= \033[4m
 SUR		= \033[7m
 
-SRCS		= main.c \
-parsing/parsing.c \
-parsing/parsing_map.c \
-parsing/parsing_plan.c \
-parsing/parsing_plan_x.c \
-parsing/parsing_plan_y.c \
-display/edit_screen.c \
-display/raycasting.c \
-display/sprite.c \
-utils.c \
-utils_malloc.c \
-close.c \
-action.c
-OBJS		= main.o \
+NAME		= cub3D
+LOBJS		= main.o \
 parsing/parsing.o \
 parsing/parsing_map.o \
 parsing/parsing_plan.o \
@@ -37,41 +25,44 @@ display/sprite.o \
 utils.o \
 utils_malloc.o \
 close.o \
-action.o
-NAME		= Cub3D
+action.o \
+display/mlx.o
+LSRCS		= ${SRCS:.o=.c}
 INCLUDES	= inc/cub3D.h
 CC			= clang
-RM			= rm -f
-FLAGS		= -Wall -Wextra -Werror -g3 -fsanitize=address
+RM			= rm -rf
+FLAGS		= -Wall -Wextra -Werror #  -g3 -fsanitize=address
 CFLAGS		= -I./includes -I./libft/ -I./minilibx -I./mlx
 AR			= ar
 ARFLAGS		= rcs
-PATH_SRCS	= $(addprefix srcs/,$(SRCS))
-PATH_OBJS	= $(addprefix srcs/,$(OBJS))
+PATH_SRCS	= srcs
+PATH_OBJS	= objs
+SRCS	= $(addprefix $(PATH_SRCS)/,$(LSRCS))
+OBJS	= $(addprefix $(PATH_OBJS)/,$(LOBJS))
 
-$(NAME):	compilation $(PATH_OBJS)
-			$(CC) $(FLAGS) -L./libft -lft -L./minilibx -lmlx -o $@ $(PATH_OBJS)
-			printf "$(ERASE)$(CYAN)> $(NAME) : $(GREEN)ok$(END)\n"
+$(NAME):	compilation $(OBJS)
+			$(CC) $(FLAGS) -L./libft -lft -L./minilibx -lmlx -o $@ $(OBJS)
+			printf "$(ERASE)$(GREEN)⤖ $(CYAN)$(NAME) : $(GREEN)ok$(END)\n"
 
-no_flag:	compilation $(PATH_OBJS)
+no_flag:	compilation $(OBJS)
 
 compilation	:
 			make -C ./minilibx/
 			make -C ./Libft/
 			cp ./Libft/libft.a ./
 			cp ./minilibx/libmlx.dylib ./
-			printf "$(ERASE)$(CYAN)> mlx : $(GREEN)ok$(END)\n"
+			printf "$(ERASE)$(GREEN)⤖ $(CYAN)mlx : $(GREEN)ok$(END)\n"
 
-.o:		.c $(INCLUDES)
-			$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
-			# $(CC) -Wall -Wextra -Werror $(CFLAGS) -c $< -o $@
-			printf "$(ERASE)$(CYAN)> $(NAME) : $(RED)[$<]"
+$(PATH_OBJS)/%.o:		$(PATH_SRCS)/%.c $(INCLUDES)
+			@mkdir -p $(PATH_OBJS) $(PATH_OBJS)/parsing $(PATH_OBJS)/display
+			@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
+			@printf "$(ERASE)$(CYAN)⤖ $(NAME) : $(RED)[$<]"
 
 all:		$(NAME)
 
 clean:		
 			$(RM) $(PATH_OBJS) $(BONUS)
-			printf "$(ERASE)$(CYAN)> $(NAME) : $(GREEN)clean$(END)\n"
+			printf "$(ERASE)$(GREEN)⤖ $(CYAN)$(NAME) : $(GREEN)clean$(END)\n"
 			make fclean -C ./Libft/
 
 fclean:		clean
@@ -81,7 +72,7 @@ re:			fclean all
 			make -C ./Libft/
 
 .PHONY:		all clean fclean re no_flag
-.SILENT:	fclean clean $(PATH_OBJS) re $(NAME) no_flag compilation all
+.SILENT:	fclean clean re $(NAME) no_flag compilation all
 
 
 

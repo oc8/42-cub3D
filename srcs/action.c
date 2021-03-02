@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:17:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 17:05:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/02 16:09:35 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		ft_mouse(int x, int y, t_ptr *ptr)
 	 printf("x = %d, y = %d\n", x, y);
 	x -= ptr->mlx.width * 0.5;
 	y -= ptr->mlx.height * 0.5;
-	y *= -1;
+	// y *= -1;
 	// printf("x = %d, y = %d\n\n", x, y);
 	// printf("hor = %f, ver = %f\n", ptr->agl_hor, ptr->agl_vrt);
 	ptr->agl_hor += x / (M_PI * 180);
@@ -98,7 +98,7 @@ int		ft_mouse(int x, int y, t_ptr *ptr)
 	// printf("x = %d, y = %d\n\n", x, y);
 	// ft_edit_img(ptr);
 	// ptr->agl_vrt += y / 10;
-	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, -(ptr->mlx.height * 0.5 - 40));
+	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, ptr->mlx.height * 0.5);
 	// mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, ptr->mlx.height * 0.5);
 	return (0);
 }
