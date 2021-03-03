@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/02 12:44:18 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/03 12:18:17 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ typedef struct	s_ptr
 	float	agl_vrt;
 	t_list	*malloc_lst;
 	t_list	*mlx_lst;
+	t_img	sky;
 	int		epars;
 	t_mlx	mlx;
 	t_img	screen;

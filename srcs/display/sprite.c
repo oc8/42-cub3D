@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/02 18:05:59 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/03 14:51:07 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ static unsigned int	ft_check_sprite(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i i
 	// (void)pixel;
 	// printf("x = %f, y = %f, z = %f\n", pixel->x, pixel->y, pixel->z);
 	i_img.y = (int)((2 - pixel->z) * (sprite->height * 0.5));
+	if (i_img.y >= (sprite->height * 2) || i_img.y < 0)
+		return (0);
 	ab = pixel->x - (index.x + 0.5);
 	bc = pixel->y - (index.y + 0.5);
 	// printf("ab = %f, bc = %f\n", ab, bc);
@@ -132,7 +134,10 @@ static unsigned int	ft_check_sprite(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i i
 			ac += 0.5;
 	}
 	i_img.x = (int)(ac * sprite->width);
-	rs = sprite->pixels[i_img.y * (int)(sprite->s_l * 0.25) + i_img.x];
+	if (i_img.x >= sprite->width || i_img.x < 0)
+		return (0);
+	// printf("x = %d, y = %d\n", i_img.x, i_img.y);
+	rs = sprite->pixels[i_img.y * (sprite->s_l / 4) + i_img.x];
 	// printf("AC = %f, rs = %d\n", (sqrt(ac) + test), rs);
 	// printf("rs = %d\n", rs);
 	if (rs != sprite->pixels[0])

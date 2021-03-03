@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/02 12:13:26 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/03 12:30:29 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*ft_copy_str(t_ptr *ptr, char *line, int *i)
 	}
 	if (!j)
 		ft_close(ptr, 3);
-	rs = ft_check_calloc(ptr, j, sizeof(char));
+	rs = ft_check_calloc(ptr, j + 1, sizeof(char));
 	j = -1;
 	while (line[*i] && line[*i] != ' ' && line[*i] != '\t')
 	{

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/02 16:28:47 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/03 17:18:51 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,47 @@ int		ft_ray(t_ptr *ptr, t_c dir)
 		else
 			return (ft_texture(pixel_x, ptr->ea, 'x'));
 	}
-	if (pixel_x.z > 0.5 || pixel_y.z > 0.5)
-		return (ptr->pars->col_sky);
+	float map = 50 * ptr->pars->nbr_map.x;
+	if ((dist_x.t = - (ptr->pos.z - map + 1) / dir.z) > 0)
+	{
+		pixel_x.x = ptr->pos.x + dir.x * dist_x.t;
+		pixel_x.y = ptr->pos.y + dir.y * dist_x.t;
+		if (!(pixel_x.x <= -map || pixel_x.x >= map || pixel_x.y <= -map || pixel_x.y >= map))
+		{
+			t_i	index;
+			index.x = (pixel_x.x + map) / (2 * map) * (ptr->sky.width / 4) + 3 * ptr->sky.width / 4;
+			index.y = (pixel_x.y + map) / (2 * map) * (ptr->sky.height / 3);
+			if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
+				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+		}
+	}
+	if ((dist_x.t = - (ptr->pos.x - map) / dir.x) > 0)
+	{
+		pixel_x.y = ptr->pos.y + dir.y * dist_x.t;
+		pixel_x.z = ptr->pos.z + dir.z * dist_x.t;
+		if (pixel_x.y <= -map || pixel_x.y >= map || pixel_x.z <= -map || pixel_x.z >= map)
+			return (0);
+		t_i	index;
+		index.x = (1 - (pixel_x.y + map) / (2 * map)) * (ptr->sky.width / 4) + 0 * ptr->sky.width / 4;
+		index.y = (1 - (pixel_x.z + map) / (2 * map)) * (ptr->sky.height / 3) + ptr->sky.height / 3;
+		if (index.x >= ptr->sky.width || index.y >= ptr->sky.height)
+			return (0);
+		// printf("x = %f, y = %f, z = %f\n", pixel_x.x, pixel_x.y, pixel_x.z);
+		return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+	}
+	else if ((dist_x.t = - (ptr->pos.x + map) / dir.x) > 0)
+	{
+		return (0);
+	}
+	else if ((dist_x.t = - (ptr->pos.y - map) / dir.y) > 0)
+	{
+		return (0);
+		
+	}
+	else if ((dist_x.t = - (ptr->pos.y + map) / dir.y) > 0)
+	{
+		return (0);
+		
+	}
 	return (ptr->pars->col_floor);
 }

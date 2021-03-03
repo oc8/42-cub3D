@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/02 17:59:15 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/03 16:21:47 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int		ft_loop(t_ptr *ptr)
 	new_pos_x = ptr->pos.x;
 	new_pos_y = ptr->pos.y;
 	if (ptr->key.al)
-		ptr->agl_hor -= 0.08;
+		ptr->agl_hor -= 0.1;
 	if (ptr->key.ar)
-		ptr->agl_hor += 0.08;
+		ptr->agl_hor += 0.1;
 	if (ptr->key.w)
 	{
 		// printf("dir : x = %f, y = %f\n", ptr->dir.x, ptr->dir.y);
@@ -62,14 +62,14 @@ int		ft_loop(t_ptr *ptr)
 	new_pos.y = (int)new_pos_y;
 	pos.x = (int)ptr->pos.x;
 	pos.y = (int)ptr->pos.y;
-	if (ptr->pars->map[new_pos.y][new_pos.x] != '1')
+	if (ptr->pars->map[new_pos.y][new_pos.x] == 0)
 	{
 		ptr->pos.x = new_pos_x;
 		ptr->pos.y = new_pos_y;
 	}
-	else if (ptr->pars->map[new_pos.y][pos.x] != '1')
+	else if (ptr->pars->map[new_pos.y][pos.x] == 0)
 		ptr->pos.y = new_pos_y;
-	else if (ptr->pars->map[pos.y][new_pos.x] != '1')
+	else if (ptr->pars->map[pos.y][new_pos.x] == 0)
 		ptr->pos.x = new_pos_x;
 	ft_edit_img(ptr);
 	return (0);
@@ -164,13 +164,14 @@ int		main(int argc, char *argv[])
 	mlx_hook(ptr->mlx.window, 2, 1L << 0, ft_key, ptr);
 	mlx_hook(ptr->mlx.window, 3, 1L << 1, ft_key_release, ptr);
 	mlx_hook(ptr->mlx.window, 17, 0, ft_quit_x, ptr);
-	// mlx_mouse_hide();
+	mlx_mouse_hide();
 
 	ptr->no = ft_init_img(ptr, ptr->pars->path_no);
 	ptr->so = ft_init_img(ptr, ptr->pars->path_so);
 	ptr->we = ft_init_img(ptr, ptr->pars->path_we);
 	ptr->ea = ft_init_img(ptr, ptr->pars->path_ea);
 	ptr->sprite = ft_init_img(ptr, ptr->pars->path_sprite);
+	ptr->sky = ft_init_img(ptr, "textures/skybox.xpm");
 
 	ptr->screen.ptr = mlx_new_image(ptr->mlx.ptr, ptr->mlx.width, ptr->mlx.height);
 	ptr->screen.pixels = (unsigned int *)mlx_get_data_addr(ptr->screen.ptr, &ptr->screen.bpp, &ptr->screen.s_l, &ptr->screen.endian);
