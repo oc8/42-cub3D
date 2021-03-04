@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/03 14:51:07 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/04 16:46:44 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,62 +89,6 @@ void	ft_create_plan_sprite(t_ptr *ptr)
 	}
 }
 
-static unsigned int	ft_check_sprite(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i index)
-{
-	t_i		i_img;
-	unsigned int		rs;
-	float	ab;
-	float	bc;
-	float	ac;
-	// center & z -> ok
-	// trouver x / y
-	(void)index;
-	// (void)sprite;
-	// (void)pixel;
-	// printf("x = %f, y = %f, z = %f\n", pixel->x, pixel->y, pixel->z);
-	i_img.y = (int)((2 - pixel->z) * (sprite->height * 0.5));
-	if (i_img.y >= (sprite->height * 2) || i_img.y < 0)
-		return (0);
-	ab = pixel->x - (index.x + 0.5);
-	bc = pixel->y - (index.y + 0.5);
-	// printf("ab = %f, bc = %f\n", ab, bc);
-	if (ab > 0.5 || ab < -0.5 || bc > 0.5 || bc < -0.5)
-		return (0);
-	ac = bc * bc + ab * ab;
-	ac = sqrt(ac);
-	if (ptr->pos.y > (index.y + 0.5))
-	{
-		if (ab >= 0)
-			ac += 0.5;
-		else
-			ac = 0.5 - ac;
-	}
-	else if (!ab)
-	{
-		if (bc < 0)
-			ac = 0.5 - ac;
-		else
-			ac += 0.5;
-	}
-	else
-	{
-		if (ab >= 0)
-			ac = 0.5 - ac;
-		else
-			ac += 0.5;
-	}
-	i_img.x = (int)(ac * sprite->width);
-	if (i_img.x >= sprite->width || i_img.x < 0)
-		return (0);
-	// printf("x = %d, y = %d\n", i_img.x, i_img.y);
-	rs = sprite->pixels[i_img.y * (sprite->s_l / 4) + i_img.x];
-	// printf("AC = %f, rs = %d\n", (sqrt(ac) + test), rs);
-	// printf("rs = %d\n", rs);
-	if (rs != sprite->pixels[0])
-		return (rs);
-	return (0);
-}
-
 static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_c dir, float t, t_p_sprite *sprite)
 {
 	t_i			i_map;
@@ -158,7 +102,7 @@ static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_c dir, float t, t_p_sprite *sp
 		i_map.x = (int)pixel->x;
 		i_map.y = (int)pixel->y;
 		// printf("x = %d\ny = %d\n\n", i_map.x, i_map.y);
-		if (i_map.x == sprite->index.x && i_map.y == sprite->index.y && (color = ft_check_sprite(ptr, &ptr->sprite, pixel, sprite->index)))
+		if (i_map.x == sprite->index.x && i_map.y == sprite->index.y && (color = ft_sprite_texture(ptr, &ptr->sprite, pixel, sprite->index)))
 		{
 				return (color);
 		}

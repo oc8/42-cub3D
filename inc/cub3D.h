@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/03 12:18:17 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/04 16:49:43 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ int				ft_malloc_map(t_ptr *ptr, char *path);
 int				ft_check_map(t_ptr *ptr, char **map, int i, int j);
 
 void			ft_edit_img(t_ptr *ptr);
-int				ft_ray(t_ptr *ptr, t_c dir);
+unsigned int				ft_ray(t_ptr *ptr, t_c dir);
 
 void			*ft_check_calloc(t_ptr *ptr, size_t nbr, size_t size);
 int				create_trgb(int t, int r, int g, int b);
@@ -237,5 +237,9 @@ float			ft_key_action(char *flag, float rs_1, float rs_2); // ?
 
 int				ft_quit_x(t_ptr *ptr);
 void			ft_close(t_ptr *ptr, int error);
+
+int	ft_wall_texture(t_c pixel, t_img img, char axe);
+unsigned int	ft_sky_texture(t_ptr *ptr, float c1, float c2, char face);
+unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i index);
 
 #endif

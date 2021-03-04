@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/03 16:21:47 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/04 16:57:19 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ int		main(int argc, char *argv[])
 
 	ptr->screen.ptr = mlx_new_image(ptr->mlx.ptr, ptr->mlx.width, ptr->mlx.height);
 	ptr->screen.pixels = (unsigned int *)mlx_get_data_addr(ptr->screen.ptr, &ptr->screen.bpp, &ptr->screen.s_l, &ptr->screen.endian);
-	fov = 60 * (M_PI / 180);
+	fov = 100 * (M_PI / 180);
 	ptr->fov_x = 2 * tan(fov / 2);
 	ptr->fov_y = 2 * tan(fov * ptr->mlx.height / ptr->mlx.width * 0.5);
 	ptr->dir = ft_check_calloc(ptr, ptr->mlx.height * ptr->mlx.width, sizeof(t_c));

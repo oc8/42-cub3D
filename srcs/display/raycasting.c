@@ -6,23 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/03 17:18:51 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/04 17:42:09 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3D.h"
-
-static int	ft_texture(t_c pixel, t_img img, char axe)
-{
-	t_i		i_img;
-
-	if (axe == 'y')
-		i_img.x = (int)((pixel.x - (int)pixel.x) * img.width);
-	else
-		i_img.x = (int)((pixel.y - (int)pixel.y) * img.width);
-	i_img.y = (int)((1 - pixel.z - (int)pixel.z) * img.height);
-	return (img.pixels[i_img.y * (int)(img.s_l * 0.25) + i_img.x]);
-}
 
 static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_c dir, t_p *p, float t, char axe)
 {
@@ -115,7 +103,7 @@ static t_dist	ft_ray_axe(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *axe
 	return (dist);
 }
 
-int		ft_ray(t_ptr *ptr, t_c dir)
+unsigned int		ft_ray(t_ptr *ptr, t_c dir)
 {
 	t_dist	dist_x;
 	t_dist	dist_y;
@@ -142,6 +130,7 @@ int		ft_ray(t_ptr *ptr, t_c dir)
 		dist_x = ft_ray_axe(ptr, ptr->pars->plans_ea, dir, &pixel_x, &axe);
 	else if (dir.x < 0)
 		dist_x = ft_ray_axe(ptr, ptr->pars->plans_we, dir, &pixel_x, &axe);
+
 	if (dist_x.flag && dist_y.flag)
 	{
 		if (dist_x.t < dist_y.t)
@@ -149,18 +138,18 @@ int		ft_ray(t_ptr *ptr, t_c dir)
 			if (dist_x.flag == 's')
 				return (dist_x.color_sprite);
 			if (dir.x < 0)
-				return (ft_texture(pixel_x, ptr->we, 'x'));
+				return (ft_wall_texture(pixel_x, ptr->we, 'x'));
 			else
-				return (ft_texture(pixel_x, ptr->ea, 'x'));
+				return (ft_wall_texture(pixel_x, ptr->ea, 'x'));
 		}
 		else // if (dist_y < dist_x.t)
 		{
 			if (dist_y.flag == 's')
 				return (dist_y.color_sprite);
 			if (dir.y < 0)
-				return (ft_texture(pixel_y, ptr->no, 'y'));
+				return (ft_wall_texture(pixel_y, ptr->no, 'y'));
 			else
-				return (ft_texture(pixel_y, ptr->so, 'y'));
+				return (ft_wall_texture(pixel_y, ptr->so, 'y'));
 		}
 	}
 	else if (dist_y.flag)
@@ -168,60 +157,48 @@ int		ft_ray(t_ptr *ptr, t_c dir)
 		if (dist_y.flag == 's')
 			return (dist_y.color_sprite);
 		if (dir.y < 0)
-			return (ft_texture(pixel_y, ptr->no, 'y'));
+			return (ft_wall_texture(pixel_y, ptr->no, 'y'));
 		else
-			return (ft_texture(pixel_y, ptr->so, 'y'));
+			return (ft_wall_texture(pixel_y, ptr->so, 'y'));
 	}
 	else if (dist_x.flag)
 	{
 		if (dist_x.flag == 's')
 			return (dist_x.color_sprite);
 		if (dir.x < 0)
-			return (ft_texture(pixel_x, ptr->we, 'x'));
+			return (ft_wall_texture(pixel_x, ptr->we, 'x'));
 		else
-			return (ft_texture(pixel_x, ptr->ea, 'x'));
+			return (ft_wall_texture(pixel_x, ptr->ea, 'x'));
 	}
-	float map = 50 * ptr->pars->nbr_map.x;
-	if ((dist_x.t = - (ptr->pos.z - map + 1) / dir.z) > 0)
+	if ((dist_x.t = - (ptr->pos.z) / dir.z) > 0)
 	{
 		pixel_x.x = ptr->pos.x + dir.x * dist_x.t;
-		pixel_x.y = ptr->pos.y + dir.y * dist_x.t;
-		if (!(pixel_x.x <= -map || pixel_x.x >= map || pixel_x.y <= -map || pixel_x.y >= map))
+		if (pixel_x.x >= 0 && pixel_x.x <= ptr->pars->nbr_map.x)
 		{
-			t_i	index;
-			index.x = (pixel_x.x + map) / (2 * map) * (ptr->sky.width / 4) + 3 * ptr->sky.width / 4;
-			index.y = (pixel_x.y + map) / (2 * map) * (ptr->sky.height / 3);
-			if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
-				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+			pixel_x.y = ptr->pos.y + dir.y * dist_x.t;
+			if (pixel_x.y >= 0 && pixel_x.y <= ptr->pars->nbr_map.y)
+				return (ptr->pars->col_floor);
 		}
 	}
-	if ((dist_x.t = - (ptr->pos.x - map) / dir.x) > 0)
-	{
-		pixel_x.y = ptr->pos.y + dir.y * dist_x.t;
-		pixel_x.z = ptr->pos.z + dir.z * dist_x.t;
-		if (pixel_x.y <= -map || pixel_x.y >= map || pixel_x.z <= -map || pixel_x.z >= map)
-			return (0);
-		t_i	index;
-		index.x = (1 - (pixel_x.y + map) / (2 * map)) * (ptr->sky.width / 4) + 0 * ptr->sky.width / 4;
-		index.y = (1 - (pixel_x.z + map) / (2 * map)) * (ptr->sky.height / 3) + ptr->sky.height / 3;
-		if (index.x >= ptr->sky.width || index.y >= ptr->sky.height)
-			return (0);
-		// printf("x = %f, y = %f, z = %f\n", pixel_x.x, pixel_x.y, pixel_x.z);
-		return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
-	}
-	else if ((dist_x.t = - (ptr->pos.x + map) / dir.x) > 0)
-	{
-		return (0);
-	}
-	else if ((dist_x.t = - (ptr->pos.y - map) / dir.y) > 0)
-	{
-		return (0);
-		
-	}
-	else if ((dist_x.t = - (ptr->pos.y + map) / dir.y) > 0)
-	{
-		return (0);
-		
-	}
-	return (ptr->pars->col_floor);
+	unsigned int	color;
+	float map = 10 * ptr->pars->nbr_map.x;
+	if ((dist_x.t = - (ptr->pos.z - map + 1) / dir.z) > 0
+&& (color = ft_sky_texture(ptr, ptr->pos.x + dir.x * dist_x.t, ptr->pos.y + dir.y * dist_x.t, 1)))
+			return (color);
+	else if ((dist_x.t = - (ptr->pos.x - map) / dir.x) > 0
+&& (color = ft_sky_texture(ptr, ptr->pos.y + dir.y * dist_x.t, ptr->pos.z + dir.z * dist_x.t, 2)))
+			return (color);
+	else if ((dist_x.t = - (ptr->pos.x + map) / dir.x) > 0
+&& (color = ft_sky_texture(ptr, ptr->pos.y + dir.y * dist_x.t, ptr->pos.z + dir.z * dist_x.t, 3)))
+			return (color);
+	else if ((dist_x.t = - (ptr->pos.y - map) / dir.y) > 0
+&& (color = ft_sky_texture(ptr, ptr->pos.x + dir.x * dist_x.t, ptr->pos.z + dir.z * dist_x.t, 4)))
+			return (color);
+	else if ((dist_x.t = - (ptr->pos.y + map) / dir.y) > 0
+&& (color = ft_sky_texture(ptr, ptr->pos.x + dir.x * dist_x.t, ptr->pos.z + dir.z * dist_x.t, 5)))
+			return (color);
+	else if ((dist_x.t = - (ptr->pos.z + map - 1) / dir.z) > 0
+&& (color = ft_sky_texture(ptr, ptr->pos.x + dir.x * dist_x.t, ptr->pos.y + dir.y * dist_x.t, 6)))
+			return (color);
+	return (0);
 }

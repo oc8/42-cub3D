@@ -26,7 +26,8 @@ utils.o \
 utils_malloc.o \
 close.o \
 action.o \
-display/mlx.o
+display/mlx.o \
+display/textures.o
 LSRCS		= ${SRCS:.o=.c}
 INCLUDES	= inc/cub3D.h
 CC			= clang
