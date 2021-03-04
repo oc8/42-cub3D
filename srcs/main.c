@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/04 16:57:19 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/04 18:32:23 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,25 @@ int		ft_loop(t_ptr *ptr)
 	new_pos.y = (int)new_pos_y;
 	pos.x = (int)ptr->pos.x;
 	pos.y = (int)ptr->pos.y;
-	if (ptr->pars->map[new_pos.y][new_pos.x] == 0)
+	if (ft_in_map(ptr, new_pos))
+	{
+		if (ptr->pars->map[new_pos.y][new_pos.x] == 0 || ptr->pos.z > 1 || ptr->pos.z < -0.5)
+		{
+			ptr->pos.x = new_pos_x;
+			ptr->pos.y = new_pos_y;
+		}
+		else if (ptr->pars->map[new_pos.y][pos.x] == 0)
+			ptr->pos.y = new_pos_y;
+		else if (ptr->pars->map[pos.y][new_pos.x] == 0)
+			ptr->pos.x = new_pos_x;
+		ft_create_plan_sprite(ptr);
+	}
+	else if (ptr->pos.x != new_pos_x || ptr->pos.y != new_pos_y)
 	{
 		ptr->pos.x = new_pos_x;
 		ptr->pos.y = new_pos_y;
+		ft_create_plan_sprite(ptr);
 	}
-	else if (ptr->pars->map[new_pos.y][pos.x] == 0)
-		ptr->pos.y = new_pos_y;
-	else if (ptr->pars->map[pos.y][new_pos.x] == 0)
-		ptr->pos.x = new_pos_x;
 	ft_edit_img(ptr);
 	return (0);
 }

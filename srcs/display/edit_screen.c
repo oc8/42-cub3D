@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/03 16:08:17 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/04 18:22:34 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ static void	ft_before_calc(t_ptr *ptr, unsigned int *screen)
 # include <sys/time.h>
 void	ft_edit_img(t_ptr *ptr)
 {
-	ft_create_plan_sprite(ptr);
 	// gettimeofday();
 	mlx_sync(MLX_SYNC_WIN_CMD_COMPLETED, ptr->mlx.window);
 	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, ptr->screen.ptr);

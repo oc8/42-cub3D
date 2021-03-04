@@ -1,8 +1,8 @@
 
-NO textures/snk/mur1.xpm
-SO  textures/snk/mur2.xpm
+NO ./textures/snk/mur1.xpm
+SO  ./textures/snk/mur2.xpm
 R 1280 720
-WE textures/snk/mur2.xpm
+                                 WE ./textures/snk/mur2.xpm
 EA textures/snk/mur1.xpm
 
 #S         textures/Rick_Sanchez.xpm
@@ -110,6 +110,9 @@ C 225,30,0
 #1000000000000000000000000000000000000000000000000000000000000000000001
 #1000000000000000000000000000000000000000000000000000000000000000000001
 #1111111111111111111111111111111111111111111111111111111111111111111111
+
+
+                  110000000
 
 111111111
 100000001

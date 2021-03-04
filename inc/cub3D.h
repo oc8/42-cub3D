@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/04 16:49:43 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/04 18:27:30 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,7 @@ unsigned int				ft_ray(t_ptr *ptr, t_c dir);
 
 void			*ft_check_calloc(t_ptr *ptr, size_t nbr, size_t size);
 int				create_trgb(int t, int r, int g, int b);
+int		ft_in_map(t_ptr *ptr, t_i coordinate);
 
 void			ft_create_plans_x(t_ptr *ptr);
 

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/04 17:42:09 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/04 17:55:15 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,10 @@ static t_dist	ft_ray_axe(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *axe
 	dist.flag = 0;
 	return (dist);
 }
+static unsigned int	ft_smallest_distance()
+{
+	return (0);
+}
 
 unsigned int		ft_ray(t_ptr *ptr, t_c dir)
 {
@@ -130,7 +134,7 @@ unsigned int		ft_ray(t_ptr *ptr, t_c dir)
 		dist_x = ft_ray_axe(ptr, ptr->pars->plans_ea, dir, &pixel_x, &axe);
 	else if (dir.x < 0)
 		dist_x = ft_ray_axe(ptr, ptr->pars->plans_we, dir, &pixel_x, &axe);
-
+	ft_smallest_distance();
 	if (dist_x.flag && dist_y.flag)
 	{
 		if (dist_x.t < dist_y.t)
