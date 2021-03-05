@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 16:22:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/01 13:40:39 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/05 11:50:36 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "cub3D.h"
 
 static void	ft_add_sprite_y(t_ptr *ptr, t_p *plan, int y)
 {

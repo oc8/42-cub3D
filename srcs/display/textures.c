@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 14:54:11 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/04 16:50:32 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/05 11:50:36 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "cub3D.h"
 
 int	ft_wall_texture(t_c pixel, t_img img, char axe)
 {

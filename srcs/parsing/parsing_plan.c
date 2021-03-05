@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:58:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/03 12:18:03 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/05 11:50:36 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "cub3D.h"
 
 t_p		ft_new_plan(char x_y, int c)
 {

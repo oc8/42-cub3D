@@ -22,18 +22,18 @@ parsing/parsing_plan_y.o \
 display/edit_screen.o \
 display/raycasting.o \
 display/sprite.o \
-utils.o \
-utils_malloc.o \
-close.o \
-action.o \
 display/mlx.o \
-display/textures.o
+display/textures.o \
+utils/utils.o \
+move/key.o \
+move/move.o \
+close.o
 LSRCS		= ${SRCS:.o=.c}
-INCLUDES	= inc/cub3D.h
+INCLUDES	= ./inc/cub3D.h
 CC			= clang
 RM			= rm -rf
-FLAGS		= -Wall -Wextra -Werror #  -g3 -fsanitize=address
-CFLAGS		= -I./includes -I./libft/ -I./minilibx -I./mlx
+FLAGS		= -Wall -Wextra -Werror -o3#  -g3 -fsanitize=address
+CFLAGS		= -I./inc -I./libft/ -I./minilibx -I./mlx
 AR			= ar
 ARFLAGS		= rcs
 PATH_SRCS	= srcs
@@ -55,14 +55,14 @@ compilation	:
 			printf "$(ERASE)$(GREEN)⤖ $(CYAN)mlx : $(GREEN)ok$(END)\n"
 
 $(PATH_OBJS)/%.o:		$(PATH_SRCS)/%.c $(INCLUDES)
-			@mkdir -p $(PATH_OBJS) $(PATH_OBJS)/parsing $(PATH_OBJS)/display
+			@mkdir -p $(PATH_OBJS) $(PATH_OBJS)/parsing $(PATH_OBJS)/display $(PATH_OBJS)/utils $(PATH_OBJS)/move
 			@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
 			@printf "$(ERASE)$(CYAN)⤖ $(NAME) : $(RED)[$<]"
 
 all:		$(NAME)
 
 clean:		
-			$(RM) $(PATH_OBJS) $(BONUS)
+			$(RM) $(PATH_OBJS)
 			printf "$(ERASE)$(GREEN)⤖ $(CYAN)$(NAME) : $(GREEN)clean$(END)\n"
 			make fclean -C ./Libft/
 

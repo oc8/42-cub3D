@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/04 18:22:34 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/05 17:55:22 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "cub3D.h"
 
 /*
 ** fontion matrice
@@ -41,20 +41,34 @@ void	*ft_put_pixels(void *work)
 	int 	x;
 	int		y;
 	unsigned int	*screen;
+	unsigned int	color;
 
 	wptr = (t_thread*)work;
 	ptr = (t_ptr*)wptr->ptr;
 	thread_nb = wptr->id;
-
-
 	screen = ptr->screen.pixels;
 	y = (ptr->mlx.height * 0.25) * thread_nb;
 	while (y < (ptr->mlx.height * 0.25) * (thread_nb + 1))
 	{
-		x = -1;
-		while (++x < ptr->mlx.width)
-			screen[y * (int)(ptr->screen.s_l * 0.25) + x] = ft_ray(ptr, ft_rotation(ptr->dir[y * ptr->mlx.width + x], &ptr->agl, ptr));
-		y++;
+		x = 0;
+		while (x < ptr->mlx.width)
+		{
+			color = ft_ray(ptr, ft_rotation(ptr->dir[y * ptr->mlx.width + x], &ptr->agl, ptr));
+			screen[y * (int)(ptr->screen.s_l * 0.25) + x] = color;
+			screen[y * (int)(ptr->screen.s_l * 0.25) + (x + 1)] = color;
+			screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) + x] = color;
+			screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) + (x + 1)] = color;
+			x += 2;
+		}
+		y += 2;
+
+		// while (x < ptr->mlx.width)
+		// {
+		// 	color = ft_ray(ptr, ft_rotation(ptr->dir[y * ptr->mlx.width + x], &ptr->agl, ptr));
+		// 	screen[y * (int)(ptr->screen.s_l * 0.25) + x] = color;
+		// 	x++;
+		// }
+		// y++;
 	}
 	return (ptr);
 }

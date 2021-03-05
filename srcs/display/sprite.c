@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/04 16:46:44 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/05 15:01:07 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "cub3D.h"
 
 void	ft_malloc_sprite(t_ptr *ptr) /////
 {
@@ -102,8 +102,10 @@ static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_c dir, float t, t_p_sprite *sp
 		i_map.x = (int)pixel->x;
 		i_map.y = (int)pixel->y;
 		// printf("x = %d\ny = %d\n\n", i_map.x, i_map.y);
-		if (i_map.x == sprite->index.x && i_map.y == sprite->index.y && (color = ft_sprite_texture(ptr, &ptr->sprite, pixel, sprite->index)))
+		if (i_map.x == sprite->index.x && i_map.y == sprite->index.y)
 		{
+			color = ft_sprite_texture(ptr, &ptr->sprite, pixel, sprite->index);
+			if (color)
 				return (color);
 		}
 	}

@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/03 12:30:29 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/05 14:56:29 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "cub3D.h"
 
 static int	ft_atoi_nbr(t_ptr *ptr, char *line, int *i)
 {
@@ -105,95 +105,103 @@ static int	ft_atoi_color(t_ptr *ptr, char *line, int *i)
 	return (create_trgb(1, r, g, b));
 }
 
-static int	ft_parsing_criteria(t_ptr *ptr, char *line)
+void	ft_pars_resolution(t_ptr *ptr, t_line line, int e_res)
+{
+	int		x;
+	int		y;
+	int		*i;
+
+	i = line.i_ptr;
+	if (ptr->epars & e_res)
+		ft_close(ptr, 3);
+	*i += 1;
+	if (line.ptr[*i] != ' ' && line.ptr[*i] != '\t')
+		ft_close(ptr, 3);
+	ptr->mlx.width = ft_atoi_nbr(ptr, line.ptr, i);
+	ptr->mlx.height = ft_atoi_nbr(ptr, line.ptr, i);
+	mlx_get_screen_size(ptr->mlx.ptr, &x, &y);
+	if (ptr->mlx.width > x)
+		ptr->mlx.width = x;
+	if (ptr->mlx.height > y)
+		ptr->mlx.height = y;
+	ptr->epars |= e_res;
+}
+
+void	ft_pars_path(t_ptr *ptr, t_line line, int e_wall)
+{
+	if (ptr->epars & e_wall)
+		ft_close(ptr, 3);
+	ptr->pars->path_no = ft_copy_str(ptr, line.ptr, line.i_ptr);
+	ptr->epars |= e_wall;
+}
+
+static int	ft_parsing_criteria(t_ptr *ptr, t_line line)
 {
 	int		i;
 
-	i = ft_skip_spaces(line, 0);
-	if (!line[i])
+	i = ft_skip_spaces(line.ptr, 0);
+	line.i_ptr = &i;
+	if (!line.ptr[i])
 		return (0);
-	if (line[i] == '1' || line[i] == '0' || line[i] == '2')
+	if (line.ptr[i] == '1' || line.ptr[i] == '0' || line.ptr[i] == '2')
 		return (1);
-	if (line[i] == '#')
+	if (line.ptr[i] == '#')
 		return (0);
-	else if (line[i] == 'R')
-	{
-		if (ptr->epars & e_R)
-			ft_close(ptr, 3);
-		i++;
-		if (line[i] != ' ' && line[i] != '\t')
-			ft_close(ptr, 3);
-		ptr->mlx.width = ft_atoi_nbr(ptr, line, &i);
-		ptr->mlx.height = ft_atoi_nbr(ptr, line, &i);
-		// if (ptr->mlx.width < 1 || ptr->mlx.height < 1)
-		// 	ft_close(ptr, 3);
-		int		x;
-		int		y;
-		mlx_get_screen_size(ptr->mlx.ptr, &x, &y);
-		if (ptr->mlx.width > x)
-			ptr->mlx.width = x;
-		if (ptr->mlx.height > y)
-			ptr->mlx.height = y;
-		ptr->epars |= e_R;
-	}
-	else if (line[i] == 'N' && line[i + 1] == 'O')
-	{
-		if (ptr->epars & e_NO)
-			ft_close(ptr, 3);
-		ptr->pars->path_no = ft_copy_str(ptr, line, &i);
-		ptr->epars |= e_NO;
-	}
-	else if (line[i] == 'S' && line[i + 1] == 'O')
+	else if (line.ptr[i] == 'R')
+		ft_pars_resolution(ptr, line, e_R);
+	else if (line.ptr[i] == 'N' && line.ptr[i + 1] == 'O')
+		ft_pars_path(ptr, line, e_NO);
+	else if (line.ptr[i] == 'S' && line.ptr[i + 1] == 'O')
 	{
 		if (ptr->epars & e_SO)
 			ft_close(ptr, 3);
-		ptr->pars->path_so = ft_copy_str(ptr, line, &i);
+		ptr->pars->path_so = ft_copy_str(ptr, line.ptr, &i);
 		ptr->epars |= e_SO;
 	}
-	else if (line[i] == 'W' && line[i + 1] == 'E')
+	else if (line.ptr[i] == 'W' && line.ptr[i + 1] == 'E')
 	{
 		if (ptr->epars & e_WE)
 			ft_close(ptr, 3);
-		ptr->pars->path_we = ft_copy_str(ptr, line, &i);
+		ptr->pars->path_we = ft_copy_str(ptr, line.ptr, &i);
 		ptr->epars |= e_WE;
 	}
-	else if (line[i] == 'E' && line[i + 1] == 'A')
+	else if (line.ptr[i] == 'E' && line.ptr[i + 1] == 'A')
 	{
 		if (ptr->epars & e_EA)
 			ft_close(ptr, 3);
-		ptr->pars->path_ea = ft_copy_str(ptr, line, &i);
+		ptr->pars->path_ea = ft_copy_str(ptr, line.ptr, &i);
 		ptr->epars |= e_EA;
 	}
-	else if (line[i] == 'S')
+	else if (line.ptr[i] == 'S')
 	{
 		if (ptr->epars & e_S)
 			ft_close(ptr, 3);
 		i--;
-		ptr->pars->path_sprite = ft_copy_str(ptr, line, &i);
+		ptr->pars->path_sprite = ft_copy_str(ptr, line.ptr, &i);
 		ptr->epars |= e_S;
 	}
-	else if (line[i] == 'F')
+	else if (line.ptr[i] == 'F')
 	{
 		if (ptr->epars & e_F)
 			ft_close(ptr, 3);
 		i++;
-		if (line[i] != ' ' && line[i] != '\t')
+		if (line.ptr[i] != ' ' && line.ptr[i] != '\t')
 			ft_close(ptr, 3);
-		ptr->pars->col_floor = ft_atoi_color(ptr, line, &i);
+		ptr->pars->col_floor = ft_atoi_color(ptr, line.ptr, &i);
 		ptr->epars |= e_F;
 	}
-	else if (line[i] == 'C')
+	else if (line.ptr[i] == 'C')
 	{
 		if (ptr->epars & e_C)
 			ft_close(ptr, 3);
 		i++;
-		if (line[i] != ' ' && line[i] != '\t')
+		if (line.ptr[i] != ' ' && line.ptr[i] != '\t')
 			ft_close(ptr, 3);
-		ptr->pars->col_sky = ft_atoi_color(ptr, line, &i);
+		ptr->pars->col_sky = ft_atoi_color(ptr, line.ptr, &i);
 		ptr->epars |= e_C;
 	}
-	i = ft_skip_spaces(line, i);
-	if (line[i])
+	i = ft_skip_spaces(line.ptr, i);
+	if (line.ptr[i])
 		ft_close(ptr, 3);
 	return (0);
 }
@@ -201,8 +209,7 @@ static int	ft_parsing_criteria(t_ptr *ptr, char *line)
 int		ft_parsing(char *path, t_ptr *ptr)
 {
 	int		fd;
-	char	*line;
-	int		i;
+	t_line	line;
 	int		vr;
 	char	flag;
 	t_i		first_pos;
@@ -211,26 +218,30 @@ int		ft_parsing(char *path, t_ptr *ptr)
 	if (ft_malloc_map(ptr, path) == -1)
 		return (-1);
 	fd = open(path, O_RDONLY);
-	i = 0;
+	line.i = 0;
 	vr = 1;
 	while (vr)
 	{
-		vr = get_next_line(fd, &line);
+		vr = get_next_line(fd, &line.ptr);
 		if (vr == -1)
 			ft_close(ptr, 2);
+		
 		if (flag && ft_parsing_criteria(ptr, line))
 				flag = 0;
-		if (!flag) 
-			ft_parsing_map(ptr, line, i++, &first_pos);
+		if (!flag)
+		{
+			ft_parsing_map(ptr, line.ptr, line.i++, &first_pos);
+			// *line.i += 1;
+		}
 	}
 
 	printf("\n");
-	i = -1; //////
-	while (++i < ptr->pars->nbr_map.y) //////
+	line.i = -1; //////
+	while (++line.i < ptr->pars->nbr_map.y) //////
 	{
 		int j = -1;
 		while (++j < ptr->pars->nbr_map.x)
-			printf("%c", ptr->pars->map[i][j]); //////
+			printf("%c", ptr->pars->map[line.i][j]); //////
 		printf("\n");
 	}
 	printf("\n");

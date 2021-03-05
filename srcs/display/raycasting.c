@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/04 17:55:15 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/05 18:11:58 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "cub3D.h"
 
 static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_c dir, t_p *p, float t, char axe)
 {
@@ -102,10 +102,31 @@ static t_dist	ft_ray_axe(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *axe
 	dist.flag = 0;
 	return (dist);
 }
-static unsigned int	ft_smallest_distance()
+
+int		ft_witch_texture_x(t_ptr *ptr, t_c pixel, t_c dir, t_dist dist)
 {
-	return (0);
+	if (dist.flag == 's')
+		return (dist.color_sprite);
+	if (dir.x < 0)
+		return (ft_wall_texture(pixel, ptr->we, 'x'));
+	else
+		return (ft_wall_texture(pixel, ptr->ea, 'x'));
 }
+
+int		ft_witch_texture_y(t_ptr *ptr, t_c pixel, t_c dir, t_dist dist)
+{
+	if (dist.flag == 's')
+		return (dist.color_sprite);
+	if (dir.y < 0)
+		return (ft_wall_texture(pixel, ptr->no, 'y'));
+	else
+		return (ft_wall_texture(pixel, ptr->so, 'y'));
+}
+
+// static unsigned int	ft_smallest_distance(t_ptr *ptr)
+// {
+// 	return (0);
+// }
 
 unsigned int		ft_ray(t_ptr *ptr, t_c dir)
 {
@@ -134,46 +155,18 @@ unsigned int		ft_ray(t_ptr *ptr, t_c dir)
 		dist_x = ft_ray_axe(ptr, ptr->pars->plans_ea, dir, &pixel_x, &axe);
 	else if (dir.x < 0)
 		dist_x = ft_ray_axe(ptr, ptr->pars->plans_we, dir, &pixel_x, &axe);
-	ft_smallest_distance();
+	// ft_smallest_distance(ptr);
 	if (dist_x.flag && dist_y.flag)
 	{
 		if (dist_x.t < dist_y.t)
-		{
-			if (dist_x.flag == 's')
-				return (dist_x.color_sprite);
-			if (dir.x < 0)
-				return (ft_wall_texture(pixel_x, ptr->we, 'x'));
-			else
-				return (ft_wall_texture(pixel_x, ptr->ea, 'x'));
-		}
+			return (ft_witch_texture_x(ptr, pixel_x, dir, dist_x));
 		else // if (dist_y < dist_x.t)
-		{
-			if (dist_y.flag == 's')
-				return (dist_y.color_sprite);
-			if (dir.y < 0)
-				return (ft_wall_texture(pixel_y, ptr->no, 'y'));
-			else
-				return (ft_wall_texture(pixel_y, ptr->so, 'y'));
-		}
+			return (ft_witch_texture_y(ptr, pixel_y, dir, dist_y));
 	}
 	else if (dist_y.flag)
-	{
-		if (dist_y.flag == 's')
-			return (dist_y.color_sprite);
-		if (dir.y < 0)
-			return (ft_wall_texture(pixel_y, ptr->no, 'y'));
-		else
-			return (ft_wall_texture(pixel_y, ptr->so, 'y'));
-	}
+		return (ft_witch_texture_y(ptr, pixel_y, dir, dist_y));
 	else if (dist_x.flag)
-	{
-		if (dist_x.flag == 's')
-			return (dist_x.color_sprite);
-		if (dir.x < 0)
-			return (ft_wall_texture(pixel_x, ptr->we, 'x'));
-		else
-			return (ft_wall_texture(pixel_x, ptr->ea, 'x'));
-	}
+		return (ft_witch_texture_x(ptr, pixel_x, dir, dist_x));
 	if ((dist_x.t = - (ptr->pos.z) / dir.z) > 0)
 	{
 		pixel_x.x = ptr->pos.x + dir.x * dist_x.t;

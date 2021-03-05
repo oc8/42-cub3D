@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/02 16:17:17 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/05 11:50:36 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "cub3D.h"
 
 int		ft_check_map(t_ptr *ptr, char **map, int i, int j)
 {
