@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/05 14:08:02 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/07 18:45:54 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ int		ft_check_args(int argc, char *argv[])
 	i = ft_strlen(argv[1]);
 	str = ".cub";
 	if (i < 4)
-	{
 		return (ft_error_arg(2));
-	}
 	j = 4;
 	while (j)
 		if (argv[1][--i] != str[--j])
@@ -69,7 +67,8 @@ void	ft_ray_screen(t_ptr *ptr)
 	fov = 100 * (M_PI / 180);
 	fov_x = 2 * tan(fov / 2);
 	fov_y = 2 * tan(fov * ptr->mlx.height / ptr->mlx.width * 0.5);
-	ptr->dir = ft_check_calloc(ptr, ptr->mlx.height * ptr->mlx.width, sizeof(t_c));
+	ptr->dir = ft_calloc_lst(ptr, ptr->mlx.height * ptr->mlx.width, \
+			sizeof(t_c));
 	y = -1;
 	while (++y < ptr->mlx.height)
 	{
@@ -79,7 +78,7 @@ void	ft_ray_screen(t_ptr *ptr)
 			ptr->dir[y * ptr->mlx.width + x].x = fov_x / ptr->mlx.width * \
 				(x - ptr->mlx.width * 0.5);
 			ptr->dir[y * ptr->mlx.width + x].y = -1;
-			ptr->dir[y * ptr->mlx.width + x].z = - fov_y / ptr->mlx.height * \
+			ptr->dir[y * ptr->mlx.width + x].z = -fov_y / ptr->mlx.height * \
 				(y - ptr->mlx.height * 0.5);
 		}
 	}
@@ -92,10 +91,7 @@ int		main(int argc, char *argv[])
 	if (ft_check_args(argc, argv))
 		return (1);
 	if (!(ptr = ft_calloc(1, sizeof(t_ptr))))
-	{
-		printf("malloc error\n");
 		return (-1);
-	}
 	if (!(ptr->pars = ft_calloc(1, sizeof(t_pars))))
 	{
 		free(ptr);
@@ -107,10 +103,9 @@ int		main(int argc, char *argv[])
 	ft_parsing(argv[1], ptr);
 	ft_mlx_init(ptr);
 	ft_ray_screen(ptr);
-	ptr->rs_plans_x = ft_check_calloc(ptr, ptr->pars->nbr_map.x, sizeof(float));
-	ptr->rs_plans_y = ft_check_calloc(ptr, ptr->pars->nbr_map.y, sizeof(float));
+	ptr->rs_plans_x = ft_calloc_lst(ptr, ptr->pars->nbr_map.x, sizeof(float));
+	ptr->rs_plans_y = ft_calloc_lst(ptr, ptr->pars->nbr_map.y, sizeof(float));
 	ft_edit_img(ptr);
-	mlx_put_image_to_window(ptr->mlx.ptr, ptr->mlx.window, ptr->screen.ptr, 0, 0);
 	mlx_loop_hook(ptr->mlx.ptr, ft_loop, ptr);
 	mlx_loop(ptr->mlx.ptr);
 	return (0);

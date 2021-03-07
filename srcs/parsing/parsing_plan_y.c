@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 16:22:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/05 11:50:36 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/07 17:00:08 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static void	ft_add_sprite_y(t_ptr *ptr, t_p *plan, int y)
+static void	ft_add_sprite_y(t_ptr *ptr, t_plan *plan, int y)
 {
 	int		x;
 	int		j;
@@ -22,7 +22,7 @@ static void	ft_add_sprite_y(t_ptr *ptr, t_p *plan, int y)
 	while (++x < ptr->pars->nbr_map.x)
 		if (ptr->pars->map[y][x] == 2)
 			j++;
-	plan->sprite = ft_check_calloc(ptr, j, sizeof(t_p*));
+	plan->sprite = ft_calloc_lst(ptr, j, sizeof(t_plan*));
 	j = -1;
 	x = -1;
 	while (++x < ptr->pars->nbr_map.x)
@@ -58,8 +58,8 @@ void		ft_create_plans_y(t_ptr *ptr)
 	int	y;
 	int	i;
 
-	ptr->pars->plans_no = ft_check_calloc(ptr, ptr->pars->nbr_map.y, sizeof(t_p));
-	ptr->pars->plans_so = ft_check_calloc(ptr, ptr->pars->nbr_map.y, sizeof(t_p));
+	ptr->pars->plans_no = ft_calloc_lst(ptr, ptr->pars->nbr_map.y, sizeof(t_plan));
+	ptr->pars->plans_so = ft_calloc_lst(ptr, ptr->pars->nbr_map.y, sizeof(t_plan));
 	i = 0;
 	y = 0;
 	ptr->pars->plans_no[i].d = 0;

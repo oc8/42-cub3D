@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/05 14:56:29 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/07 18:28:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*ft_copy_str(t_ptr *ptr, char *line, int *i)
 	}
 	if (!j)
 		ft_close(ptr, 3);
-	rs = ft_check_calloc(ptr, j + 1, sizeof(char));
+	rs = ft_calloc_lst(ptr, j + 1, sizeof(char));
 	j = -1;
 	while (line[*i] && line[*i] != ' ' && line[*i] != '\t')
 	{
@@ -127,11 +127,11 @@ void	ft_pars_resolution(t_ptr *ptr, t_line line, int e_res)
 	ptr->epars |= e_res;
 }
 
-void	ft_pars_path(t_ptr *ptr, t_line line, int e_wall)
+void	ft_pars_path(t_ptr *ptr, t_line line, char **path, int e_wall)
 {
 	if (ptr->epars & e_wall)
 		ft_close(ptr, 3);
-	ptr->pars->path_no = ft_copy_str(ptr, line.ptr, line.i_ptr);
+	*path = ft_copy_str(ptr, line.ptr, line.i_ptr);
 	ptr->epars |= e_wall;
 }
 
@@ -150,28 +150,13 @@ static int	ft_parsing_criteria(t_ptr *ptr, t_line line)
 	else if (line.ptr[i] == 'R')
 		ft_pars_resolution(ptr, line, e_R);
 	else if (line.ptr[i] == 'N' && line.ptr[i + 1] == 'O')
-		ft_pars_path(ptr, line, e_NO);
+		ft_pars_path(ptr, line, &ptr->pars->path_no, e_NO);
 	else if (line.ptr[i] == 'S' && line.ptr[i + 1] == 'O')
-	{
-		if (ptr->epars & e_SO)
-			ft_close(ptr, 3);
-		ptr->pars->path_so = ft_copy_str(ptr, line.ptr, &i);
-		ptr->epars |= e_SO;
-	}
+		ft_pars_path(ptr, line, &ptr->pars->path_so, e_SO);
 	else if (line.ptr[i] == 'W' && line.ptr[i + 1] == 'E')
-	{
-		if (ptr->epars & e_WE)
-			ft_close(ptr, 3);
-		ptr->pars->path_we = ft_copy_str(ptr, line.ptr, &i);
-		ptr->epars |= e_WE;
-	}
+		ft_pars_path(ptr, line, &ptr->pars->path_we, e_WE);
 	else if (line.ptr[i] == 'E' && line.ptr[i + 1] == 'A')
-	{
-		if (ptr->epars & e_EA)
-			ft_close(ptr, 3);
-		ptr->pars->path_ea = ft_copy_str(ptr, line.ptr, &i);
-		ptr->epars |= e_EA;
-	}
+		ft_pars_path(ptr, line, &ptr->pars->path_ea, e_EA);
 	else if (line.ptr[i] == 'S')
 	{
 		if (ptr->epars & e_S)

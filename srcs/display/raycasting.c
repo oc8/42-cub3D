@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/05 18:11:58 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/07 17:21:33 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_c dir, t_p *p, float t, char axe)
+static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_vector dir, t_plan *p, float t, char axe)
 {
 	t_i			i_map;
 
@@ -46,7 +46,7 @@ static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_c dir, t_p *p, float t, char axe
 	return (0);
 }
 
-static float	ft_ray_wall(t_ptr *ptr, t_p *p, t_c *pixel, t_c dir, float rs_p, t_axe *axe)
+static float	ft_ray_wall(t_ptr *ptr, t_plan *p, t_c *pixel, t_vector dir, float rs_p, t_axe *axe)
 {
 	float		rs_dir;
 	float		t;
@@ -64,7 +64,7 @@ static float	ft_ray_wall(t_ptr *ptr, t_p *p, t_c *pixel, t_c dir, float rs_p, t_
 	return (0);
 }
 
-static t_dist	ft_ray_axe(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *axe)
+static t_dist	ft_ray_axe(t_ptr *ptr, t_plan *plans, t_vector dir, t_c *pixel, t_axe *axe)
 {
 	t_dist		dist;
 	int			i;
@@ -103,7 +103,7 @@ static t_dist	ft_ray_axe(t_ptr *ptr, t_p *plans, t_c dir, t_c *pixel, t_axe *axe
 	return (dist);
 }
 
-int		ft_witch_texture_x(t_ptr *ptr, t_c pixel, t_c dir, t_dist dist)
+int		ft_witch_texture_x(t_ptr *ptr, t_c pixel, t_vector dir, t_dist dist)
 {
 	if (dist.flag == 's')
 		return (dist.color_sprite);
@@ -113,7 +113,7 @@ int		ft_witch_texture_x(t_ptr *ptr, t_c pixel, t_c dir, t_dist dist)
 		return (ft_wall_texture(pixel, ptr->ea, 'x'));
 }
 
-int		ft_witch_texture_y(t_ptr *ptr, t_c pixel, t_c dir, t_dist dist)
+int		ft_witch_texture_y(t_ptr *ptr, t_c pixel, t_vector dir, t_dist dist)
 {
 	if (dist.flag == 's')
 		return (dist.color_sprite);
@@ -128,7 +128,7 @@ int		ft_witch_texture_y(t_ptr *ptr, t_c pixel, t_c dir, t_dist dist)
 // 	return (0);
 // }
 
-unsigned int		ft_ray(t_ptr *ptr, t_c dir)
+unsigned int		ft_ray(t_ptr *ptr, t_vector dir)
 {
 	t_dist	dist_x;
 	t_dist	dist_y;

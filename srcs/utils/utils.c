@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 15:37:28 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/05 17:54:16 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/07 18:07:53 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,17 @@
 
 int		create_trgb(int t, int r, int g, int b)
 {
-	return(t << 24 | r << 16 | g << 8 | b);
+	return (t << 24 | r << 16 | g << 8 | b);
 }
 
 int		ft_in_map(t_ptr *ptr, t_i coordinate)
 {
+	t_i	nbr_map;
+
+	nbr_map = ptr->pars->nbr_map;
 	if (coordinate.x < 0 || coordinate.y < 0)
 		return (0);
-	if (coordinate.x >= ptr->pars->nbr_map.x || coordinate.y >= ptr->pars->nbr_map.y)
+	if (coordinate.x >= nbr_map.x || coordinate.y >= nbr_map.y)
 		return (0);
 	return (1);
 }
@@ -48,7 +51,6 @@ void	ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), t_ptr *ptr)
 	*lst = 0;
 }
 
-
 void	ft_add_to_lst(t_ptr *ptr, void *add_ptr)
 {
 	t_list	*content;
@@ -64,7 +66,7 @@ void	ft_add_to_lst(t_ptr *ptr, void *add_ptr)
 	}
 }
 
-void	*ft_check_calloc(t_ptr *ptr, size_t nbr, size_t size)
+void	*ft_calloc_lst(t_ptr *ptr, size_t nbr, size_t size)
 {
 	void	*rs;
 	t_list	*content;

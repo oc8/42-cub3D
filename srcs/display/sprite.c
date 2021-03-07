@@ -6,29 +6,18 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/05 15:01:07 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/07 18:22:35 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	ft_malloc_sprite(t_ptr *ptr) /////
+static void	ft_init_index_sprite(t_ptr *ptr)
 {
-	int		y;
-	int		x;
-	int		i;
-
-	y = -1;
-	while (++y < ptr->pars->nbr_map.y)
-	{
-		x = -1;
-		while (++x < ptr->pars->nbr_map.x)
-			if (ptr->pars->map[y][x] == 2)
-				ptr->pars->nbr_sprite += 1;
-	}
-	ptr->pars->plans_sprite = ft_check_calloc(ptr, ptr->pars->nbr_sprite, sizeof(t_p_sprite));
-	
-	t_p_sprite	*p;
+	int			y;
+	int			x;
+	int			i;
+	t_sprite	*p;
 
 	i = 0;
 	y = -1;
@@ -46,29 +35,43 @@ void	ft_malloc_sprite(t_ptr *ptr) /////
 	}
 }
 
-t_p_sprite	*ft_search_sprite(t_ptr *ptr, int y, int x)
+void	ft_malloc_sprite(t_ptr *ptr)
+{
+	int		y;
+	int		x;
+	int		nbr;
+
+	nbr = ptr->pars->nbr_sprite;
+	y = -1;
+	while (++y < ptr->pars->nbr_map.y)
+	{
+		x = -1;
+		while (++x < ptr->pars->nbr_map.x)
+			if (ptr->pars->map[y][x] == 2)
+				nbr += 1;
+	}
+	ptr->pars->plans_sprite = ft_calloc_lst(ptr, nbr, sizeof(t_sprite));
+	ptr->pars->nbr_sprite = nbr;
+	ft_init_index_sprite(ptr);
+}
+
+t_sprite	*ft_search_sprite(t_ptr *ptr, int y, int x)
 {
 	int		i;
 
 	i = 0;
-	while (/*i < ptr->pars->nbr_sprite && */!(ptr->pars->plans_sprite[i].index.x == x && ptr->pars->plans_sprite[i].index.y == y))
+	while (i < ptr->pars->nbr_sprite && !(ptr->pars->plans_sprite[i].index.x \
+		== x && ptr->pars->plans_sprite[i].index.y == y))
 		i++;
 	return (&ptr->pars->plans_sprite[i]);
 }
-
-// int		ft_texture_sprite(t_ptr *ptr, t_c pixel)
-// {
-// 	(void)ptr;
-// 	(void)pixel;
-// 	return (0);
-// }
 
 void	ft_create_plan_sprite(t_ptr *ptr)
 {
 	int		y;
 	int		x;
 	int		i;
-	t_p_sprite	*p;
+	t_sprite	*p;
 
 	i = 0;
 	y = -1;
@@ -82,14 +85,14 @@ void	ft_create_plan_sprite(t_ptr *ptr)
 				p[i].a = (x + 0.5) - ptr->pos.x;
 				p[i].b = (y + 0.5) - ptr->pos.y;
 				p[i].c = 0;
-				p[i].d = - p[i].a * (x + 0.5) - p[i].b * (y + 0.5) - p[i].c * 0.5;
+				p[i].d = -p[i].a * (x + 0.5) - p[i].b * (y + 0.5) - p[i].c * 0.5;
 				i++;
 				// printf("\t\t\t\t\t%d\n", ptr->pars->plans_sprite[i].index.y);
 			}
 	}
 }
 
-static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_c dir, float t, t_p_sprite *sprite)
+static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_vector dir, float t, t_sprite *sprite)
 {
 	t_i			i_map;
 	int			color;
@@ -112,23 +115,22 @@ static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_c dir, float t, t_p_sprite *sp
 	return (0);
 }
 
-int		ft_ray_sprite(t_ptr *ptr, t_c dir, t_c *pixel, t_p *plan, t_dist *dist)
+int		ft_ray_sprite(t_ptr *ptr, t_vector dir, t_c *pixel, t_plan *plan, t_dist *dist)
 {
-	t_p_sprite		**p;
+	t_sprite		*p;
 	float			rs_dir;
 	float			t;
 	unsigned int	i;
 
-	p = plan->sprite;
 	i = -1;
 	while (++i < plan->nbr)
 	{
-		rs_dir = p[i]->a * dir.x + p[i]->b * dir.y + p[i]->c * dir.z;
+		p = plan->sprite[i];
+		rs_dir = p->a * dir.x + p->b * dir.y + p->c * dir.z;
 		if (rs_dir)
 		{
-			t = - (p[i]->a * ptr->pos.x + p[i]->b * ptr->pos.y + p[i]->c * ptr->pos.z + p[i]->d) / rs_dir;
-			// printf("t = %f\n", t);
-			if (t > 0 && (dist->color_sprite = ft_is_sprite(ptr, pixel, dir, t, p[i])))
+			t = -(p->a * ptr->pos.x + p->b * ptr->pos.y + p->c * ptr->pos.z + p->d) / rs_dir;
+			if (t > 0 && (dist->color_sprite = ft_is_sprite(ptr, pixel, dir, t, p)))
 			{
 				return (t);
 			}

@@ -32,7 +32,7 @@ LSRCS		= ${SRCS:.o=.c}
 INCLUDES	= ./inc/cub3D.h
 CC			= clang
 RM			= rm -rf
-FLAGS		= -Wall -Wextra -Werror -o3#  -g3 -fsanitize=address
+FLAGS		= -Wall -Wextra -Werror -Ofast#  -g3 -fsanitize=address
 CFLAGS		= -I./inc -I./libft/ -I./minilibx -I./mlx
 AR			= ar
 ARFLAGS		= rcs

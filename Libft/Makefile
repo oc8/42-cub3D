@@ -6,7 +6,7 @@
 #    By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 17:35:36 by odroz-ba          #+#    #+#              #
-#    Updated: 2021/03/02 15:58:48 by odroz-ba         ###   ########lyon.fr    #
+#    Updated: 2021/03/07 18:40:55 by odroz-ba         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,7 @@ INCLUDES	= libft.h
 NAME		= libft.a
 CC			= gcc
 RM			= rm -f
-CFLAGS		= -Wall -Wextra -Werror -I .
+CFLAGS		= -Wall -Wextra -Werror -Ofast -I .
 AR			= ar
 ARFLAGS		= rcs
 
