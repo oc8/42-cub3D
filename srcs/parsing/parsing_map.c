@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/07 16:57:01 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/08 18:12:26 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int		ft_malloc_map(t_ptr *ptr, char *path)
 		vr = get_next_line(fd, &line);
 		if (vr == -1)
 		{
+			free(line);
 			printf("error GNL\n");
 			ft_close(ptr, 2);
 		}
@@ -77,6 +78,7 @@ int		ft_malloc_map(t_ptr *ptr, char *path)
 				size_line_max = size_line;
 			count_line++;
 		}
+		free(line);
 	}
 	if (size_line_max != INT_MAX)
 	{

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/07 18:28:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/08 18:13:55 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,8 +209,10 @@ int		ft_parsing(char *path, t_ptr *ptr)
 	{
 		vr = get_next_line(fd, &line.ptr);
 		if (vr == -1)
+		{
+			free(line.ptr);
 			ft_close(ptr, 2);
-		
+		}
 		if (flag && ft_parsing_criteria(ptr, line))
 				flag = 0;
 		if (!flag)
@@ -218,6 +220,7 @@ int		ft_parsing(char *path, t_ptr *ptr)
 			ft_parsing_map(ptr, line.ptr, line.i++, &first_pos);
 			// *line.i += 1;
 		}
+		free(line.ptr);
 	}
 
 	printf("\n");

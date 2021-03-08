@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/08 14:35:10 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/08 17:55:09 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,46 +33,42 @@ static t_vector	ft_rotation(t_vector dir, const t_agl *agl, t_ptr *ptr)
 	return (m_z);
 }
 
-void	*ft_put_pixels(void *work)
+static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen, int thread_nb)
 {
-	t_ptr			*ptr;
-	t_thread		*wptr;
-	int				thread_nb;
 	int				x;
 	int				y;
-	unsigned int	*screen;
 	unsigned int	color;
 
-	wptr = (t_thread*)work;
-	ptr = (t_ptr*)wptr->ptr;
-	thread_nb = wptr->id;
-	screen = ptr->screen.pixels;
 	y = (ptr->mlx.height * 0.25) * thread_nb;
-	while (y < (ptr->mlx.height * 0.25) * (thread_nb + 1))
+	while (y < (ptr->mlx.height * 0.25) * (thread_nb + 1) - 1)
 	{
 		x = 0;
-		while (x < ptr->mlx.width)
+		while (x < ptr->mlx.width - 1)
 		{
 			color = ft_ray(ptr, ft_rotation(ptr->dir[y * ptr->mlx.width + x], \
 				&ptr->agl, ptr));
 			screen[y * (int)(ptr->screen.s_l * 0.25) + x] = color;
-			if (x + 1 < ptr->mlx.width)
-				screen[y * (int)(ptr->screen.s_l * 0.25) + (x + 1)] = color;
-			if (y + 1 < (ptr->mlx.height * 0.25) * (thread_nb + 1))
-			{
-				if (x + 1 < ptr->mlx.width)
-					screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) + (x + 1)] \
-						= color;
-				screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) + x] = color;
-			}
+			screen[y * (int)(ptr->screen.s_l * 0.25) + (x + 1)] = color;
+			screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) + (x + 1)] = color;
+			screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) + x] = color;
 			x += 2;
 		}
 		y += 2;
 	}
+}
+
+void	*ft_thread(void *work)
+{
+	t_ptr			*ptr;
+	t_thread		*wptr;
+
+	wptr = (t_thread*)work;
+	ptr = (t_ptr*)wptr->ptr;
+	ft_put_pixels(ptr, ptr->screen.pixels, wptr->id);
 	return (ptr);
 }
 
-static void	ft_thread(t_ptr *ptr)
+static void	ft_threads(t_ptr *ptr)
 {
 	t_thread	thread[4];
 	int			i;
@@ -81,7 +77,7 @@ static void	ft_thread(t_ptr *ptr)
 	while (++i < 4)
 	{
 		thread[i] = (t_thread){ptr, i};
-		pthread_create(&ptr->thread[i], NULL, &ft_put_pixels, (void*)&thread[i]);
+		pthread_create(&ptr->thread[i], NULL, &ft_thread, (void*)&thread[i]);
 	}
 	pthread_join(ptr->thread[0], NULL);
 	pthread_join(ptr->thread[1], NULL);
@@ -89,17 +85,17 @@ static void	ft_thread(t_ptr *ptr)
 	pthread_join(ptr->thread[3], NULL);
 }
 
-static void	ft_before_calc_plans(t_ptr *ptr, float *rs, t_plan *plans_1, t_plan *plans_2, int nbr)
+static void	ft_before_calc_plans(t_ptr *ptr, float *rs, t_plan *p1, t_plan *p2, int nbr)
 {
 	int		i;
 
 	i = -1;
 	while (++i < nbr)
 	{
-		if (plans_1[i].d)
-			rs[i] = -(plans_1[i].a * ptr->pos.x + plans_1[i].b * ptr->pos.y + plans_1[i].c * ptr->pos.z + plans_1[i].d);
-		else if (plans_2[i].d)
-			rs[i] = -(plans_2[i].a * ptr->pos.x + plans_2[i].b * ptr->pos.y + plans_2[i].c * ptr->pos.z + plans_2[i].d);
+		if (p1[i].d)
+			rs[i] = -(p1[i].a * ptr->pos.x + p1[i].b * ptr->pos.y + p1[i].c * ptr->pos.z + p1[i].d);
+		else if (p2[i].d)
+			rs[i] = -(p2[i].a * ptr->pos.x + p2[i].b * ptr->pos.y + p2[i].c * ptr->pos.z + p2[i].d);
 	}
 }
 
@@ -118,7 +114,7 @@ static void	ft_before_calc(t_ptr *ptr, unsigned int *screen)
 	ft_before_calc_plans(ptr, ptr->rs_plans_x, ptr->pars->plans_ea, ptr->pars->plans_we, ptr->pars->nbr_map.x);
 }
 
-static struct timeval	ft_time_now(void)
+struct timeval	ft_time_now(void)
 {
 	struct timeval	time;
 
@@ -132,18 +128,25 @@ static float		ft_time_diff_ms(struct timeval t1, struct timeval t0)
 		/ 1000.0f);
 }
 
-struct timeval	ft_time(t_ptr *ptr)
+struct timeval	ft_time(t_ptr *ptr, char *str, int *count)
 {
 	struct timeval	time_now;
 	float			delta;
+	static int		time_fps = 0;
 
 	time_now = ft_time_now();
 	if (!ptr->time.tv_sec && !ptr->time.tv_usec)
 		return (time_now);
 	delta = ft_time_diff_ms(time_now, ptr->time) / 1000.0f;
-	printf("%f\n", delta);
+	if (ft_time_diff_ms(time_now, ptr->last_second) > 1000)
+	{
+		time_fps = *count;
+		*count = 0;
+		ptr->last_second = ft_time_now();
+	}
+	sprintf(str, "FPS : %i", time_fps);
 	if (ptr->key.maj)
-		ptr->speed = 5 * delta;
+		ptr->speed = 6 * delta;
 	else
 		ptr->speed = 3 * delta;
 	return (time_now);
@@ -151,12 +154,16 @@ struct timeval	ft_time(t_ptr *ptr)
 
 void	ft_edit_img(t_ptr *ptr)
 {
-	ptr->time = ft_time(ptr);
+	char			str[11];
+	static int		count_fps = 0;
+
+	ptr->time = ft_time(ptr, str, &count_fps);
 	mlx_sync(MLX_SYNC_WIN_CMD_COMPLETED, ptr->mlx.window);
 	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, ptr->screen.ptr);
 	ft_before_calc(ptr, ptr->screen.pixels);
-	ft_thread(ptr);
+	ft_threads(ptr);
 	mlx_put_image_to_window(ptr->mlx.ptr, ptr->mlx.window, ptr->screen.ptr, 0, 0);
-	// mlx_string_put(ptr->mlx.ptr, ptr->mlx.window, 40, 40, 0xffffff, "FPS");
+	mlx_string_put(ptr->mlx.ptr, ptr->mlx.window, 15, 20, 0xffffff, str);
 	mlx_sync(MLX_SYNC_WIN_FLUSH_CMD, ptr->mlx.window);
+	count_fps++;
 }

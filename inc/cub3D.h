@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/08 14:33:49 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/08 17:34:47 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,7 @@ typedef struct	s_ptr
 	float			*rs_plans_x;
 	float			*rs_plans_y;
 	struct timeval	time;
+	struct timeval	last_second;
 	// thread
 	// t_threads	threads;
 	int				thread_nb;
@@ -248,7 +249,8 @@ int				ft_malloc_map(t_ptr *ptr, char *path);
 int				ft_check_map(t_ptr *ptr, char **map, int i, int j);
 
 void			ft_edit_img(t_ptr *ptr);
-unsigned int				ft_ray(t_ptr *ptr, t_vector dir);
+unsigned int	ft_ray(t_ptr *ptr, t_vector dir);
+struct timeval	ft_time_now(void);
 
 void			*ft_calloc_lst(t_ptr *ptr, size_t nbr, size_t size);
 int				create_trgb(int t, int r, int g, int b);
