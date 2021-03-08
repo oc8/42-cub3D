@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 18:54:01 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/05 14:57:31 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/08 14:31:49 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int		ft_loop(t_ptr *ptr)
 	new_pos.x = ptr->pos.x;
 	new_pos.y = ptr->pos.y;
 	if (ptr->key.al)
-		ptr->agl_hor -= 0.2;
+		ptr->agl_hor -= ptr->speed;
 	if (ptr->key.ar)
-		ptr->agl_hor += 0.2;
+		ptr->agl_hor += ptr->speed;
 	if (ptr->key.w)
 	{
 		new_pos.x += sin(ptr->agl_hor) * ptr->speed;
@@ -73,9 +73,9 @@ int		ft_loop(t_ptr *ptr)
 		new_pos.y -= cos(ptr->agl_hor + M_PI_2) * ptr->speed;
 	}
 	if (ptr->key.ad)
-		ptr->agl_vrt += 0.1;
+		ptr->agl_vrt += 0.5 * ptr->speed;
 	if (ptr->key.au)
-		ptr->agl_vrt -= 0.1;
+		ptr->agl_vrt -= 0.5 * ptr->speed;
 	if (ptr->key.up)
 		ptr->pos.z += ptr->speed;
 	if (ptr->key.down)

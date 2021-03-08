@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/07 17:33:57 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/08 14:33:49 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,6 @@
 # include <pthread.h>
 
 # include <sys/time.h>
-
-// struct timeval
-// {
-// 	time_t		tv_sec;
-// 	suseconds_t	tv_usec;
-// };
 
 typedef struct	s_mlx
 {
@@ -94,6 +88,7 @@ typedef struct	s_key
 	char	down;
 	char	m;
 	char	ctrl;
+	char	maj;
 }				t_key;
 
 typedef struct	s_sprite
@@ -197,32 +192,33 @@ typedef struct	s_pars
 
 typedef struct	s_ptr
 {
-	t_pars		*pars;
-	float		speed;
-	float		agl_hor;
-	float		agl_vrt;
-	t_list		*malloc_lst;
-	t_list		*mlx_lst;
-	t_img		sky;
-	int			epars;
-	t_mlx		mlx;
-	t_img		screen;
-	t_img		we;
-	t_img		no;
-	t_img		so;
-	t_img		ea;
-	t_img		sprite;
-	t_c			pos;
-	t_vector	*dir;
-	t_key		key;
-	float		*rs_plans_x;
-	float		*rs_plans_y;
+	t_pars			*pars;
+	float			speed;
+	float			agl_hor;
+	float			agl_vrt;
+	t_list			*malloc_lst;
+	t_list			*mlx_lst;
+	t_img			sky;
+	int				epars;
+	t_mlx			mlx;
+	t_img			screen;
+	t_img			we;
+	t_img			no;
+	t_img			so;
+	t_img			ea;
+	t_img			sprite;
+	t_c				pos;
+	t_vector		*dir;
+	t_key			key;
+	float			*rs_plans_x;
+	float			*rs_plans_y;
+	struct timeval	time;
 	// thread
 	// t_threads	threads;
-	int		thread_nb;
-	pthread_t	thread[4];
-	int		nbr;
-	t_agl	agl;
+	int				thread_nb;
+	pthread_t		thread[4];
+	int				nbr;
+	t_agl			agl;
 }				t_ptr;
 
 typedef struct	s_thread

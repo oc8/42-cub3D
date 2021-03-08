@@ -1,7 +1,7 @@
 
 NO ./textures/snk/mur1.xpm
 SO  ./textures/snk/mur2.xpm
-R 10000 100000
+R 10000 10000
                                  WE ./textures/snk/mur2.xpm
 EA textures/snk/mur1.xpm
 

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/07 18:51:58 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/08 14:35:10 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,15 @@ void	*ft_put_pixels(void *work)
 			color = ft_ray(ptr, ft_rotation(ptr->dir[y * ptr->mlx.width + x], \
 				&ptr->agl, ptr));
 			screen[y * (int)(ptr->screen.s_l * 0.25) + x] = color;
-			screen[y * (int)(ptr->screen.s_l * 0.25) + (x + 1)] = color;
-			screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) + x] = color;
-			screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) + (x + 1)] = color;
+			if (x + 1 < ptr->mlx.width)
+				screen[y * (int)(ptr->screen.s_l * 0.25) + (x + 1)] = color;
+			if (y + 1 < (ptr->mlx.height * 0.25) * (thread_nb + 1))
+			{
+				if (x + 1 < ptr->mlx.width)
+					screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) + (x + 1)] \
+						= color;
+				screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) + x] = color;
+			}
 			x += 2;
 		}
 		y += 2;
@@ -112,11 +118,40 @@ static void	ft_before_calc(t_ptr *ptr, unsigned int *screen)
 	ft_before_calc_plans(ptr, ptr->rs_plans_x, ptr->pars->plans_ea, ptr->pars->plans_we, ptr->pars->nbr_map.x);
 }
 
+static struct timeval	ft_time_now(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, 0);
+	return (time);
+}
+
+static float		ft_time_diff_ms(struct timeval t1, struct timeval t0)
+{
+	return ((t1.tv_sec - t0.tv_sec) * 1000.0f + (t1.tv_usec - t0.tv_usec) \
+		/ 1000.0f);
+}
+
+struct timeval	ft_time(t_ptr *ptr)
+{
+	struct timeval	time_now;
+	float			delta;
+
+	time_now = ft_time_now();
+	if (!ptr->time.tv_sec && !ptr->time.tv_usec)
+		return (time_now);
+	delta = ft_time_diff_ms(time_now, ptr->time) / 1000.0f;
+	printf("%f\n", delta);
+	if (ptr->key.maj)
+		ptr->speed = 5 * delta;
+	else
+		ptr->speed = 3 * delta;
+	return (time_now);
+}
+
 void	ft_edit_img(t_ptr *ptr)
 {
-	// struct timeval test;
-	// gettimeofday(&test, 0);
-	// printf("%ld\n", test.tv_sec);
+	ptr->time = ft_time(ptr);
 	mlx_sync(MLX_SYNC_WIN_CMD_COMPLETED, ptr->mlx.window);
 	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, ptr->screen.ptr);
 	ft_before_calc(ptr, ptr->screen.pixels);

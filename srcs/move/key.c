@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:17:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/07 17:12:45 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/08 14:34:01 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		ft_key(int key, t_ptr *ptr)
 	else if (key == KEY_DOWN)
 		ptr->key.down = 1;
 	else if (key == KEY_MAJ)
-		ptr->speed = 1;
+		ptr->key.maj = 1;
 	else if (key == KEY_ESC)
 		ft_close(ptr, 0);
 	return (0);
@@ -78,7 +78,7 @@ int		ft_key_release(int key, t_ptr *ptr)
 	else if (key == KEY_CTRL)
 		ptr->pos.z += ft_key_action(&ptr->key.ctrl, 0.2, -0.2); // reduire la vitesse
 	else if (key == KEY_MAJ)
-		ptr->speed = 0.5;
+		ptr->key.maj = 0;
 	return (0);
 }
 
