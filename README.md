@@ -10,3 +10,5 @@ mouse
 2 = down
 maj = run
 deco
+
+x * x + y * y

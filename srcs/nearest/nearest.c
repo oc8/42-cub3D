@@ -6,33 +6,39 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/10 13:04:17 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/10 16:45:18 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int		ft_witch_texture_x(t_ptr *ptr, t_c pixel, t_vector dir, t_dist dist)
+static unsigned int	ft_skybox(t_ptr *ptr, t_vector dir)
 {
-	if (dist.flag == 's')
-		return (dist.color_sprite);
-	if (dir.x < 0)
-		return (ft_wall_texture(pixel, ptr->we, 'x'));
-	else
-		return (ft_wall_texture(pixel, ptr->ea, 'x'));
-}
+	float			t;
+	float			map;
+	unsigned int	color;
 
-int		ft_witch_texture_y(t_ptr *ptr, t_c pixel, t_vector dir, t_dist dist)
-{
-	if (dist.flag == 's')
-		return (dist.color_sprite);
-	if (dir.y < 0)
-		return (ft_wall_texture(pixel, ptr->no, 'y'));
-	else
-		return (ft_wall_texture(pixel, ptr->so, 'y'));
+	map = 10 * ptr->pars->nbr_map.x;
+	if ((t = -(ptr->pos.z - map + 1) / dir.z) > 0 && (color = \
+		ft_sky_texture(ptr, ptr->pos.x + dir.x * t, ptr->pos.y + dir.y * t, 1)))
+		return (color);
+	if ((t = -(ptr->pos.x - map) / dir.x) > 0 && (color = \
+		ft_sky_texture(ptr, ptr->pos.y + dir.y * t, ptr->pos.z + dir.z * t, 2)))
+		return (color);
+	if ((t = -(ptr->pos.x + map) / dir.x) > 0 && (color = \
+		ft_sky_texture(ptr, ptr->pos.y + dir.y * t, ptr->pos.z + dir.z * t, 3)))
+		return (color);
+	if ((t = -(ptr->pos.y - map) / dir.y) > 0 && (color = \
+		ft_sky_texture(ptr, ptr->pos.x + dir.x * t, ptr->pos.z + dir.z * t, 4)))
+		return (color);
+	if ((t = -(ptr->pos.y + map) / dir.y) > 0 && (color = \
+		ft_sky_texture(ptr, ptr->pos.x + dir.x * t, ptr->pos.z + dir.z * t, 5)))
+		return (color);
+	if ((t = -(ptr->pos.z + map - 1) / dir.z) > 0 && (color = \
+		ft_sky_texture(ptr, ptr->pos.x + dir.x * t, ptr->pos.y + dir.y * t, 6)))
+		return (color);
+	return (0);
 }
-
-// ft_skybox(t_ptr *ptr);
 
 t_dist	ft_ray_y(t_ptr *ptr, t_vector dir)
 {
@@ -71,55 +77,40 @@ t_dist	ft_ray_x(t_ptr *ptr, t_vector dir)
 	return (dist);
 }
 
-unsigned int	ft_nearest(t_ptr *ptr, t_vector dir)
+static unsigned int	ft_floor(t_ptr *ptr, t_vector dir)
 {
-	t_dist	dist_x;
-	t_dist	dist_y;
+	float	t;
+	t_c		pixel;
 
-	dist_y = ft_ray_y(ptr, dir);
-	dist_x = ft_ray_x(ptr, dir);
-	if (dist_x.flag && dist_y.flag)
+	if ((t = -(ptr->pos.z) / dir.z) > 0)
 	{
-		if (dist_x.t < dist_y.t)
-			return (ft_witch_texture_x(ptr, dist_x.pixel, dir, dist_x));
-		else // if (dist_y < dist_x.t)
-			return (ft_witch_texture_y(ptr, dist_y.pixel, dir, dist_y));
-	}
-	else if (dist_y.flag)
-		return (ft_witch_texture_y(ptr, dist_y.pixel, dir, dist_y));
-	else if (dist_x.flag)
-		return (ft_witch_texture_x(ptr, dist_x.pixel, dir, dist_x));
-
-	if ((dist_x.t = -(ptr->pos.z) / dir.z) > 0)
-	{
-		dist_x.pixel.x = ptr->pos.x + dir.x * dist_x.t;
-		if (dist_x.pixel.x >= 0 && dist_x.pixel.x <= ptr->pars->nbr_map.x)
+		pixel.x = ptr->pos.x + dir.x * t;
+		if (pixel.x >= 0 && pixel.x <= ptr->pars->nbr_map.x)
 		{
-			dist_x.pixel.y = ptr->pos.y + dir.y * dist_x.t;
-			if (dist_x.pixel.y >= 0 && dist_x.pixel.y <= ptr->pars->nbr_map.y)
+			pixel.y = ptr->pos.y + dir.y * t;
+			if (pixel.y >= 0 && pixel.y <= ptr->pars->nbr_map.y)
 				return (ptr->pars->col_floor);
 		}
 	}
-	// ft_sky_box(ptr);
+	return (0);
+}
+
+unsigned int	ft_nearest(t_ptr *ptr, t_vector dir)
+{
+	t_dist			dist_x;
+	t_dist			dist_y;
 	unsigned int	color;
-	float map = 10 * ptr->pars->nbr_map.x;
-	if ((dist_x.t = -(ptr->pos.z - map + 1) / dir.z) > 0
-&& (color = ft_sky_texture(ptr, ptr->pos.x + dir.x * dist_x.t, ptr->pos.y + dir.y * dist_x.t, 1)))
-			return (color);
-	else if ((dist_x.t = -(ptr->pos.x - map) / dir.x) > 0
-&& (color = ft_sky_texture(ptr, ptr->pos.y + dir.y * dist_x.t, ptr->pos.z + dir.z * dist_x.t, 2)))
-			return (color);
-	else if ((dist_x.t = -(ptr->pos.x + map) / dir.x) > 0
-&& (color = ft_sky_texture(ptr, ptr->pos.y + dir.y * dist_x.t, ptr->pos.z + dir.z * dist_x.t, 3)))
-			return (color);
-	else if ((dist_x.t = -(ptr->pos.y - map) / dir.y) > 0
-&& (color = ft_sky_texture(ptr, ptr->pos.x + dir.x * dist_x.t, ptr->pos.z + dir.z * dist_x.t, 4)))
-			return (color);
-	else if ((dist_x.t = -(ptr->pos.y + map) / dir.y) > 0
-&& (color = ft_sky_texture(ptr, ptr->pos.x + dir.x * dist_x.t, ptr->pos.z + dir.z * dist_x.t, 5)))
-			return (color);
-	else if ((dist_x.t = -(ptr->pos.z + map - 1) / dir.z) > 0
-&& (color = ft_sky_texture(ptr, ptr->pos.x + dir.x * dist_x.t, ptr->pos.y + dir.y * dist_x.t, 6)))
-			return (color);
+
+	dist_y = ft_ray_y(ptr, dir);
+	dist_x = ft_ray_x(ptr, dir);
+	color = ft_nearest_wall(ptr, dir, dist_x, dist_y);
+	if (color)
+		return (color);
+	color = ft_floor(ptr, dir);
+	if (color)
+		return (color);
+	color = ft_skybox(ptr, dir);
+	if (color)
+		return (color);
 	return (0);
 }

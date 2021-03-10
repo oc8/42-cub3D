@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/10 15:38:10 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/10 16:00:16 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,6 +278,8 @@ int				ft_mouse(int x, int y, t_ptr *ptr);
 int				ft_key(int key, t_ptr *ptr);
 int				ft_key_release(int key, t_ptr *ptr);
 float			ft_key_action(char *flag, float rs_1, float rs_2); // ?
+
+unsigned int	ft_nearest_wall(t_ptr *ptr, t_vector dir, t_dist x, t_dist y);
 
 int				ft_quit_x(t_ptr *ptr);
 void			ft_close(t_ptr *ptr, int error);

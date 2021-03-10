@@ -24,6 +24,7 @@ display/time.o \
 display/sprite.o \
 display/mlx.o \
 nearest/nearest.o \
+nearest/wall.o \
 raycasting/raycasting.o \
 texture/texture.o \
 utils/utils.o \

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:17:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/10 12:32:32 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/10 16:49:32 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ int		ft_mouse(int x, int y, t_ptr *ptr)
 	x -= x_temp;
 	y -= y_temp - 22;
 	ptr->agl_hor += x / (M_PI * 180);
-	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, ptr->mlx.height * 0.5);
 	rs = ptr->agl_vrt + y / (M_PI * 180);
 	if (rs < M_PI_2 && rs > -M_PI_2)
 		ptr->agl_vrt = rs;
+	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, ptr->mlx.height * 0.5);
 	mlx_mouse_get_pos(ptr->mlx.window, &x_temp, &y_temp);
 	return (0);
 }

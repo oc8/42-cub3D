@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   textures.c                                         :+:      :+:    :+:   */
+/*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 14:54:11 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/05 11:50:36 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/10 16:26:50 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,24 @@ unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i index)
 		return (rs);
 	return (0);
 }
+
+
+unsigned int	ft_sky_texture_up(t_ptr *ptr, float c1, float c2)
+{
+	t_i				index;
+	float			map;
+
+	map = 10 * ptr->pars->nbr_map.x;
+	if (!(c1 <= -map || c1 >= map || c2 <= -map || c2 >= map))
+	{
+		index.x = (c1 + map) / (2 * map) * (ptr->sky.width / 4) + 3 * ptr->sky.width / 4;
+		index.y = (c2 + map) / (2 * map) * (ptr->sky.height / 3);
+		if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
+			return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+	}
+	return (0);
+}
+
 
 unsigned int	ft_sky_texture(t_ptr *ptr, float c1, float c2, char face)
 {

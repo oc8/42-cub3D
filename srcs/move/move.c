@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 18:54:01 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/08 14:31:49 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/10 17:01:25 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	ft_travel(t_ptr *ptr, t_c new_pos)
 	pos.y = (int)ptr->pos.y;
 	if (ft_in_map(ptr, new_pos_i))
 	{
-		if (ptr->pars->map[new_pos_i.y][new_pos_i.x] == 0 || ptr->pos.z > 1 || ptr->pos.z < -0.5)
+		if ((ptr->pars->map[new_pos_i.y][new_pos_i.x] == 0 && ) || ptr->pos.z > 1 || ptr->pos.z < -0.5 )
 		{
 			ptr->pos.x = new_pos.x;
 			ptr->pos.y = new_pos.y;
