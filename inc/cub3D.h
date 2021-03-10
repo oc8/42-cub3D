@@ -6,12 +6,14 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/08 17:34:47 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/10 15:38:10 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+# define THREAD 4
 
 # define KEY_D 2
 # define KEY_A 0
@@ -36,7 +38,6 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <pthread.h>
-
 # include <sys/time.h>
 
 typedef struct	s_mlx
@@ -134,6 +135,7 @@ typedef struct	s_dist
 	float	t;
 	char	flag;
 	int		color_sprite;
+	t_c		pixel;
 }				t_dist;
 
 typedef struct	s_axe
@@ -217,7 +219,7 @@ typedef struct	s_ptr
 	// thread
 	// t_threads	threads;
 	int				thread_nb;
-	pthread_t		thread[4];
+	pthread_t		thread[THREAD];
 	int				nbr;
 	t_agl			agl;
 }				t_ptr;
@@ -241,7 +243,7 @@ typedef enum	e_pars
 	e_C = 256
 }				t_e_pars;
 
-t_plan				ft_new_plan(char x_y, int c);
+t_plan			ft_new_plan(char x_y, int c);
 int				ft_create_plan(t_ptr *ptr);
 int				ft_parsing(char *path, t_ptr *ptr);
 void			ft_parsing_map(t_ptr *ptr, char *line, int j, t_i *first_pos);
@@ -249,7 +251,7 @@ int				ft_malloc_map(t_ptr *ptr, char *path);
 int				ft_check_map(t_ptr *ptr, char **map, int i, int j);
 
 void			ft_edit_img(t_ptr *ptr);
-unsigned int	ft_ray(t_ptr *ptr, t_vector dir);
+unsigned int	ft_nearest(t_ptr *ptr, t_vector dir);
 struct timeval	ft_time_now(void);
 
 void			*ft_calloc_lst(t_ptr *ptr, size_t nbr, size_t size);
@@ -262,7 +264,9 @@ void			ft_create_plans_x(t_ptr *ptr);
 
 void			ft_create_plans_y(t_ptr *ptr);
 
-int				ft_ray_sprite(t_ptr *ptr, t_vector dir, t_c *pixel, t_plan *plan, t_dist *dist);
+t_dist			ft_ray(t_ptr *ptr, t_plan *plans, t_vector dir, t_axe *axe);
+
+int				ft_ray_sprite(t_ptr *ptr, t_vector dir, t_plan *plan, t_dist *dist);
 void			ft_create_plan_sprite(t_ptr *ptr);
 t_sprite		*ft_search_sprite(t_ptr *ptr, int y, int x);
 void			ft_malloc_sprite(t_ptr *ptr);
@@ -278,7 +282,9 @@ float			ft_key_action(char *flag, float rs_1, float rs_2); // ?
 int				ft_quit_x(t_ptr *ptr);
 void			ft_close(t_ptr *ptr, int error);
 
-int	ft_wall_texture(t_c pixel, t_img img, char axe);
+struct timeval	ft_time(t_ptr *ptr, char *str, int *count);
+
+int				ft_wall_texture(t_c pixel, t_img img, char axe);
 unsigned int	ft_sky_texture(t_ptr *ptr, float c1, float c2, char face);
 unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i index);
 

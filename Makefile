@@ -20,10 +20,12 @@ parsing/parsing_plan.o \
 parsing/parsing_plan_x.o \
 parsing/parsing_plan_y.o \
 display/edit_screen.o \
-display/raycasting.o \
+display/time.o \
 display/sprite.o \
 display/mlx.o \
-display/textures.o \
+nearest/nearest.o \
+raycasting/raycasting.o \
+texture/texture.o \
 utils/utils.o \
 move/key.o \
 move/move.o \
@@ -32,7 +34,7 @@ LSRCS		= ${SRCS:.o=.c}
 INCLUDES	= ./inc/cub3D.h
 CC			= clang
 RM			= rm -rf
-FLAGS		= -Wall -Wextra -Werror -Ofast #  -g3 -fsanitize=address # -g
+FLAGS		= -Wall -Wextra -Werror -Ofast # -g3 -fsanitize=address # -g#(lldb)
 CFLAGS		= -I./inc -I./libft/ -I./minilibx -I./mlx
 AR			= ar
 ARFLAGS		= rcs
@@ -55,7 +57,7 @@ compilation	:
 			printf "$(ERASE)$(GREEN)⤖ $(CYAN)mlx : $(GREEN)ok$(END)\n"
 
 $(PATH_OBJS)/%.o:		$(PATH_SRCS)/%.c $(INCLUDES)
-			@mkdir -p $(PATH_OBJS) $(PATH_OBJS)/parsing $(PATH_OBJS)/display $(PATH_OBJS)/utils $(PATH_OBJS)/move
+			@mkdir -p $(PATH_OBJS) $(PATH_OBJS)/parsing $(PATH_OBJS)/display $(PATH_OBJS)/utils $(PATH_OBJS)/move $(PATH_OBJS)/nearest $(PATH_OBJS)/raycasting $(PATH_OBJS)/texture
 			@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
 			@printf "$(ERASE)$(CYAN)⤖ $(NAME) : $(RED)[$<]"
 
@@ -74,65 +76,3 @@ re:			fclean all
 
 .PHONY:		all clean fclean re no_flag
 .SILENT:	fclean clean re $(NAME) no_flag compilation all
-
-
-
-
-
-
-
-
-
-
-# SRCS	=	main.o \
-# parsing.o \
-# parsing_map.o \
-# parsing_plan.o \
-# parsing_plan_x.o \
-# parsing_plan_y.o \
-# edit_screen.o \
-# raycasting.o \
-# sprite.o \
-# utils.o
-
-# OBJS = ${SRCS:.c=.o}
-
-# LIBFT = ./libft/libft.a
-# LIBMLX = libmlx.dylib
-
-# INC		= inc/cub3D.h
-# NAME	= cub3D
-# CC		= clang
-# RM		= rm -f
-# CFLAGS	= -Wall -Wextra -Werror -fsanitize=address -g3 -I./includes -L. -lmlx -L./libft -lft
-
-# $(NAME) :	$(OBJS) $(INC) $(LIBFT) $(LIBMLX)
-# 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
-
-# $(OBJS) :	$(INC)
-
-# .c.o:
-# 	$(CC) -c $< -o $@
-
-# $(LIBFT) :
-# 	@$(MAKE) all -C ./libft 
-
-# $(LIBMLX) : 
-# 	@$(MAKE) all -C ./minilibx
-# 	mv ./minilibx/libmlx.dylib .
-
-# all :		$(NAME)
-
-# clean :
-# 	$(RM) $(OBJS)
-# 	@$(MAKE) clean -C ./libft
-# 	@$(MAKE) clean -C ./minilibx
-
-# fclean : 	clean
-# 	$(RM) $(NAME)
-# 	$(RM) $(LIBFT)
-# 	$(RM) $(LIBMLX)
-
-# re :		fclean all
-
-# .PHONY :	all clean fclean re $(LIBFT) $(LIBMLX)

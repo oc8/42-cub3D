@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 11:45:08 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/01/11 18:17:13 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/10 14:50:34 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,19 @@ int			ft_new_buf(char *buf, int i)
 int			ft_error(char **line)
 {
 	free(*line);
-	(*line) = 0;
+	(*line) = malloc(1);
 	return (-1);
+}
+
+static int	ft_switch(char **line, char *buf)
+{
+	char		*temp;
+
+	temp = *line;
+	if (!(*line = ft_strjoin(*line, buf)))
+		return (ft_error(line));
+	free(temp);
+	return (0);
 }
 
 int			get_next_line(int fd, char **line)
@@ -59,8 +70,8 @@ int			get_next_line(int fd, char **line)
 	while (size != -1 && size != 0)
 	{
 		flag = ft_check_end_of_line(buf);
-		if (!(*line = ft_strjoin(*line, buf)))
-			return (ft_error(line));
+		if (ft_switch(line, buf) == -1)
+			return (-1);
 		if (!flag)
 			size = read(fd, buf, BUFFER_SIZE);
 		else

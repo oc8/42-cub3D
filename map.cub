@@ -1,7 +1,7 @@
 
 NO ./textures/snk/mur1.xpm
 SO  ./textures/snk/mur2.xpm
-R 10000 10000
+R 1920 1080
                                  WE ./textures/snk/mur2.xpm
 EA textures/snk/mur1.xpm
 
@@ -116,7 +116,7 @@ C 225,30,0
 100000001
 102100001
 10000000111
-11111000021
+11110000021
 10S01000101
 10001000121
 10001000101

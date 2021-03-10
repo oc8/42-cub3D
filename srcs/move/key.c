@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:17:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/08 14:34:01 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/10 12:32:32 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int		ft_key_release(int key, t_ptr *ptr)
 	else if (key == KEY_DOWN)
 		ptr->key.down = 0;
 	else if (key == KEY_CTRL)
-		ptr->pos.z += ft_key_action(&ptr->key.ctrl, 0.2, -0.2); // reduire la vitesse
+		ptr->pos.z += ft_key_action(&ptr->key.ctrl, 0.2, -0.2);
 	else if (key == KEY_MAJ)
 		ptr->key.maj = 0;
 	return (0);
@@ -84,27 +84,23 @@ int		ft_key_release(int key, t_ptr *ptr)
 
 int		ft_mouse(int x, int y, t_ptr *ptr)
 {
-	// float	rs;
-	
-	// mlx_mouse_get_pos(ptr->mlx.window, &x, &y);
-	// y = -y;
-	printf("x = %d, y = %d\n", x, y);
-	x -= ptr->mlx.width * 0.5;
-	// y -= ptr->mlx.height * 0.5;
-	// y *= -1;
-	// printf("x = %d, y = %d\n\n", x, y);
-	// printf("hor = %f, ver = %f\n", ptr->agl_hor, ptr->agl_vrt);
+	float		rs;
+	static int	x_temp = 0;
+	static int	y_temp = 0;
+
+	if (!x_temp && !y_temp)
+	{
+		x_temp = x;
+		y_temp = y;
+		return (0);
+	}
+	x -= x_temp;
+	y -= y_temp - 22;
 	ptr->agl_hor += x / (M_PI * 180);
-	// rs = ptr->agl_vrt + y / (M_PI * 180);
-	// if (rs < M_PI_2 && rs > - M_PI_2)
-	// 	ptr->agl_vrt = rs;
-	mlx_mouse_get_pos(ptr->mlx.window, &x, &y);
-	
-	// printf("hor = %f, ver = %f\n\n", ptr->agl_hor, ptr->agl_vrt);
-	// printf("x = %d, y = %d\n\n", x, y);
-	// ft_edit_img(ptr);
-	// ptr->agl_vrt += y / 10;
-	// mlx_mouse_move(ptr->mlx.window, ptr->mlx.width / 2, -135);
 	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * 0.5, ptr->mlx.height * 0.5);
+	rs = ptr->agl_vrt + y / (M_PI * 180);
+	if (rs < M_PI_2 && rs > -M_PI_2)
+		ptr->agl_vrt = rs;
+	mlx_mouse_get_pos(ptr->mlx.window, &x_temp, &y_temp);
 	return (0);
 }

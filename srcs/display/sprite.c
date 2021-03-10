@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/07 18:22:35 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/10 12:53:11 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_vector dir, float t, t_sprite 
 	return (0);
 }
 
-int		ft_ray_sprite(t_ptr *ptr, t_vector dir, t_c *pixel, t_plan *plan, t_dist *dist)
+int		ft_ray_sprite(t_ptr *ptr, t_vector dir, t_plan *plan, t_dist *dist)
 {
 	t_sprite		*p;
 	float			rs_dir;
@@ -130,7 +130,7 @@ int		ft_ray_sprite(t_ptr *ptr, t_vector dir, t_c *pixel, t_plan *plan, t_dist *d
 		if (rs_dir)
 		{
 			t = -(p->a * ptr->pos.x + p->b * ptr->pos.y + p->c * ptr->pos.z + p->d) / rs_dir;
-			if (t > 0 && (dist->color_sprite = ft_is_sprite(ptr, pixel, dir, t, p)))
+			if (t > 0 && (dist->color_sprite = ft_is_sprite(ptr, &dist->pixel, dir, t, p)))
 			{
 				return (t);
 			}
