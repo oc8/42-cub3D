@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 16:29:55 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 18:32:31 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,44 @@ static unsigned int	ft_floor(t_ptr *ptr, t_vector dir)
 	return (0);
 }
 
+// static unsigned int	ft_check(float v1, float v2, )
+// {
+	
+// }
+
+static t_dist	ft_sprite_nearest(t_ptr *ptr, t_vector dir, t_dist dist_x, t_dist dist_y)
+{
+	t_dist			dist_sprite;
+
+	if (dist_x.t && dist_y.t)
+	{
+		if (dist_x.t < dist_y.t)
+			dist_sprite.t = ft_ray_sprite(ptr, dir, &dist_sprite, dist_x.t);
+		else // if (y < x.t)
+			dist_sprite.t = ft_ray_sprite(ptr, dir, &dist_sprite, dist_y.t);
+	}
+	else if (dist_y.t)
+		dist_sprite.t = ft_ray_sprite(ptr, dir, &dist_sprite, dist_y.t);
+	else if (dist_x.t)
+		dist_sprite.t = ft_ray_sprite(ptr, dir, &dist_sprite, dist_x.t);
+	else
+		dist_sprite.t = ft_ray_sprite(ptr, dir, &dist_sprite, 999999);
+	return (dist_sprite);
+}
+
 unsigned int	ft_nearest(t_ptr *ptr, t_vector dir)
 {
 	t_dist			dist_x;
 	t_dist			dist_y;
+	t_dist			dist_sprite;
 	unsigned int	color;
 
 	dist_y = ft_ray_y(ptr, dir);
 	dist_x = ft_ray_x(ptr, dir);
+	// ft_check()
+	dist_sprite = ft_sprite_nearest(ptr, dir, dist_x, dist_y);
+	if (dist_sprite.t)
+		return (dist_sprite.color_sprite);
 	color = ft_nearest_wall(ptr, dir, dist_x, dist_y);
 	if (color)
 		return (color);

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 12:57:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 16:29:55 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 17:21:26 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,6 @@ t_dist	ft_ray(t_ptr *ptr, t_plan *plans, t_vector dir, t_axe *axe)
 			{
 				dist.flag = 'w';
 				return (dist);
-			}
-			if (plans[i].nbr)
-			{
-				dist.t = ft_ray_sprite(ptr, dir, &plans[i], &dist); //
-				if (dist.t)
-				{
-					dist.flag = 's';
-					return (dist);
-				}
 			}
 			if (axe->dir > 0)
 				i++;

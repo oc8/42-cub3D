@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 16:32:13 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 17:46:31 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct	s_sprite
 	float	c;
 	float	d;
 	t_i		index;
+	char	viewable;
 }				t_sprite;
 
 typedef struct	s_plan
@@ -107,8 +108,6 @@ typedef struct	s_plan
 	int				b;
 	int				c;
 	int				d;
-	unsigned int	nbr;
-	t_sprite		**sprite;
 }				t_plan;
 
 typedef struct	s_img
@@ -156,24 +155,24 @@ typedef struct	s_axe
 
 typedef struct	s_pars
 {
-	char		**map;
-	t_i			nbr_map;
-	t_plan		*plans_no;
-	t_plan		*plans_so;
-	t_plan		*plans_ea;
-	t_plan		*plans_we;
-	t_sprite	*plans_sprite;
-	int			nbr_sprite;
-	int			res_hor;
-	int			res_ver;
-	char		*path_we;
-	char		*path_no;
-	char		*path_so;
-	char		*path_ea;
-	char		*path_sprite;
-	int			col_floor;
-	int			col_sky;
-}				t_pars;
+	char			**map;
+	t_i				nbr_map;
+	t_plan			*plans_no;
+	t_plan			*plans_so;
+	t_plan			*plans_ea;
+	t_plan			*plans_we;
+	t_sprite		*plans_sprite;
+	unsigned int	nbr_sprite;
+	int				res_hor;
+	int				res_ver;
+	char			*path_we;
+	char			*path_no;
+	char			*path_so;
+	char			*path_ea;
+	char			*path_sprite;
+	int				col_floor;
+	int				col_sky;
+}					t_pars;
 
 typedef struct	s_player
 {
@@ -249,7 +248,7 @@ void			ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), t_ptr *ptr);
 
 t_dist			ft_ray(t_ptr *ptr, t_plan *plans, t_vector dir, t_axe *axe);
 
-int				ft_ray_sprite(t_ptr *ptr, t_vector dir, t_plan *plan, t_dist *dist);
+int				ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist, float small_dist);
 void			ft_create_plan_sprite(t_ptr *ptr);
 t_sprite		*ft_search_sprite(t_ptr *ptr, int y, int x);
 void			ft_malloc_sprite(t_ptr *ptr);
