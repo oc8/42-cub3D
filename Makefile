@@ -29,7 +29,7 @@ raycasting/raycasting.o \
 texture/texture.o \
 utils/utils.o \
 move/key.o \
-move/move.o \
+move/loop.o \
 close.o
 LSRCS		= ${SRCS:.o=.c}
 INCLUDES	= ./inc/cub3D.h

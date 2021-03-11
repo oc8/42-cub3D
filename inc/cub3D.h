@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/10 16:00:16 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 16:11:33 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,20 +249,19 @@ int				ft_parsing(char *path, t_ptr *ptr);
 void			ft_parsing_map(t_ptr *ptr, char *line, int j, t_i *first_pos);
 int				ft_malloc_map(t_ptr *ptr, char *path);
 int				ft_check_map(t_ptr *ptr, char **map, int i, int j);
+void			ft_create_plans_x(t_ptr *ptr);
+void			ft_create_plans_y(t_ptr *ptr);
 
 void			ft_edit_img(t_ptr *ptr);
 unsigned int	ft_nearest(t_ptr *ptr, t_vector dir);
 struct timeval	ft_time_now(void);
+struct timeval	ft_time(t_ptr *ptr, char *str, int *count);
 
 void			*ft_calloc_lst(t_ptr *ptr, size_t nbr, size_t size);
 int				create_trgb(int t, int r, int g, int b);
 int				ft_in_map(t_ptr *ptr, t_i coordinate);
 void			ft_add_to_lst(t_ptr *ptr, void *add_ptr);
-void	ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), t_ptr *ptr);
-
-void			ft_create_plans_x(t_ptr *ptr);
-
-void			ft_create_plans_y(t_ptr *ptr);
+void			ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), t_ptr *ptr);
 
 t_dist			ft_ray(t_ptr *ptr, t_plan *plans, t_vector dir, t_axe *axe);
 
@@ -270,23 +269,19 @@ int				ft_ray_sprite(t_ptr *ptr, t_vector dir, t_plan *plan, t_dist *dist);
 void			ft_create_plan_sprite(t_ptr *ptr);
 t_sprite		*ft_search_sprite(t_ptr *ptr, int y, int x);
 void			ft_malloc_sprite(t_ptr *ptr);
-// int				ft_texutre_sprite(t_sprite *sprite, t_c pixel);
 
-void	ft_mlx_init(t_ptr *ptr);
+void			ft_mlx_init(t_ptr *ptr);
 int				ft_loop(t_ptr *ptr);
 int				ft_mouse(int x, int y, t_ptr *ptr);
 int				ft_key(int key, t_ptr *ptr);
 int				ft_key_release(int key, t_ptr *ptr);
-float			ft_key_action(char *flag, float rs_1, float rs_2); // ?
 
 unsigned int	ft_nearest_wall(t_ptr *ptr, t_vector dir, t_dist x, t_dist y);
 
 int				ft_quit_x(t_ptr *ptr);
 void			ft_close(t_ptr *ptr, int error);
 
-struct timeval	ft_time(t_ptr *ptr, char *str, int *count);
-
-int				ft_wall_texture(t_c pixel, t_img img, char axe);
+unsigned int	ft_wall_texture(t_c pixel, t_img img, char axe);
 unsigned int	ft_sky_texture(t_ptr *ptr, float c1, float c2, char face);
 unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i index);
 

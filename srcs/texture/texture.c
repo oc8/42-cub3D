@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 14:54:11 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/10 16:26:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 16:11:23 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	ft_wall_texture(t_c pixel, t_img img, char axe)
+unsigned int	ft_wall_texture(t_c pixel, t_img img, char axe)
 {
 	t_i		index;
 
@@ -110,8 +110,7 @@ unsigned int	ft_sky_texture(t_ptr *ptr, float c1, float c2, char face)
 	{
 		if (face == 1)
 		{
-			index.x = (c1 + map) / (2 * map) * (ptr->sky.width / 4) + 3 * ptr->sky.width / 4;
-			index.y = (c2 + map) / (2 * map) * (ptr->sky.height / 3);
+			return (ft_sky_texture_up(ptr, c1, c2));
 		}
 		else if (face == 2)
 		{
