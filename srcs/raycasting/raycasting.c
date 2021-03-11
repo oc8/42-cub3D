@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 12:57:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/10 12:59:29 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 16:29:55 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_vector dir, t_plan *p, float t, 
 {
 	t_i			i_map;
 
-	pixel->z = ptr->pos.z + dir.z * t;
+	pixel->z = ptr->player.pos.z + dir.z * t;
 	if (pixel->z > 0 && pixel->z < 1)
 	{
 		if (axe == 'x')
 		{
-			pixel->y = ptr->pos.y + dir.y * t; //
+			pixel->y = ptr->player.pos.y + dir.y * t; //
 			i_map.x = p->d * -1;
 			if (dir.x < 0)
 				i_map.x -= 1;
@@ -29,7 +29,7 @@ static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_vector dir, t_plan *p, float t, 
 		}
 		else
 		{
-			pixel->x = ptr->pos.x + dir.x * t; //
+			pixel->x = ptr->player.pos.x + dir.x * t; //
 			i_map.y = p->d * -1;
 			if (dir.y < 0)
 				i_map.y -= 1;

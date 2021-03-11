@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/08 17:33:03 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 16:30:23 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		ft_init_struct(t_ptr *ptr)
 {
 	ptr->epars = 0;
-	ptr->speed = 0.5;
+	ptr->player.speed = 0.5;
 	ptr->pars->nbr_sprite = 0;
 	ptr->time.tv_sec = 0;
 	ptr->time.tv_usec = 0;
@@ -70,7 +70,7 @@ void	ft_ray_screen(t_ptr *ptr)
 	fov = 100 * M_PI / 180;
 	fov_x = 2 * tan(fov / 2);
 	fov_y = 2 * tan(fov * ptr->mlx.height / ptr->mlx.width * 0.5);
-	ptr->dir = ft_calloc_lst(ptr, ptr->mlx.height * ptr->mlx.width, \
+	ptr->player.dir = ft_calloc_lst(ptr, ptr->mlx.height * ptr->mlx.width, \
 			sizeof(t_c));
 	y = -1;
 	while (++y < ptr->mlx.height)
@@ -78,10 +78,10 @@ void	ft_ray_screen(t_ptr *ptr)
 		x = -1;
 		while (++x < ptr->mlx.width)
 		{
-			ptr->dir[y * ptr->mlx.width + x].x = fov_x / ptr->mlx.width * \
+			ptr->player.dir[y * ptr->mlx.width + x].x = fov_x / ptr->mlx.width * \
 				(x - ptr->mlx.width * 0.5);
-			ptr->dir[y * ptr->mlx.width + x].y = -1;
-			ptr->dir[y * ptr->mlx.width + x].z = -fov_y / ptr->mlx.height * \
+			ptr->player.dir[y * ptr->mlx.width + x].y = -1;
+			ptr->player.dir[y * ptr->mlx.width + x].z = -fov_y / ptr->mlx.height * \
 				(y - ptr->mlx.height * 0.5);
 		}
 	}

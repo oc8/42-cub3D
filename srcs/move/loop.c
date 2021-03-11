@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 18:54:01 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 16:12:33 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 16:29:55 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ static void	ft_check(t_ptr *ptr, t_i new_pos_i, t_c new_pos)
 {
 	t_i		pos;
 
-	pos.x = (int)ptr->pos.x;
-	pos.y = (int)ptr->pos.y;
+	pos.x = (int)ptr->player.pos.x;
+	pos.y = (int)ptr->player.pos.y;
 	if ((!ptr->pars->map[new_pos_i.y][new_pos_i.x] &&\
 			!ptr->pars->map[new_pos_i.y][pos.x] && !ptr->pars->map[pos.y]\
-				[new_pos_i.x]) || ptr->pos.z > 1 || ptr->pos.z < -0.5)
+				[new_pos_i.x]) || ptr->player.pos.z > 1 || ptr->player.pos.z < -0.5)
 	{
-		ptr->pos.x = new_pos.x;
-		ptr->pos.y = new_pos.y;
+		ptr->player.pos.x = new_pos.x;
+		ptr->player.pos.y = new_pos.y;
 	}
 	else if (!ptr->pars->map[new_pos_i.y][pos.x])
-		ptr->pos.y = new_pos.y;
+		ptr->player.pos.y = new_pos.y;
 	else if (!ptr->pars->map[pos.y][new_pos_i.x])
-		ptr->pos.x = new_pos.x;
+		ptr->player.pos.x = new_pos.x;
 	ft_create_plan_sprite(ptr);
 }
 
@@ -40,10 +40,10 @@ static void	ft_check_new_pos(t_ptr *ptr, t_c new_pos)
 	new_pos_i.y = (int)new_pos.y;
 	if (ft_in_map(ptr, new_pos_i))
 		ft_check(ptr, new_pos_i, new_pos);
-	else if (ptr->pos.x != new_pos.x || ptr->pos.y != new_pos.y)
+	else if (ptr->player.pos.x != new_pos.x || ptr->player.pos.y != new_pos.y)
 	{
-		ptr->pos.x = new_pos.x;
-		ptr->pos.y = new_pos.y;
+		ptr->player.pos.x = new_pos.x;
+		ptr->player.pos.y = new_pos.y;
 		ft_create_plan_sprite(ptr);
 	}
 }
@@ -52,23 +52,23 @@ static void	ft_new_pos(t_ptr *ptr, char key, t_c *pos)
 {
 	if (key == 'w')
 	{
-		pos->x += sin(ptr->agl_hor) * ptr->speed;
-		pos->y -= cos(ptr->agl_hor) * ptr->speed;
+		pos->x += sin(ptr->player.agl_hor) * ptr->player.speed;
+		pos->y -= cos(ptr->player.agl_hor) * ptr->player.speed;
 	}
 	else if (key == 's')
 	{
-		pos->x -= sin(ptr->agl_hor) * ptr->speed;
-		pos->y += cos(ptr->agl_hor) * ptr->speed;
+		pos->x -= sin(ptr->player.agl_hor) * ptr->player.speed;
+		pos->y += cos(ptr->player.agl_hor) * ptr->player.speed;
 	}
 	else if (key == 'a')
 	{
-		pos->x += sin(ptr->agl_hor - M_PI_2) * ptr->speed;
-		pos->y -= cos(ptr->agl_hor - M_PI_2) * ptr->speed;
+		pos->x += sin(ptr->player.agl_hor - M_PI_2) * ptr->player.speed;
+		pos->y -= cos(ptr->player.agl_hor - M_PI_2) * ptr->player.speed;
 	}
 	else
 	{
-		pos->x += sin(ptr->agl_hor + M_PI_2) * ptr->speed;
-		pos->y -= cos(ptr->agl_hor + M_PI_2) * ptr->speed;
+		pos->x += sin(ptr->player.agl_hor + M_PI_2) * ptr->player.speed;
+		pos->y -= cos(ptr->player.agl_hor + M_PI_2) * ptr->player.speed;
 	}
 }
 
@@ -76,12 +76,12 @@ static void	ft_move(t_ptr *ptr)
 {
 	t_c		new_pos;
 
-	new_pos.x = ptr->pos.x;
-	new_pos.y = ptr->pos.y;
+	new_pos.x = ptr->player.pos.x;
+	new_pos.y = ptr->player.pos.y;
 	if (ptr->key.al)
-		ptr->agl_hor -= ptr->speed;
+		ptr->player.agl_hor -= ptr->player.speed;
 	if (ptr->key.ar)
-		ptr->agl_hor += ptr->speed;
+		ptr->player.agl_hor += ptr->player.speed;
 	if (ptr->key.w)
 		ft_new_pos(ptr, 'w', &new_pos);
 	if (ptr->key.s)
@@ -91,13 +91,13 @@ static void	ft_move(t_ptr *ptr)
 	if (ptr->key.d)
 		ft_new_pos(ptr, 'd', &new_pos);
 	if (ptr->key.ad)
-		ptr->agl_vrt += 0.5 * ptr->speed;
+		ptr->player.agl_vrt += 0.5 * ptr->player.speed;
 	if (ptr->key.au)
-		ptr->agl_vrt -= 0.5 * ptr->speed;
+		ptr->player.agl_vrt -= 0.5 * ptr->player.speed;
 	if (ptr->key.up)
-		ptr->pos.z += ptr->speed;
+		ptr->player.pos.z += ptr->player.speed;
 	if (ptr->key.down)
-		ptr->pos.z -= ptr->speed;
+		ptr->player.pos.z -= ptr->player.speed;
 	ft_check_new_pos(ptr, new_pos);
 }
 

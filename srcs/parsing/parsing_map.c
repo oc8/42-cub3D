@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/08 18:12:26 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 16:29:55 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,17 +104,17 @@ static void	ft_first_pos(t_ptr *ptr, char c, int i, int j)
 		ft_close(ptr, 3);
 	ptr->epars |= e_FIRST_DIR;
 	if (c == 'N')
-		ptr->agl_hor = 0;
+		ptr->player.agl_hor = 0;
 	else if (c == 'S')
-		ptr->agl_hor = M_PI_2 * 2;
+		ptr->player.agl_hor = M_PI_2 * 2;
 	else if (c == 'E')
-		ptr->agl_hor = M_PI_2;
+		ptr->player.agl_hor = M_PI_2;
 	else if (c == 'W')
-		ptr->agl_hor = M_PI_2 * 3;
-	ptr->agl_vrt = 0;
-	ptr->pos.x = i + 0.5;
-	ptr->pos.y = j + 0.5;
-	ptr->pos.z = 0.5;
+		ptr->player.agl_hor = M_PI_2 * 3;
+	ptr->player.agl_vrt = 0;
+	ptr->player.pos.x = i + 0.5;
+	ptr->player.pos.y = j + 0.5;
+	ptr->player.pos.z = 0.5;
 	ptr->pars->map[j][i] = '0';
 }
 

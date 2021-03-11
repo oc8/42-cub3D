@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/10 15:45:37 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 16:30:49 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ static t_vector	ft_rotation(t_vector dir, const t_agl *agl, t_ptr *ptr)
 	t_vector	m_z;
 	t_vector	m_x;
 
-	if (ptr->agl_hor >= M_PI)
-		ptr->agl_hor -= 2 * M_PI;
-	else if (ptr->agl_hor <= -M_PI)
-		ptr->agl_hor += 2 * M_PI;
+	if (ptr->player.agl_hor >= M_PI)
+		ptr->player.agl_hor -= 2 * M_PI;
+	else if (ptr->player.agl_hor <= -M_PI)
+		ptr->player.agl_hor += 2 * M_PI;
 	m_x.x = dir.x;
 	m_x.y = agl->cos_vrt * dir.y - agl->sin_vrt * dir.z;
 	m_x.z = agl->sin_vrt * dir.y + agl->cos_vrt * dir.z;
@@ -45,7 +45,7 @@ static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen, int thread_nb)
 		x = 0;
 		while (x < ptr->mlx.width - 1)
 		{
-			color = ft_nearest(ptr, ft_rotation(ptr->dir[y * \
+			color = ft_nearest(ptr, ft_rotation(ptr->player.dir[y * \
 				ptr->mlx.width + x], &ptr->agl, ptr));
 			if ((y * (int)(ptr->screen.s_l * 0.25) + x >= 0))
 			{
@@ -93,7 +93,7 @@ static void	ft_before_calc_plans(t_ptr *ptr, float *rs, t_plan *p1, t_plan *p2, 
 	int		i;
 	t_c		pos;
 
-	pos = ptr->pos;
+	pos = ptr->player.pos;
 	i = -1;
 	while (++i < nbr)
 	{
@@ -108,12 +108,12 @@ static void	ft_before_calc(t_ptr *ptr)
 {
 	t_agl	agl;
 
-	agl.cos_hor = cos(ptr->agl_hor);
-	agl.sin_hor = sin(ptr->agl_hor);
-	agl.cos_vrt = cos(ptr->agl_vrt);
-	agl.sin_vrt = sin(ptr->agl_vrt);
+	agl.cos_hor = cos(ptr->player.agl_hor);
+	agl.sin_hor = sin(ptr->player.agl_hor);
+	agl.cos_vrt = cos(ptr->player.agl_vrt);
+	agl.sin_vrt = sin(ptr->player.agl_vrt);
 	ptr->agl = agl;
-	// printf("map = %d\n", ptr->pars->map[(int)ptr->pos.y][(int)ptr->pos.x]);
+	// printf("map = %d\n", ptr->pars->map[(int)ptr->player.pos.y][(int)ptr->player.pos.x]);
 	ft_before_calc_plans(ptr, ptr->rs_plans_y, ptr->pars->plans_so, \
 		ptr->pars->plans_no, ptr->pars->nbr_map.y);
 	ft_before_calc_plans(ptr, ptr->rs_plans_x, ptr->pars->plans_ea, \

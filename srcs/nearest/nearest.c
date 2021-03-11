@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 16:08:10 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 16:29:55 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,23 @@ static unsigned int	ft_skybox(t_ptr *ptr, t_vector dir)
 	unsigned int	color;
 
 	map = 10 * ptr->pars->nbr_map.x;
-	if ((t = -(ptr->pos.z - map + 1) / dir.z) > 0 && (color = \
-		ft_sky_texture(ptr, ptr->pos.x + dir.x * t, ptr->pos.y + dir.y * t, 1)))
+	if ((t = -(ptr->player.pos.z - map + 1) / dir.z) > 0 && (color = \
+		ft_sky_texture(ptr, ptr->player.pos.x + dir.x * t, ptr->player.pos.y + dir.y * t, 1)))
 		return (color);
-	if ((t = -(ptr->pos.x - map) / dir.x) > 0 && (color = \
-		ft_sky_texture(ptr, ptr->pos.y + dir.y * t, ptr->pos.z + dir.z * t, 2)))
+	if ((t = -(ptr->player.pos.x - map) / dir.x) > 0 && (color = \
+		ft_sky_texture(ptr, ptr->player.pos.y + dir.y * t, ptr->player.pos.z + dir.z * t, 2)))
 		return (color);
-	if ((t = -(ptr->pos.x + map) / dir.x) > 0 && (color = \
-		ft_sky_texture(ptr, ptr->pos.y + dir.y * t, ptr->pos.z + dir.z * t, 3)))
+	if ((t = -(ptr->player.pos.x + map) / dir.x) > 0 && (color = \
+		ft_sky_texture(ptr, ptr->player.pos.y + dir.y * t, ptr->player.pos.z + dir.z * t, 3)))
 		return (color);
-	if ((t = -(ptr->pos.y - map) / dir.y) > 0 && (color = \
-		ft_sky_texture(ptr, ptr->pos.x + dir.x * t, ptr->pos.z + dir.z * t, 4)))
+	if ((t = -(ptr->player.pos.y - map) / dir.y) > 0 && (color = \
+		ft_sky_texture(ptr, ptr->player.pos.x + dir.x * t, ptr->player.pos.z + dir.z * t, 4)))
 		return (color);
-	if ((t = -(ptr->pos.y + map) / dir.y) > 0 && (color = \
-		ft_sky_texture(ptr, ptr->pos.x + dir.x * t, ptr->pos.z + dir.z * t, 5)))
+	if ((t = -(ptr->player.pos.y + map) / dir.y) > 0 && (color = \
+		ft_sky_texture(ptr, ptr->player.pos.x + dir.x * t, ptr->player.pos.z + dir.z * t, 5)))
 		return (color);
-	if ((t = -(ptr->pos.z + map - 1) / dir.z) > 0 && (color = \
-		ft_sky_texture(ptr, ptr->pos.x + dir.x * t, ptr->pos.y + dir.y * t, 6)))
+	if ((t = -(ptr->player.pos.z + map - 1) / dir.z) > 0 && (color = \
+		ft_sky_texture(ptr, ptr->player.pos.x + dir.x * t, ptr->player.pos.y + dir.y * t, 6)))
 		return (color);
 	return (0);
 }
@@ -47,7 +47,7 @@ t_dist	ft_ray_y(t_ptr *ptr, t_vector dir)
 
 	axe.axe = 'y';
 	axe.dir = dir.y;
-	axe.pos = (int)ptr->pos.y;
+	axe.pos = (int)ptr->player.pos.y;
 	axe.nbr_plan = ptr->pars->nbr_map.y;
 	axe.rs_plans = ptr->rs_plans_y;
 	// dir.z limit ?
@@ -66,7 +66,7 @@ t_dist	ft_ray_x(t_ptr *ptr, t_vector dir)
 
 	axe.axe = 'x';
 	axe.dir = dir.x;
-	axe.pos = (int)ptr->pos.x;
+	axe.pos = (int)ptr->player.pos.x;
 	axe.nbr_plan = ptr->pars->nbr_map.x;
 	axe.rs_plans = ptr->rs_plans_x;
 	dist.t = 0;
@@ -82,12 +82,12 @@ static unsigned int	ft_floor(t_ptr *ptr, t_vector dir)
 	float	t;
 	t_c		pixel;
 
-	if ((t = -(ptr->pos.z) / dir.z) > 0)
+	if ((t = -(ptr->player.pos.z) / dir.z) > 0)
 	{
-		pixel.x = ptr->pos.x + dir.x * t;
+		pixel.x = ptr->player.pos.x + dir.x * t;
 		if (pixel.x >= 0 && pixel.x <= ptr->pars->nbr_map.x)
 		{
-			pixel.y = ptr->pos.y + dir.y * t;
+			pixel.y = ptr->player.pos.y + dir.y * t;
 			if (pixel.y >= 0 && pixel.y <= ptr->pars->nbr_map.y)
 				return (ptr->pars->col_floor);
 		}

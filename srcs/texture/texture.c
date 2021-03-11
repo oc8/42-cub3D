@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 14:54:11 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 16:11:23 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 16:29:55 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i index)
 		return (0);
 	ac = bc * bc + ab * ab;
 	ac = sqrt(ac);
-	if (ptr->pos.y > (index.y + 0.5))
+	if (ptr->player.pos.y > (index.y + 0.5))
 	{
 		if (ab >= 0)
 			ac += 0.5;

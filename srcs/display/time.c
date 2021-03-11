@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:38:21 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 14:51:59 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/11 16:29:39 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ struct timeval	ft_time(t_ptr *ptr, char *str, int *count)
 	}
 	sprintf(str, "FPS : %i", time_fps);
 	if (ptr->key.maj)
-		ptr->speed = 6 * delta;
+		ptr->player.speed = 6 * delta;
 	else
-		ptr->speed = 3 * delta;
+		ptr->player.speed = 3 * delta;
 	if (ptr->key.ctrl)
-		ptr->speed /= 2;
+		ptr->player.speed /= 2;
 	return (time_now);
 }
