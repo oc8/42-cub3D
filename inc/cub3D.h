@@ -132,7 +132,6 @@ typedef struct	s_agl
 typedef struct	s_dist
 {
 	float	t;
-	char	flag;
 	int		color_sprite;
 	t_c		pixel;
 }				t_dist;
@@ -248,7 +247,7 @@ void			ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), t_ptr *ptr);
 
 t_dist			ft_ray(t_ptr *ptr, t_plan *plans, t_vector dir, t_axe *axe);
 
-int				ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist, float small_dist);
+float			ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist, float small_dist);
 void			ft_create_plan_sprite(t_ptr *ptr);
 t_sprite		*ft_search_sprite(t_ptr *ptr, int y, int x);
 void			ft_malloc_sprite(t_ptr *ptr);

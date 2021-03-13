@@ -48,27 +48,53 @@ static void	ft_check_new_pos(t_ptr *ptr, t_c new_pos)
 	}
 }
 
-static void	ft_new_pos(t_ptr *ptr, char key, t_c *pos)
+static void	ft_new_pos(t_ptr *ptr, t_c *pos)
 {
-	if (key == 'w')
+	if (ptr->key.w)
 	{
 		pos->x += sin(ptr->player.agl_hor) * ptr->player.speed;
 		pos->y -= cos(ptr->player.agl_hor) * ptr->player.speed;
 	}
-	else if (key == 's')
+	if (ptr->key.s)
 	{
 		pos->x -= sin(ptr->player.agl_hor) * ptr->player.speed;
 		pos->y += cos(ptr->player.agl_hor) * ptr->player.speed;
 	}
-	else if (key == 'a')
+	if (ptr->key.a)
 	{
 		pos->x += sin(ptr->player.agl_hor - M_PI_2) * ptr->player.speed;
 		pos->y -= cos(ptr->player.agl_hor - M_PI_2) * ptr->player.speed;
 	}
-	else
+	if (ptr->key.d)
 	{
 		pos->x += sin(ptr->player.agl_hor + M_PI_2) * ptr->player.speed;
 		pos->y -= cos(ptr->player.agl_hor + M_PI_2) * ptr->player.speed;
+	}
+	if (ptr->key.up)
+		ptr->player.pos.z += ptr->player.speed;
+	if (ptr->key.down)
+		ptr->player.pos.z -= ptr->player.speed;
+}
+
+static void	ft_view(t_ptr *ptr)
+{
+	float	rs;
+
+	if (ptr->key.al)
+		ptr->player.agl_hor -= ptr->player.speed;
+	if (ptr->key.ar)
+		ptr->player.agl_hor += ptr->player.speed;
+	if (ptr->key.ad)
+	{
+		rs = ptr->player.agl_vrt + 0.5 * ptr->player.speed;
+		if (rs < M_PI_2 && rs > -M_PI_2)
+			ptr->player.agl_vrt = rs;
+	}
+	if (ptr->key.au)
+	{
+		rs = ptr->player.agl_vrt - 0.5 * ptr->player.speed;
+		if (rs < M_PI_2 && rs > -M_PI_2)
+			ptr->player.agl_vrt = rs;
 	}
 }
 
@@ -78,26 +104,8 @@ static void	ft_move(t_ptr *ptr)
 
 	new_pos.x = ptr->player.pos.x;
 	new_pos.y = ptr->player.pos.y;
-	if (ptr->key.al)
-		ptr->player.agl_hor -= ptr->player.speed;
-	if (ptr->key.ar)
-		ptr->player.agl_hor += ptr->player.speed;
-	if (ptr->key.w)
-		ft_new_pos(ptr, 'w', &new_pos);
-	if (ptr->key.s)
-		ft_new_pos(ptr, 's', &new_pos);
-	if (ptr->key.a)
-		ft_new_pos(ptr, 'a', &new_pos);
-	if (ptr->key.d)
-		ft_new_pos(ptr, 'd', &new_pos);
-	if (ptr->key.ad)
-		ptr->player.agl_vrt += 0.5 * ptr->player.speed;
-	if (ptr->key.au)
-		ptr->player.agl_vrt -= 0.5 * ptr->player.speed;
-	if (ptr->key.up)
-		ptr->player.pos.z += ptr->player.speed;
-	if (ptr->key.down)
-		ptr->player.pos.z -= ptr->player.speed;
+	ft_new_pos(ptr, &new_pos);
+	ft_view(ptr);
 	ft_check_new_pos(ptr, new_pos);
 }
 

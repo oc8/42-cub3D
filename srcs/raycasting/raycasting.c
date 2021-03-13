@@ -81,15 +81,12 @@ t_dist	ft_ray(t_ptr *ptr, t_plan *plans, t_vector dir, t_axe *axe)
 		{
 			dist.t = ft_ray_wall(ptr, &plans[i], &dist.pixel, dir, axe->rs_plans[i], axe);
 			if (dist.t)
-			{
-				dist.flag = 'w';
 				return (dist);
-			}
 			if (axe->dir > 0)
 				i++;
 			else
 				i--;
 		}
-	dist.flag = 0;
+	dist.t = 0;
 	return (dist);
 }

@@ -87,7 +87,6 @@ void	ft_create_plan_sprite(t_ptr *ptr)
 				p->c = 0;
 				p->d = -p->a * (x + 0.5) - p->b * (y + 0.5);
 				i++;
-				// printf("\t\t\t\t\t%d\n", ptr->pars->plans_sprite[i].index.y);
 			}
 	}
 }
@@ -104,7 +103,6 @@ static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_vector dir, float t, t_sprite 
 		pixel->y = ptr->player.pos.y + dir.y * t;
 		i_map.x = (int)pixel->x;
 		i_map.y = (int)pixel->y;
-		// printf("x = %d\ny = %d\n\n", i_map.x, i_map.y);
 		if (i_map.x == sprite->index.x && i_map.y == sprite->index.y)
 		{
 			color = ft_sprite_texture(ptr, &ptr->sprite, pixel, sprite->index);
@@ -115,7 +113,7 @@ static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_vector dir, float t, t_sprite 
 	return (0);
 }
 
-int		ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist, float small_dist)
+float	ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist, float small_dist)
 {
 	t_sprite		*p;
 	float			rs_dir;
@@ -132,8 +130,12 @@ int		ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist, float small_dist)
 			t = -(p->a * ptr->player.pos.x + p->b * ptr->player.pos.y + p->c * ptr->player.pos.z + p->d) / rs_dir;
 			if (t > small_dist)
 				return (0);
-			if (t > 0 && (dist->color_sprite = ft_is_sprite(ptr, &dist->pixel, dir, t, p)))
-				return (t);
+			if (t > 0)
+			{
+				dist->color_sprite = ft_is_sprite(ptr, &dist->pixel, dir, t, p);
+				if (dist->color_sprite)
+					return (t);
+			}
 		}
 		i++;
 	}
