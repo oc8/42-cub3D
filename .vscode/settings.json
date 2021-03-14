@@ -4,6 +4,7 @@
 		"locale": "cpp",
 		"ostream": "cpp",
 		"new": "cpp",
-		"cub3d.h": "c"
+		"cub3d.h": "c",
+		"algorithm": "c"
 	}
 }

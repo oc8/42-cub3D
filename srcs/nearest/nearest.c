@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 18:32:31 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 18:03:36 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,28 +49,49 @@ t_dist	ft_ray_x(t_ptr *ptr, t_vector dir)
 	return (dist);
 }
 
-static unsigned int	ft_floor(t_ptr *ptr, t_vector dir)
+static t_dist	ft_floor(t_ptr *ptr, t_vector dir)
 {
-	float	t;
-	t_c		pixel;
+	t_c		*pixel;
+	t_dist	dist;
 
-	if ((t = -(ptr->player.pos.z) / dir.z) > 0)
+	dist.color = 0;
+	pixel = &dist.pixel;
+	if ((dist.t = -(ptr->player.pos.z) / dir.z) > 0)
 	{
-		pixel.x = ptr->player.pos.x + dir.x * t;
-		if (pixel.x >= 0 && pixel.x <= ptr->pars->nbr_map.x)
+		pixel->x = ptr->player.pos.x + dir.x * dist.t;
+		if (pixel->x >= 0 && pixel->x <= ptr->pars->nbr_map.x)
 		{
-			pixel.y = ptr->player.pos.y + dir.y * t;
-			if (pixel.y >= 0 && pixel.y <= ptr->pars->nbr_map.y)
-				return (ptr->pars->col_floor);
+			pixel->y = ptr->player.pos.y + dir.y * dist.t;
+			if (pixel->y >= 0 && pixel->y <= ptr->pars->nbr_map.y)
+				dist.color = ft_floor_texture(ptr, &dist.pixel);
 		}
 	}
-	return (0);
+	if (!dist.color)
+		dist.t = 0;
+	return (dist);
 }
 
-// static unsigned int	ft_check(float v1, float v2, )
-// {
-	
-// }
+static t_dist	ft_top(t_ptr *ptr, t_vector dir)
+{
+	t_c		*pixel;
+	t_dist	dist;
+
+	dist.color = 0;
+	pixel = &dist.pixel;
+	if ((dist.t = -(ptr->player.pos.z - 1) / dir.z) > 0)
+	{
+		pixel->x = ptr->player.pos.x + dir.x * dist.t;
+		if (pixel->x >= 0 && pixel->x <= ptr->pars->nbr_map.x)
+		{
+			pixel->y = ptr->player.pos.y + dir.y * dist.t;
+			if (pixel->y >= 0 && pixel->y <= ptr->pars->nbr_map.y)
+				dist.color = ft_top_texture(ptr, &dist);
+		}
+	}
+	if (!dist.color)
+		dist.t = 0;
+	return (dist);
+}
 
 static t_dist	ft_sprite_nearest(t_ptr *ptr, t_vector dir, t_dist dist_x, t_dist dist_y)
 {
@@ -92,27 +113,45 @@ static t_dist	ft_sprite_nearest(t_ptr *ptr, t_vector dir, t_dist dist_x, t_dist 
 	return (dist_sprite);
 }
 
+static void		ft_dist(t_ptr *ptr, t_dist dist[6], t_vector dir)
+{
+	dist[0] = ft_ray_y(ptr, dir);
+	dist[1] = ft_ray_x(ptr, dir);
+	dist[2] = ft_sprite_nearest(ptr, dir, dist[0], dist[1]);
+	dist[3] = ft_top(ptr, dir);
+	dist[4] = ft_floor(ptr, dir);
+	dist[5].color = ft_skybox(ptr, dir);
+	dist[5].t = 9999998;
+}
+
 unsigned int	ft_nearest(t_ptr *ptr, t_vector dir)
 {
-	t_dist			dist_x;
-	t_dist			dist_y;
-	t_dist			dist_sprite;
-	unsigned int	color;
+	t_dist			dist[6];
+	int				i;
+	float			small_dist;
+	int				nearest;
 
-	dist_y = ft_ray_y(ptr, dir);
-	dist_x = ft_ray_x(ptr, dir);
-	// ft_check()
-	dist_sprite = ft_sprite_nearest(ptr, dir, dist_x, dist_y);
-	if (dist_sprite.t)
-		return (dist_sprite.color_sprite);
-	color = ft_nearest_wall(ptr, dir, dist_x, dist_y);
-	if (color)
-		return (color);
-	color = ft_floor(ptr, dir);
-	if (color)
-		return (color);
-	color = ft_skybox(ptr, dir);
-	if (color)
-		return (color);
-	return (0);
+	ft_dist(ptr, dist, dir);
+	small_dist = 9999999;
+	i = -1;
+	while (++i < 6)
+	{
+		if (dist[i].t && dist[i].t < small_dist)
+		{
+			small_dist = dist[i].t;
+			nearest = i;
+		}
+	}
+	if (nearest == 0 || nearest == 1)
+	{
+		if (dir.x < 0)
+			dist[1].color = ft_wall_texture(dist[1].pixel, ptr->we, 'x');
+		else
+			dist[1].color = ft_wall_texture(dist[1].pixel, ptr->ea, 'x');
+		if (dir.y < 0)
+			dist[0].color = ft_wall_texture(dist[0].pixel, ptr->no, 'y');
+		else
+			dist[0].color = ft_wall_texture(dist[0].pixel, ptr->so, 'y');
+	}
+	return (dist[nearest].color);
 }

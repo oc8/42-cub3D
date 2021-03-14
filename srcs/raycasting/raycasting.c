@@ -6,11 +6,33 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 12:57:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 17:21:26 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 17:45:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+// static t_i	ft_index(t_ptr *ptr, t_c *pixel, char axe)
+// {
+// 	t_i		i_map;
+
+// 	if (axe == 'x')
+// 	{
+// 		pixel->y = ptr->player.pos.y + dir.y * t; //
+// 		i_map.x = p->d * -1;
+// 		if (dir.x < 0)
+// 			i_map.x -= 1;
+// 		i_map.y = (int)pixel->y;
+// 	}
+// 	else
+// 	{
+// 		pixel->x = ptr->player.pos.x + dir.x * t; //
+// 		i_map.y = p->d * -1;
+// 		if (dir.y < 0)
+// 			i_map.y -= 1;
+// 		i_map.x = (int)pixel->x;
+// 	}
+// }
 
 static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_vector dir, t_plan *p, float t, char axe)
 {
@@ -19,6 +41,7 @@ static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_vector dir, t_plan *p, float t, 
 	pixel->z = ptr->player.pos.z + dir.z * t;
 	if (pixel->z > 0 && pixel->z < 1)
 	{
+		// ft_index(ptr, pixel, axe);
 		if (axe == 'x')
 		{
 			pixel->y = ptr->player.pos.y + dir.y * t; //
@@ -35,7 +58,8 @@ static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_vector dir, t_plan *p, float t, 
 				i_map.y -= 1;
 			i_map.x = (int)pixel->x;
 		}
-		if (i_map.x < ptr->pars->nbr_map.x && i_map.y < ptr->pars->nbr_map.y && i_map.x >= 0 && i_map.y >= 0)//////////
+		if (i_map.x < ptr->pars->nbr_map.x && i_map.y < ptr->pars->nbr_map.y &&\
+			i_map.x >= 0 && i_map.y >= 0)
 		{
 			if (ptr->pars->map[i_map.y][i_map.x] == '1')
 				return (1);
@@ -77,7 +101,7 @@ t_dist	ft_ray(t_ptr *ptr, t_plan *plans, t_vector dir, t_axe *axe)
 	if (i >= axe->nbr_plan)
 		i = axe->nbr_plan - 1;
 	if (axe->dir != 0)
-		while (i >= 0 && i < axe->nbr_plan)
+		while (i >= 0 && i <= axe->nbr_plan)
 		{
 			dist.t = ft_ray_wall(ptr, &plans[i], &dist.pixel, dir, axe->rs_plans[i], axe);
 			if (dist.t)

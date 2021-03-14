@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 18:35:14 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 19:08:06 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,7 @@ void	ft_malloc_sprite(t_ptr *ptr)
 	ft_init_index_sprite(ptr);
 }
 
-t_sprite	*ft_search_sprite(t_ptr *ptr, int y, int x)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (i < ptr->pars->nbr_sprite && !(ptr->pars->plans_sprite[i].index.x \
-		== x && ptr->pars->plans_sprite[i].index.y == y))
-		i++;
-	return (&ptr->pars->plans_sprite[i]);
-}
-
-void	ft_create_plan_sprite(t_ptr *ptr)
+void	ft_pos_sprite(t_ptr *ptr)
 {
 	int		y;
 	int		x;
@@ -82,12 +71,26 @@ void	ft_create_plan_sprite(t_ptr *ptr)
 			if (ptr->pars->map[y][x] == 2)
 			{
 				p = &ptr->pars->plans_sprite[i];
-				p->a = (x + 0.5) - ptr->player.pos.x;//pos
-				p->b = (y + 0.5) - ptr->player.pos.y;
-				p->c = 0;
-				p->d = -p->a * (x + 0.5) - p->b * (y + 0.5);
+				p->pos.x = (x + 0.5);
+				p->pos.y = (y + 0.5);
 				i++;
 			}
+	}
+}
+
+void	ft_create_plan_sprite(t_ptr *ptr)
+{
+	unsigned int	i;
+	t_sprite		*p;
+
+	i = -1;
+	while (++i < ptr->pars->nbr_sprite)
+	{
+		p = &ptr->pars->plans_sprite[i];
+		p->a = p->pos.x - ptr->player.pos.x;
+		p->b = p->pos.y - ptr->player.pos.y;
+		p->c = 0;
+		p->d = -p->a * p->pos.x - p->b * p->pos.y;
 	}
 }
 
@@ -132,8 +135,8 @@ float	ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist, float small_dist)
 				return (0);
 			if (t > 0)
 			{
-				dist->color_sprite = ft_is_sprite(ptr, &dist->pixel, dir, t, p);
-				if (dist->color_sprite)
+				dist->color = ft_is_sprite(ptr, &dist->pixel, dir, t, p);
+				if (dist->color)
 					return (t);
 			}
 		}

@@ -6,14 +6,14 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 17:46:31 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 19:08:02 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define THREAD 4
+# define THREAD 6
 
 # define KEY_D 2
 # define KEY_A 0
@@ -32,7 +32,6 @@
 # include "mlx.h"
 # include "libft.h"
 
-# include <limits.h>
 # include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -99,6 +98,7 @@ typedef struct	s_sprite
 	float	c;
 	float	d;
 	t_i		index;
+	t_c		pos;
 	char	viewable;
 }				t_sprite;
 
@@ -131,9 +131,9 @@ typedef struct	s_agl
 
 typedef struct	s_dist
 {
-	float	t;
-	int		color_sprite;
-	t_c		pixel;
+	float			t;
+	unsigned int	color;
+	t_c				pixel;
 }				t_dist;
 
 typedef struct	s_axe
@@ -188,7 +188,6 @@ typedef struct	s_ptr
 	t_player		player;
 	t_list			*malloc_lst;
 	t_list			*mlx_lst;
-	t_img			sky;
 	t_mlx			mlx;
 	t_img			screen;
 	t_img			we;
@@ -196,6 +195,8 @@ typedef struct	s_ptr
 	t_img			so;
 	t_img			ea;
 	t_img			sprite;
+	t_img			sky;
+	t_img			floor;
 	t_key			key;
 	struct timeval	time;
 	struct timeval	last_second;
@@ -249,14 +250,16 @@ t_dist			ft_ray(t_ptr *ptr, t_plan *plans, t_vector dir, t_axe *axe);
 
 float			ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist, float small_dist);
 void			ft_create_plan_sprite(t_ptr *ptr);
-t_sprite		*ft_search_sprite(t_ptr *ptr, int y, int x);
 void			ft_malloc_sprite(t_ptr *ptr);
+void			ft_pos_sprite(t_ptr *ptr);
 
 void			ft_mlx_init(t_ptr *ptr);
 int				ft_loop(t_ptr *ptr);
 int				ft_mouse(int x, int y, t_ptr *ptr);
 int				ft_key(int key, t_ptr *ptr);
 int				ft_key_release(int key, t_ptr *ptr);
+
+void		ft_check_new_pos(t_ptr *ptr, t_c new_pos);
 
 unsigned int	ft_nearest_wall(t_ptr *ptr, t_vector dir, t_dist x, t_dist y);
 
@@ -265,6 +268,8 @@ void			ft_close(t_ptr *ptr, int error);
 
 unsigned int	ft_wall_texture(t_c pixel, t_img img, char axe);
 unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i index);
+unsigned int	ft_floor_texture(t_ptr *ptr, t_c *pixel);
+unsigned int	ft_top_texture(t_ptr *ptr, t_dist *dist);
 unsigned int	ft_skybox(t_ptr *ptr, t_vector dir);
 unsigned int	ft_sky_texture_up(t_ptr *ptr, float map, t_vector *dir);
 unsigned int	ft_sky_texture_1(t_ptr *ptr, float map, t_vector *dir);

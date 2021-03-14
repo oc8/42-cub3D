@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 16:30:49 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 17:53:42 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen, int thread_nb)
 	int				y;
 	unsigned int	color;
 
-	y = (ptr->mlx.height / THREAD) * thread_nb - 1;
-	while (y < (ptr->mlx.height / THREAD) * (thread_nb + 1) - 1)
+	y = (ptr->mlx.height / THREAD) * thread_nb;
+	while (y < (ptr->mlx.height / THREAD) * (thread_nb + 1))
 	{
 		x = 0;
-		while (x < ptr->mlx.width - 1)
+		while (x < ptr->mlx.width)
 		{
 			color = ft_nearest(ptr, ft_rotation(ptr->player.dir[y * \
 				ptr->mlx.width + x], &ptr->agl, ptr));

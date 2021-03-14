@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/08 18:13:55 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 18:39:58 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,10 @@ static char	*ft_copy_str(t_ptr *ptr, char *line, int *i)
 	return (rs);
 }
 
-static int	ft_atoi_color_util(t_ptr *ptr, char *line, int *i)
+static int	ft_atoi_color_util(t_ptr *ptr, char *line, int *i, int flag)
 {
 	int		rs;
-	int		flag;
 
-	flag = 0;
 	while (line[*i] && (line[*i] == ' ' || line[*i] == '\t' || line[*i] == ','))
 	{
 		if (line[*i] == ',')
@@ -98,10 +96,9 @@ static int	ft_atoi_color(t_ptr *ptr, char *line, int *i)
 	int		g;
 	int		b;
 
-	r = ft_atoi_color_util(ptr, line, i);
-	g = ft_atoi_color_util(ptr, line, i);
-	b = ft_atoi_color_util(ptr, line, i);
-	printf("r = %d, g = %d, b = %d\n", r, g, b);
+	r = ft_atoi_color_util(ptr, line, i, 1);
+	g = ft_atoi_color_util(ptr, line, i, 0);
+	b = ft_atoi_color_util(ptr, line, i, 0);
 	return (create_trgb(1, r, g, b));
 }
 
@@ -216,10 +213,7 @@ int		ft_parsing(char *path, t_ptr *ptr)
 		if (flag && ft_parsing_criteria(ptr, line))
 				flag = 0;
 		if (!flag)
-		{
 			ft_parsing_map(ptr, line.ptr, line.i++, &first_pos);
-			// *line.i += 1;
-		}
 		free(line.ptr);
 	}
 
@@ -237,6 +231,7 @@ int		ft_parsing(char *path, t_ptr *ptr)
 	if (ptr->epars != 511 || ft_check_map(ptr, ptr->pars->map, first_pos.x, first_pos.y))
 		ft_close(ptr, 3);
 	ft_malloc_sprite(ptr);
+	ft_pos_sprite(ptr);
 	ft_create_plan(ptr);
 	return (0);
 }

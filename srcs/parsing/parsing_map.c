@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 16:29:55 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 18:18:27 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,17 @@ int		ft_malloc_map(t_ptr *ptr, char *path)
 		}
 		free(line);
 	}
-	if (size_line_max != INT_MAX)
+	ptr->pars->nbr_map.x = size_line_max;
+	ptr->pars->nbr_map.y = count_line;
+	// free(ptr->pars->map);
+	if (!(ptr->pars->map = ft_calloc_lst(ptr, count_line, sizeof(char *))))
+		return (-1);
+	vr = -1;
+	while (++vr < count_line)
 	{
-		ptr->pars->nbr_map.x = size_line_max;
-		ptr->pars->nbr_map.y = count_line;
-		// free(ptr->pars->map);
-		if (!(ptr->pars->map = ft_calloc_lst(ptr, count_line, sizeof(char *))))
-			return (-1);
-		vr = -1;
-		while (++vr < count_line)
-		{
-			ptr->pars->map[vr] = ft_calloc_lst(ptr, size_line_max, sizeof(char));
-			if (!ptr->pars->map[vr])
-				ft_close(ptr, 1);
-		}
+		ptr->pars->map[vr] = ft_calloc_lst(ptr, size_line_max, sizeof(char));
+		if (!ptr->pars->map[vr])
+			ft_close(ptr, 1);
 	}
 	return (0);
 }

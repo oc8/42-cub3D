@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:13:27 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/05 17:48:58 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 12:30:26 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	ft_close(t_ptr *ptr, int error)
 {
-	printf("\033[34m> close :(\n\033[31m");
+	if (error)
+		printf("\033[31mError\n");
 	if (error == 1)
 		printf("malloc error\n");
 	else if (error == 2)

@@ -2,6 +2,15 @@ Cub3D
 
 bonus :
 mouse
+snic
+sprint
+skybox
+colision
+colision sprite
+look up and down
+fly
+multi thread
+
 
 
 
@@ -10,5 +19,7 @@ mouse
 2 = down
 maj = run
 deco
+
+
 
 x * x + y * y
