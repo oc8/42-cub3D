@@ -6,11 +6,21 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 15:37:28 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/07 18:07:53 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 19:33:38 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+float	ft_calc_rs(t_ptr *ptr, t_plan *p)
+{
+	float	rs;
+	t_c		*pos;
+
+	pos = &ptr->player.pos;
+	rs = -(p->a * pos->x + p->b * pos->y + p->c * pos->z + p->d);
+	return (rs);
+}
 
 int		create_trgb(int t, int r, int g, int b)
 {

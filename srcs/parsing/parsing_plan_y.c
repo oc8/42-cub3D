@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 16:22:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 17:31:21 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 19:36:45 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,17 @@ void		ft_create_plans_y(t_ptr *ptr)
 	{
 		i++;
 		if (ft_is_no_wall(ptr, y))
+		{
 			ptr->pars->plans_no[i] = ft_new_plan('y', y);
+			// ptr->pars->plans_no[i].rs = ft_calc_rs(ptr, &ptr->pars->plans_no[i]);
+		}
 		else
 			ptr->pars->plans_no[i].d = 0;
 		if (ft_is_so_wall(ptr, y))
+		{
 			ptr->pars->plans_so[i] = ft_new_plan('y', y);
+			// ptr->pars->plans_so[i].rs = ft_calc_rs(ptr, &ptr->pars->plans_so[i]);
+		}
 		else
 			ptr->pars->plans_so[i].d = 0;
 	}

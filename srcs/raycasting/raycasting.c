@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 12:57:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 17:45:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 19:22:32 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_vector dir, t_plan *p, float t, 
 	return (0);
 }
 
-static float	ft_ray_wall(t_ptr *ptr, t_plan *p, t_c *pixel, t_vector dir, float rs_p, t_axe *axe)
+static float	ft_ray_wall(t_ptr *ptr, t_plan *p, t_c *pixel, t_vector dir, t_axe *axe)
 {
 	float		rs_dir;
 	float		t;
@@ -80,7 +80,7 @@ static float	ft_ray_wall(t_ptr *ptr, t_plan *p, t_c *pixel, t_vector dir, float 
 		rs_dir = p->a * dir.x + p->b * dir.y + p->c * dir.z;
 		if (rs_dir)
 		{
-			t = rs_p / rs_dir;
+			t = p->rs / rs_dir;
 			if (t > 0 && ft_is_wall(ptr, pixel, dir, p, t, axe->axe))
 				return (t);
 		}
@@ -103,7 +103,7 @@ t_dist	ft_ray(t_ptr *ptr, t_plan *plans, t_vector dir, t_axe *axe)
 	if (axe->dir != 0)
 		while (i >= 0 && i <= axe->nbr_plan)
 		{
-			dist.t = ft_ray_wall(ptr, &plans[i], &dist.pixel, dir, axe->rs_plans[i], axe);
+			dist.t = ft_ray_wall(ptr, &plans[i], &dist.pixel, dir, axe);
 			if (dist.t)
 				return (dist);
 			if (axe->dir > 0)

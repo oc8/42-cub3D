@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 18:03:36 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 19:22:01 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_dist	ft_ray_y(t_ptr *ptr, t_vector dir)
 	axe.dir = dir.y;
 	axe.pos = (int)ptr->player.pos.y;
 	axe.nbr_plan = ptr->pars->nbr_map.y;
-	axe.rs_plans = ptr->rs_plans_y;
 	// dir.z limit ?
 	dist.t = 0;
 	if (dir.y > 0)
@@ -40,7 +39,6 @@ t_dist	ft_ray_x(t_ptr *ptr, t_vector dir)
 	axe.dir = dir.x;
 	axe.pos = (int)ptr->player.pos.x;
 	axe.nbr_plan = ptr->pars->nbr_map.x;
-	axe.rs_plans = ptr->rs_plans_x;
 	dist.t = 0;
 	if (dir.x > 0)
 		dist = ft_ray(ptr, ptr->pars->plans_ea, dir, &axe);

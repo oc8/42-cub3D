@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 17:53:42 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 19:43:45 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	ft_threads(t_ptr *ptr)
 		pthread_join(ptr->thread[i], NULL);
 }
 
-static void	ft_before_calc_plans(t_ptr *ptr, float *rs, t_plan *p1, t_plan *p2, int nbr)
+static void	ft_before_calc_plans(t_ptr *ptr, t_plan *p1, t_plan *p2, int nbr)
 {
 	int		i;
 	t_c		pos;
@@ -98,9 +98,9 @@ static void	ft_before_calc_plans(t_ptr *ptr, float *rs, t_plan *p1, t_plan *p2, 
 	while (++i < nbr)
 	{
 		if (p1[i].d)
-			rs[i] = -(p1[i].a * pos.x + p1[i].b * pos.y + p1[i].c * pos.z + p1[i].d);
-		else if (p2[i].d)
-			rs[i] = -(p2[i].a * pos.x + p2[i].b * pos.y + p2[i].c * pos.z + p2[i].d);
+			p1[i].rs = ft_calc_rs(ptr, &p1[i]);
+		if (p2[i].d)
+			p2[i].rs = ft_calc_rs(ptr, &p2[i]);
 	}
 }
 
@@ -113,9 +113,9 @@ static void	ft_before_calc(t_ptr *ptr)
 	agl.cos_vrt = cos(ptr->player.agl_vrt);
 	agl.sin_vrt = sin(ptr->player.agl_vrt);
 	ptr->agl = agl;
-	ft_before_calc_plans(ptr, ptr->rs_plans_y, ptr->pars->plans_so, \
+	ft_before_calc_plans(ptr, ptr->pars->plans_so, \
 		ptr->pars->plans_no, ptr->pars->nbr_map.y);
-	ft_before_calc_plans(ptr, ptr->rs_plans_x, ptr->pars->plans_ea, \
+	ft_before_calc_plans(ptr, ptr->pars->plans_ea, \
 		ptr->pars->plans_we, ptr->pars->nbr_map.x);
 }
 

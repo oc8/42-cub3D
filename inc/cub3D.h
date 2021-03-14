@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 19:20:55 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 19:32:34 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,9 +144,6 @@ typedef struct	s_axe
 	float	dir;
 	int		pos;
 	int		nbr_plan;
-	float	*rs_plans_x;
-	float	*rs_plans_y;
-	float	*rs_plans;
 }				t_axe;
 
 // typedef struct	s_matrice
@@ -279,5 +276,7 @@ unsigned int	ft_sky_texture_2(t_ptr *ptr, float map, t_vector *dir);
 unsigned int	ft_sky_texture_3(t_ptr *ptr, float map, t_vector *dir);
 unsigned int	ft_sky_texture_4(t_ptr *ptr, float map, t_vector *dir);
 unsigned int	ft_sky_texture_down(t_ptr *ptr, float map, t_vector *dir);
+
+float	ft_calc_rs(t_ptr *ptr, t_plan *p);
 
 #endif
