@@ -82,63 +82,167 @@ unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i index)
 	return (0);
 }
 
-
-unsigned int	ft_sky_texture_up(t_ptr *ptr, float c1, float c2)
+unsigned int	ft_sky_texture_up(t_ptr *ptr, float map, t_vector *dir)
 {
 	t_i				index;
-	float			map;
+	t_c				c;
+	float			t;
 
-	map = 10 * ptr->pars->nbr_map.x;
-	if (!(c1 <= -map || c1 >= map || c2 <= -map || c2 >= map))
+	t = -(ptr->player.pos.z - map + 1) / dir->z;
+	if (t > 0)
 	{
-		index.x = (c1 + map) / (2 * map) * (ptr->sky.width / 4) + 3 * ptr->sky.width / 4;
-		index.y = (c2 + map) / (2 * map) * (ptr->sky.height / 3);
-		if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
-			return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+		c.x = ptr->player.pos.x + dir->x * t;
+		c.y = ptr->player.pos.y + dir->y * t;
+		map = 10 * ptr->pars->nbr_map.x;
+		if (!(c.x <= -map || c.x >= map || c.y <= -map || c.y >= map))
+		{
+			index.x = (c.x + map) / (2 * map) * (ptr->sky.width / 4) + 3 * ptr->sky.width / 4;
+			index.y = (c.y + map) / (2 * map) * (ptr->sky.height / 3);
+			if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
+				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+		}
 	}
 	return (0);
 }
 
-
-unsigned int	ft_sky_texture(t_ptr *ptr, float c1, float c2, char face)
+unsigned int	ft_sky_texture_1(t_ptr *ptr, float map, t_vector *dir)
 {
 	t_i				index;
+	t_c				c;
+	float			t;
+
+	t = -(ptr->player.pos.x - map) / dir->x;
+	if (t > 0)
+	{
+		c.z = ptr->player.pos.z + dir->z * t;
+		c.y = ptr->player.pos.y + dir->y * t;
+		map = 10 * ptr->pars->nbr_map.x;
+		if (!(c.z <= -map || c.z >= map || c.y <= -map || c.y >= map))
+		{
+			index.x = (1 - (c.y + map) / (2 * map)) * (ptr->sky.width / 4);
+			index.y = (1 - (c.z + map) / (2 * map)) * (ptr->sky.height / 3) + ptr->sky.height / 3;
+			if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
+				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+		}
+	}
+	return (0);
+}
+
+unsigned int	ft_sky_texture_2(t_ptr *ptr, float map, t_vector *dir)
+{
+	t_i				index;
+	t_c				c;
+	float			t;
+
+	t = -(ptr->player.pos.x + map) / dir->x;
+	if (t > 0)
+	{
+		c.z = ptr->player.pos.z + dir->z * t;
+		c.y = ptr->player.pos.y + dir->y * t;
+		map = 10 * ptr->pars->nbr_map.x;
+		if (!(c.z <= -map || c.z >= map || c.y <= -map || c.y >= map))
+		{
+			index.x = ((c.y + map) / (2 * map)) * (ptr->sky.width / 4) + 2 * ptr->sky.width / 4;
+			index.y = (1 - (c.z + map) / (2 * map)) * (ptr->sky.height / 3) + 1 * ptr->sky.height / 3;
+			if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
+				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+		}
+	}
+	return (0);
+}
+
+unsigned int	ft_sky_texture_3(t_ptr *ptr, float map, t_vector *dir)
+{
+	t_i				index;
+	t_c				c;
+	float			t;
+
+	t = -(ptr->player.pos.y - map) / dir->y;
+	if (t > 0)
+	{
+		c.x = ptr->player.pos.x + dir->x * t;
+		c.z = ptr->player.pos.z + dir->z * t;
+		map = 10 * ptr->pars->nbr_map.x;
+		if (!(c.x <= -map || c.x >= map || c.z <= -map || c.z >= map))
+		{
+			index.x = ((c.x + map) / (2 * map)) * (ptr->sky.width / 4) + 3 * ptr->sky.width / 4;
+			index.y = (1 - (c.z + map) / (2 * map)) * (ptr->sky.height / 3) + 1 * ptr->sky.height / 3;
+			if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
+				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+		}
+	}
+	return (0);
+}
+
+unsigned int	ft_sky_texture_4(t_ptr *ptr, float map, t_vector *dir)
+{
+	t_i				index;
+	t_c				c;
+	float			t;
+
+	t = -(ptr->player.pos.y - map) / dir->y;
+	if (t > 0)
+	{
+		c.x = ptr->player.pos.x + dir->x * t;
+		c.z = ptr->player.pos.z + dir->z * t;
+		map = 10 * ptr->pars->nbr_map.x;
+		if (!(c.x <= -map || c.x >= map || c.z <= -map || c.z >= map))
+		{
+			index.x = (1 - (c.x + map) / (2 * map)) * (ptr->sky.width / 4) + 1 * ptr->sky.width / 4;
+			index.y = (1 - (c.z + map) / (2 * map)) * (ptr->sky.height / 3) + 1 * ptr->sky.height / 3;
+			if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
+				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+		}
+	}
+	return (0);
+}
+
+unsigned int	ft_sky_texture_down(t_ptr *ptr, float map, t_vector *dir)
+{
+	t_i				index;
+	t_c				c;
+	float			t;
+
+	t = -(ptr->player.pos.z + map - 1) / dir->z;
+	if (t > 0)
+	{
+		c.x = ptr->player.pos.x + dir->x * t;
+		c.y = ptr->player.pos.y + dir->y * t;
+		map = 10 * ptr->pars->nbr_map.x;
+		if (!(c.x <= -map || c.x >= map || c.y <= -map || c.y >= map))
+		{
+			index.x = ((c.x + map) / (2 * map)) * (ptr->sky.width / 4) + 3 * ptr->sky.width / 4;
+			index.y = (1 - (c.y + map) / (2 * map)) * (ptr->sky.height / 3) + 2 * ptr->sky.height / 3;
+			if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
+				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+		}
+	}
+	return (0);
+}
+
+unsigned int	ft_skybox(t_ptr *ptr, t_vector dir)
+{
 	float			map;
+	unsigned int	color;
 
 	map = 10 * ptr->pars->nbr_map.x;
-	if (!(c1 <= -map || c1 >= map || c2 <= -map || c2 >= map))
-	{
-		if (face == 1)
-		{
-			return (ft_sky_texture_up(ptr, c1, c2));
-		}
-		else if (face == 2)
-		{
-			index.x = (1 - (c1 + map) / (2 * map)) * (ptr->sky.width / 4);
-			index.y = (1 - (c2 + map) / (2 * map)) * (ptr->sky.height / 3) + ptr->sky.height / 3;
-		}
-		else if (face == 3)
-		{
-			index.x = ((c1 + map) / (2 * map)) * (ptr->sky.width / 4) + 2 * ptr->sky.width / 4;
-			index.y = (1 - (c2 + map) / (2 * map)) * (ptr->sky.height / 3) + 1 * ptr->sky.height / 3;
-		}
-		else if (face == 4)
-		{
-			index.x = ((c1 + map) / (2 * map)) * (ptr->sky.width / 4) + 3 * ptr->sky.width / 4;
-			index.y = (1 - (c2 + map) / (2 * map)) * (ptr->sky.height / 3) + 1 * ptr->sky.height / 3;
-		}
-		else if (face == 5)
-		{
-			index.x = (1 - (c1 + map) / (2 * map)) * (ptr->sky.width / 4) + 1 * ptr->sky.width / 4;
-			index.y = (1 - (c2 + map) / (2 * map)) * (ptr->sky.height / 3) + 1 * ptr->sky.height / 3;
-		}
-		else if (face == 6)
-		{
-			index.x = ((c1 + map) / (2 * map)) * (ptr->sky.width / 4) + 3 * ptr->sky.width / 4;
-			index.y = (1 - (c2 + map) / (2 * map)) * (ptr->sky.height / 3) + 2 * ptr->sky.height / 3;
-		}
-		if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
-			return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
-	}
+	color = ft_sky_texture_up(ptr, map, &dir);
+	if (color)
+		return (color);
+	color = ft_sky_texture_1(ptr, map, &dir);
+	if (color)
+		return (color);
+	color = ft_sky_texture_2(ptr, map, &dir);
+	if (color)
+		return (color);
+	color = ft_sky_texture_3(ptr, map, &dir);
+	if (color)
+		return (color);
+	color = ft_sky_texture_4(ptr, map, &dir);
+	if (color)
+		return (color);
+	color = ft_sky_texture_down(ptr, map, &dir);
+	if (color)
+		return (color);
 	return (0);
 }

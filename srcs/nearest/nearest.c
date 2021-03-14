@@ -12,34 +12,6 @@
 
 #include "cub3D.h"
 
-static unsigned int	ft_skybox(t_ptr *ptr, t_vector dir)
-{
-	float			t;
-	float			map;
-	unsigned int	color;
-
-	map = 10 * ptr->pars->nbr_map.x;
-	if ((t = -(ptr->player.pos.z - map + 1) / dir.z) > 0 && (color = \
-		ft_sky_texture(ptr, ptr->player.pos.x + dir.x * t, ptr->player.pos.y + dir.y * t, 1)))
-		return (color);
-	if ((t = -(ptr->player.pos.x - map) / dir.x) > 0 && (color = \
-		ft_sky_texture(ptr, ptr->player.pos.y + dir.y * t, ptr->player.pos.z + dir.z * t, 2)))
-		return (color);
-	if ((t = -(ptr->player.pos.x + map) / dir.x) > 0 && (color = \
-		ft_sky_texture(ptr, ptr->player.pos.y + dir.y * t, ptr->player.pos.z + dir.z * t, 3)))
-		return (color);
-	if ((t = -(ptr->player.pos.y - map) / dir.y) > 0 && (color = \
-		ft_sky_texture(ptr, ptr->player.pos.x + dir.x * t, ptr->player.pos.z + dir.z * t, 4)))
-		return (color);
-	if ((t = -(ptr->player.pos.y + map) / dir.y) > 0 && (color = \
-		ft_sky_texture(ptr, ptr->player.pos.x + dir.x * t, ptr->player.pos.z + dir.z * t, 5)))
-		return (color);
-	if ((t = -(ptr->player.pos.z + map - 1) / dir.z) > 0 && (color = \
-		ft_sky_texture(ptr, ptr->player.pos.x + dir.x * t, ptr->player.pos.y + dir.y * t, 6)))
-		return (color);
-	return (0);
-}
-
 t_dist	ft_ray_y(t_ptr *ptr, t_vector dir)
 {
 	t_axe	axe;

@@ -264,7 +264,13 @@ int				ft_quit_x(t_ptr *ptr);
 void			ft_close(t_ptr *ptr, int error);
 
 unsigned int	ft_wall_texture(t_c pixel, t_img img, char axe);
-unsigned int	ft_sky_texture(t_ptr *ptr, float c1, float c2, char face);
 unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i index);
+unsigned int	ft_skybox(t_ptr *ptr, t_vector dir);
+unsigned int	ft_sky_texture_up(t_ptr *ptr, float map, t_vector *dir);
+unsigned int	ft_sky_texture_1(t_ptr *ptr, float map, t_vector *dir);
+unsigned int	ft_sky_texture_2(t_ptr *ptr, float map, t_vector *dir);
+unsigned int	ft_sky_texture_3(t_ptr *ptr, float map, t_vector *dir);
+unsigned int	ft_sky_texture_4(t_ptr *ptr, float map, t_vector *dir);
+unsigned int	ft_sky_texture_down(t_ptr *ptr, float map, t_vector *dir);
 
 #endif

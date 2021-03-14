@@ -113,7 +113,6 @@ static void	ft_before_calc(t_ptr *ptr)
 	agl.cos_vrt = cos(ptr->player.agl_vrt);
 	agl.sin_vrt = sin(ptr->player.agl_vrt);
 	ptr->agl = agl;
-	// printf("map = %d\n", ptr->pars->map[(int)ptr->player.pos.y][(int)ptr->player.pos.x]);
 	ft_before_calc_plans(ptr, ptr->rs_plans_y, ptr->pars->plans_so, \
 		ptr->pars->plans_no, ptr->pars->nbr_map.y);
 	ft_before_calc_plans(ptr, ptr->rs_plans_x, ptr->pars->plans_ea, \
