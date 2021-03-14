@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 19:08:06 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 19:20:30 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,20 @@ void	ft_create_plan_sprite(t_ptr *ptr)
 {
 	unsigned int	i;
 	t_sprite		*p;
+	t_c				*pos;
 
+	pos = &ptr->player.pos;
 	i = -1;
 	while (++i < ptr->pars->nbr_sprite)
 	{
 		p = &ptr->pars->plans_sprite[i];
-		p->a = p->pos.x - ptr->player.pos.x;
-		p->b = p->pos.y - ptr->player.pos.y;
+		p->a = p->pos.x - pos->x;
+		p->b = p->pos.y - pos->y;
 		p->c = 0;
 		p->d = -p->a * p->pos.x - p->b * p->pos.y;
-	}
+		p->rs = -(p->a * pos->x + p->b * pos->y + p->c * pos->z + p->d);
+	}//trie
+	
 }
 
 static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_vector dir, float t, t_sprite *sprite)
@@ -123,14 +127,14 @@ float	ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist, float small_dist)
 	float			t;
 	unsigned int	i;
 
-	i = 0;
+	i = 0;(void)small_dist;
 	while (i < ptr->pars->nbr_sprite)
 	{
 		p = &ptr->pars->plans_sprite[i];
 		rs_dir = p->a * dir.x + p->b * dir.y + p->c * dir.z;
 		if (rs_dir)
 		{
-			t = -(p->a * ptr->player.pos.x + p->b * ptr->player.pos.y + p->c * ptr->player.pos.z + p->d) / rs_dir;
+			t = p->rs / rs_dir;
 			if (t > small_dist)
 				return (0);
 			if (t > 0)

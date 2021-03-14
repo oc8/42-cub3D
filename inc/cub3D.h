@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 19:08:02 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/14 19:20:55 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct	s_sprite
 	float	b;
 	float	c;
 	float	d;
+	float	rs;
 	t_i		index;
 	t_c		pos;
 	char	viewable;
@@ -108,6 +109,7 @@ typedef struct	s_plan
 	int				b;
 	int				c;
 	int				d;
+	float			rs;
 }				t_plan;
 
 typedef struct	s_img
