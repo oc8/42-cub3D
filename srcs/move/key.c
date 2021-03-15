@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:17:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 16:29:55 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/15 16:16:20 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int		ft_key(int key, t_ptr *ptr)
 		ptr->key.down = 1;
 	else if (key == KEY_MAJ)
 		ptr->key.maj = 1;
+	else if (key == KEY_M)
+		ptr->key.m += 1;
 	else if (key == KEY_ESC)
 		ft_close(ptr, 0);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 19:22:01 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/15 19:20:11 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static t_dist	ft_sprite_nearest(t_ptr *ptr, t_vector dir, t_dist dist_x, t_dist 
 	{
 		if (dist_x.t < dist_y.t)
 			dist_sprite.t = ft_ray_sprite(ptr, dir, &dist_sprite, dist_x.t);
-		else // if (y < x.t)
+		else
 			dist_sprite.t = ft_ray_sprite(ptr, dir, &dist_sprite, dist_y.t);
 	}
 	else if (dist_y.t)
@@ -113,6 +113,7 @@ static t_dist	ft_sprite_nearest(t_ptr *ptr, t_vector dir, t_dist dist_x, t_dist 
 
 static void		ft_dist(t_ptr *ptr, t_dist dist[6], t_vector dir)
 {
+	ft_ray_ea(ptr, dir);
 	dist[0] = ft_ray_y(ptr, dir);
 	dist[1] = ft_ray_x(ptr, dir);
 	dist[2] = ft_sprite_nearest(ptr, dir, dist[0], dist[1]);

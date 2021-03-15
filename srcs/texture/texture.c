@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 14:54:11 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 19:09:43 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/15 16:07:33 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,15 @@ unsigned int	ft_top_texture(t_ptr *ptr, t_dist *dist)
 	return (0);
 }
 
-unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i index)
+float			ft_pythagore(t_ptr *ptr, t_sprite *sprite, float ab, float bc)
 {
-	t_i				i_img;
-	unsigned int	rs;
-	float			ab;
-	float			bc;
-	float			ac;
+	float	ac;
 
-	i_img.y = (int)((2 - pixel->z) * (sprite->height * 0.5));
-	if (i_img.y >= (sprite->height * 2) || i_img.y < 0)
-		return (0);
-	ab = pixel->x - (index.x + 0.5);
-	bc = pixel->y - (index.y + 0.5);
 	if (ab > 0.5 || ab < -0.5 || bc > 0.5 || bc < -0.5)
 		return (0);
 	ac = bc * bc + ab * ab;
 	ac = sqrt(ac);
-	if (ptr->player.pos.y > (index.y + 0.5))
+	if (ptr->player.pos.y > sprite->pos.y)
 	{
 		if (ab >= 0)
 			ac += 0.5;
@@ -90,11 +81,24 @@ unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i index)
 		else
 			ac += 0.5;
 	}
-	i_img.x = (int)(ac * sprite->width);
-	if (i_img.x >= sprite->width || i_img.x < 0)
+	return (ac);
+}
+
+unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *img, t_c *pixel, t_sprite *sprite)
+{
+	t_i				i_img;
+	unsigned int	rs;
+	float			ac;
+
+	i_img.y = (int)((2 - pixel->z) * (img->height * 0.5));
+	if (i_img.y >= (img->height * 2) || i_img.y < 0)
 		return (0);
-	rs = sprite->pixels[i_img.y * (sprite->s_l / 4) + i_img.x];
-	if (rs != sprite->pixels[0])
+	ac = ft_pythagore(ptr, sprite, pixel->x - sprite->pos.x, pixel->y - sprite->pos.y);
+	i_img.x = (int)(ac * img->width);
+	if (i_img.x >= img->width || i_img.x < 0)
+		return (0);
+	rs = img->pixels[i_img.y * (img->s_l / 4) + i_img.x];
+	if (rs != img->pixels[0])
 		return (rs);
 	return (0);
 }

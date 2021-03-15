@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 18:18:27 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/15 17:39:26 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,10 @@ int		ft_malloc_map(t_ptr *ptr, char *path)
 		}
 		free(line);
 	}
+	count_line++;
+	size_line_max++;
 	ptr->pars->nbr_map.x = size_line_max;
 	ptr->pars->nbr_map.y = count_line;
-	// free(ptr->pars->map);
 	if (!(ptr->pars->map = ft_calloc_lst(ptr, count_line, sizeof(char *))))
 		return (-1);
 	vr = -1;
@@ -117,15 +118,25 @@ static void	ft_first_pos(t_ptr *ptr, char c, int i, int j)
 
 void	ft_parsing_map(t_ptr *ptr, char *line, int j, t_i *first_pos)
 {
-	int		i;
+	int			i;
+	static int	flag = 0;
+	int			tmp;
 
 	if (line[0] == '#')
 		return ;
 	i = -1;
+	if (!flag)
+	{
+		tmp = i;
+		while (++tmp < ptr->pars->nbr_map.x)
+			ptr->pars->map[j][tmp] = 0;
+		flag = 1;
+	}
+	ptr->pars->map[j][0] = '0';
 	while (line[++i])
 	{
 		if (line[i] == '0' || line[i] == '1' || line[i] == '2' || line[i] == ' ')
-			ptr->pars->map[j][i] = line[i];
+			ptr->pars->map[j][i + 1] = line[i];
 		else if (line[i] == 'N' || line[i] == 'E' || line[i] == 'S' || line[i] == 'W')
 		{
 			ft_first_pos(ptr, line[i], i, j);
@@ -135,6 +146,6 @@ void	ft_parsing_map(t_ptr *ptr, char *line, int j, t_i *first_pos)
 		else
 			ft_close(ptr, 3);
 	}
-	while (i < ptr->pars->nbr_map.x)
-		ptr->pars->map[j][i++] = '0';
+	while (++i < ptr->pars->nbr_map.x)
+		ptr->pars->map[j][i] = 0;
 }

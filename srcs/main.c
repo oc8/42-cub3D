@@ -6,22 +6,20 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/15 13:50:45 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/15 17:45:40 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int		ft_init_struct(t_ptr *ptr)
-{
-	ptr->epars = 0;
-	ptr->player.speed = 0.5;
-	ptr->pars->nbr_sprite = 0;
-	ptr->time.tv_sec = 0;
-	ptr->time.tv_usec = 0;
-	ptr->last_second = ft_time_now();
-	return (0);
-}
+/*
+**	steps :
+**	- parsing
+**	- create rayon for screen
+**	- calculates distance
+**	- search nearest
+**	- search color on texture
+*/
 
 static int	ft_error_arg(int nbr)
 {
@@ -78,11 +76,11 @@ void	ft_ray_screen(t_ptr *ptr)
 		x = -1;
 		while (++x < ptr->mlx.width)
 		{
-			ptr->player.dir[y * ptr->mlx.width + x].x = fov_x / ptr->mlx.width * \
-				(x - ptr->mlx.width * 0.5);
+			ptr->player.dir[y * ptr->mlx.width + x].x = fov_x /\
+				ptr->mlx.width * (x - ptr->mlx.width * 0.5);
 			ptr->player.dir[y * ptr->mlx.width + x].y = -1;
-			ptr->player.dir[y * ptr->mlx.width + x].z = -fov_y / ptr->mlx.height * \
-				(y - ptr->mlx.height * 0.5);
+			ptr->player.dir[y * ptr->mlx.width + x].z = -fov_y /\
+				ptr->mlx.height * (y - ptr->mlx.height * 0.5);
 		}
 	}
 }

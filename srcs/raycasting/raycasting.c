@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 12:57:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 19:22:32 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/15 19:23:56 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	ft_is_wall(t_ptr *ptr, t_c *pixel, t_vector dir, t_plan *p, float t, 
 	return (0);
 }
 
-static float	ft_ray_wall(t_ptr *ptr, t_plan *p, t_c *pixel, t_vector dir, t_axe *axe)
+static float	ft_calc_dist(t_ptr *ptr, t_plan *p, t_c *pixel, t_vector dir, t_axe *axe)
 {
 	float		rs_dir;
 	float		t;
@@ -103,7 +103,7 @@ t_dist	ft_ray(t_ptr *ptr, t_plan *plans, t_vector dir, t_axe *axe)
 	if (axe->dir != 0)
 		while (i >= 0 && i <= axe->nbr_plan)
 		{
-			dist.t = ft_ray_wall(ptr, &plans[i], &dist.pixel, dir, axe);
+			dist.t = ft_calc_dist(ptr, &plans[i], &dist.pixel, dir, axe);
 			if (dist.t)
 				return (dist);
 			if (axe->dir > 0)
@@ -113,4 +113,66 @@ t_dist	ft_ray(t_ptr *ptr, t_plan *plans, t_vector dir, t_axe *axe)
 		}
 	dist.t = 0;
 	return (dist);
+}
+
+t_dist	ft_ray_ea(t_ptr *ptr, t_c dir)
+{
+	t_dist			dist;
+	unsigned int	i;
+	t_plan			*p;
+
+	i = axe->pos;
+	if (dir.x > 0)
+		i += 1;
+	if (i < 0)
+		i = 0;
+	if (i >= axe->nbr_plan)
+		i = axe->nbr_plan - 1;
+	if (axe->dir != 0)
+		while (i >= 0 && i <= axe->nbr_plan)
+		{
+			dist.t = ft_calc_dist(ptr, &plans[i], &dist.pixel, dir, axe);
+			if (dist.t)
+				return (dist);
+			if (axe->dir > 0)
+				i++;
+			else
+				i--;
+		}
+	dist.t = 0;
+	return (dist);
+}
+
+float	ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist, float small_dist)
+{
+	t_sprite		*p;
+	float			rs_dir;
+	float			t;
+	unsigned int	i;
+
+	(void)small_dist;
+	i = 0;
+	while (i < ptr->pars->nbr_sprite)
+	{
+		p = &ptr->pars->plans_sprite[i];
+		// if (p->t > 0)
+		// {
+			rs_dir = p->a * dir.x + p->b * dir.y + p->c * dir.z;
+			if (rs_dir)
+			{
+				t = p->rs / rs_dir;
+				// printf("t = %f, sd = %f\n", t, small_dist);
+				// if (t > small_dist)
+				// 	return (0);
+				if (t > 0)
+				{
+					dist->color = ft_is_sprite(ptr, &dist->pixel, dir, t, p);
+					if (dist->color)
+						return (t);
+				}
+			}
+		// }
+		i++;
+	}
+	return (0);
 }

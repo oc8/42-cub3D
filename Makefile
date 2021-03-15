@@ -28,8 +28,10 @@ nearest/wall.o \
 raycasting/raycasting.o \
 texture/texture.o \
 utils/utils.o \
+utils/utils_2.o \
 move/key.o \
 move/loop.o \
+move/sprite.o \
 move/utils_move.o \
 close.o
 LSRCS		= ${SRCS:.o=.c}

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/15 13:49:55 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/15 17:45:36 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define KEY_AD 125
 # define KEY_UP 18
 # define KEY_DOWN 19
+# define KEY_M 46
 # define KEY_CTRL 256
 # define KEY_MAJ 257
 
@@ -98,9 +99,8 @@ typedef struct	s_sprite
 	float	c;
 	float	d;
 	float	rs;
-	t_i		index;
 	t_c		pos;
-	char	viewable;
+	char	viewable;//
 	float	t;
 }				t_sprite;
 
@@ -240,6 +240,7 @@ struct timeval	ft_time_now(void);
 struct timeval	ft_time(t_ptr *ptr, char *str, int *count);
 
 void			*ft_calloc_lst(t_ptr *ptr, size_t nbr, size_t size);
+int				ft_init_struct(t_ptr *ptr);
 int				create_trgb(int t, int r, int g, int b);
 int				ft_in_map(t_ptr *ptr, t_i coordinate);
 void			ft_add_to_lst(t_ptr *ptr, void *add_ptr);
@@ -251,6 +252,7 @@ float			ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist, float small_dist);
 void			ft_create_plan_sprite(t_ptr *ptr);
 void			ft_malloc_sprite(t_ptr *ptr);
 void			ft_pos_sprite(t_ptr *ptr);
+void			ft_check_new_pos_sprite(t_ptr *ptr, t_c new_pos, t_sprite *p);
 
 void			ft_mlx_init(t_ptr *ptr);
 int				ft_loop(t_ptr *ptr);
@@ -268,7 +270,7 @@ int				ft_quit_x(t_ptr *ptr);
 void			ft_close(t_ptr *ptr, int error);
 
 unsigned int	ft_wall_texture(t_c pixel, t_img img, char axe);
-unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *sprite, t_c *pixel, t_i index);
+unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *img, t_c *pixel, t_sprite *sprite);
 unsigned int	ft_floor_texture(t_ptr *ptr, t_c *pixel);
 unsigned int	ft_top_texture(t_ptr *ptr, t_dist *dist);
 unsigned int	ft_skybox(t_ptr *ptr, t_vector dir);
@@ -279,6 +281,6 @@ unsigned int	ft_sky_texture_3(t_ptr *ptr, float map, t_vector *dir);
 unsigned int	ft_sky_texture_4(t_ptr *ptr, float map, t_vector *dir);
 unsigned int	ft_sky_texture_down(t_ptr *ptr, float map, t_vector *dir);
 
-float	ft_calc_rs(t_ptr *ptr, t_plan *p);
+float			ft_calc_rs(t_ptr *ptr, t_plan *p);
 
 #endif

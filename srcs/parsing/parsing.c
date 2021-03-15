@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 18:39:58 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/15 17:20:53 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,30 @@ void	ft_pars_path(t_ptr *ptr, t_line line, char **path, int e_wall)
 	ptr->epars |= e_wall;
 }
 
+static void	ft_criteria_color(t_ptr *ptr, t_line line, int *i)
+{
+	if (line.ptr[*i] == 'F')
+	{
+		if (ptr->epars & e_F)
+			ft_close(ptr, 3);
+		*i += 1;
+		if (line.ptr[*i] != ' ' && line.ptr[*i] != '\t')
+			ft_close(ptr, 3);
+		ptr->pars->col_floor = ft_atoi_color(ptr, line.ptr, i);
+		ptr->epars |= e_F;
+	}
+	else if (line.ptr[*i] == 'C')
+	{
+		if (ptr->epars & e_C)
+			ft_close(ptr, 3);
+		*i += 1;
+		if (line.ptr[*i] != ' ' && line.ptr[*i] != '\t')
+			ft_close(ptr, 3);
+		ptr->pars->col_sky = ft_atoi_color(ptr, line.ptr, i);
+		ptr->epars |= e_C;
+	}
+}
+
 static int	ft_parsing_criteria(t_ptr *ptr, t_line line)
 {
 	int		i;
@@ -162,26 +186,8 @@ static int	ft_parsing_criteria(t_ptr *ptr, t_line line)
 		ptr->pars->path_sprite = ft_copy_str(ptr, line.ptr, &i);
 		ptr->epars |= e_S;
 	}
-	else if (line.ptr[i] == 'F')
-	{
-		if (ptr->epars & e_F)
-			ft_close(ptr, 3);
-		i++;
-		if (line.ptr[i] != ' ' && line.ptr[i] != '\t')
-			ft_close(ptr, 3);
-		ptr->pars->col_floor = ft_atoi_color(ptr, line.ptr, &i);
-		ptr->epars |= e_F;
-	}
-	else if (line.ptr[i] == 'C')
-	{
-		if (ptr->epars & e_C)
-			ft_close(ptr, 3);
-		i++;
-		if (line.ptr[i] != ' ' && line.ptr[i] != '\t')
-			ft_close(ptr, 3);
-		ptr->pars->col_sky = ft_atoi_color(ptr, line.ptr, &i);
-		ptr->epars |= e_C;
-	}
+	else
+		ft_criteria_color(ptr, line, &i);
 	i = ft_skip_spaces(line.ptr, i);
 	if (line.ptr[i])
 		ft_close(ptr, 3);

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 15:37:28 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 19:33:38 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/15 17:47:13 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@ float	ft_calc_rs(t_ptr *ptr, t_plan *p)
 	pos = &ptr->player.pos;
 	rs = -(p->a * pos->x + p->b * pos->y + p->c * pos->z + p->d);
 	return (rs);
-}
-
-int		create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
 }
 
 int		ft_in_map(t_ptr *ptr, t_i coordinate)
@@ -43,8 +38,9 @@ void	ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), t_ptr *ptr)
 {
 	t_list	*start;
 	t_list	*tmp;
-(void)del;
-(void)ptr;
+
+	(void)del;
+	(void)ptr;
 	start = *lst;
 	while (start)
 	{
