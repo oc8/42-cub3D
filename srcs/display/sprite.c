@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 19:20:30 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/15 13:55:27 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,39 @@ void	ft_pos_sprite(t_ptr *ptr)
 	}
 }
 
+static void	ft_sort(t_ptr *ptr)
+{
+	t_vector		dir;
+	t_sprite		*p;
+	unsigned int	i;
+	t_sprite		tmp;
+	float			t_max;
+	unsigned int	j;
+
+	dir = ptr->player.dir[ptr->screen.height / 2 * (ptr->screen.s_l / 4)\
+			+ ptr->screen.width / 2];
+	dir = ft_rotation(dir, &ptr->agl, ptr);
+	p = ptr->pars->plans_sprite;
+	t_max = 0;
+	i = -1;
+	while (++i < ptr->pars->nbr_sprite)
+		p[i].t = p[i].a * dir.x + p[i].b * dir.y + p[i].c * dir.z / p[i].rs;
+	j = -1;
+	while (++j < ptr->pars->nbr_sprite - 1)
+	{
+		i = -1;
+		while (++i < ptr->pars->nbr_sprite - 1)
+		{
+			if (p[i].t > p[i + 1].t)
+			{
+				tmp = p[i];
+				p[i] = p[i + 1];
+				p[i + 1] = tmp;
+			}
+		}
+	}
+}
+
 void	ft_create_plan_sprite(t_ptr *ptr)
 {
 	unsigned int	i;
@@ -85,17 +118,20 @@ void	ft_create_plan_sprite(t_ptr *ptr)
 	t_c				*pos;
 
 	pos = &ptr->player.pos;
-	i = -1;
-	while (++i < ptr->pars->nbr_sprite)
+	i = 0;
+	while (i < ptr->pars->nbr_sprite)
 	{
 		p = &ptr->pars->plans_sprite[i];
+		p->pos.x -= 0.1;
+		p->pos.y -= 0.1;
 		p->a = p->pos.x - pos->x;
 		p->b = p->pos.y - pos->y;
 		p->c = 0;
 		p->d = -p->a * p->pos.x - p->b * p->pos.y;
 		p->rs = -(p->a * pos->x + p->b * pos->y + p->c * pos->z + p->d);
-	}//trie
-	
+		i++;
+	}
+	ft_sort(ptr);
 }
 
 static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_vector dir, float t, t_sprite *sprite)
@@ -127,23 +163,28 @@ float	ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist, float small_dist)
 	float			t;
 	unsigned int	i;
 
-	i = 0;(void)small_dist;
+	(void)small_dist;
+	i = 0;
 	while (i < ptr->pars->nbr_sprite)
 	{
 		p = &ptr->pars->plans_sprite[i];
-		rs_dir = p->a * dir.x + p->b * dir.y + p->c * dir.z;
-		if (rs_dir)
-		{
-			t = p->rs / rs_dir;
-			if (t > small_dist)
-				return (0);
-			if (t > 0)
+		// if (p->t > 0)
+		// {
+			rs_dir = p->a * dir.x + p->b * dir.y + p->c * dir.z;
+			if (rs_dir)
 			{
-				dist->color = ft_is_sprite(ptr, &dist->pixel, dir, t, p);
-				if (dist->color)
-					return (t);
+				t = p->rs / rs_dir;
+				// printf("t = %f, sd = %f\n", t, small_dist);
+				// if (t > small_dist)
+				// 	return (0);
+				if (t > 0)
+				{
+					dist->color = ft_is_sprite(ptr, &dist->pixel, dir, t, p);
+					if (dist->color)
+						return (t);
+				}
 			}
-		}
+		// }
 		i++;
 	}
 	return (0);

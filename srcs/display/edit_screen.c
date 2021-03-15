@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 19:43:45 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/15 13:51:42 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 ** fontion matrice
 */
-static t_vector	ft_rotation(t_vector dir, const t_agl *agl, t_ptr *ptr)
+t_vector	ft_rotation(t_vector dir, const t_agl *agl, t_ptr *ptr)
 {
 	t_vector	m_z;
 	t_vector	m_x;
@@ -45,13 +45,13 @@ static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen, int thread_nb)
 		x = 0;
 		while (x < ptr->mlx.width)
 		{
-			color = ft_nearest(ptr, ft_rotation(ptr->player.dir[y * \
+			color = ft_nearest(ptr, ft_rotation(ptr->player.dir[y *\
 				ptr->mlx.width + x], &ptr->agl, ptr));
 			if ((y * (int)(ptr->screen.s_l * 0.25) + x >= 0))
 			{
 				screen[y * (int)(ptr->screen.s_l * 0.25) + x] = color;
 				screen[y * (int)(ptr->screen.s_l * 0.25) + (x + 1)] = color;
-				screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) + \
+				screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) +\
 					(x + 1)] = color;
 				screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) + x] = color;
 			}

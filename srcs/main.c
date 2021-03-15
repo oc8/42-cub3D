@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/11 16:30:23 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/15 13:50:45 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,6 @@ int		main(int argc, char *argv[])
 	ft_parsing(argv[1], ptr);
 	ft_mlx_init(ptr);
 	ft_ray_screen(ptr);
-	ptr->rs_plans_x = ft_calloc_lst(ptr, ptr->pars->nbr_map.x, sizeof(float));
-	ptr->rs_plans_y = ft_calloc_lst(ptr, ptr->pars->nbr_map.y, sizeof(float));
 	ft_edit_img(ptr);
 	mlx_loop_hook(ptr->mlx.ptr, ft_loop, ptr);
 	mlx_loop(ptr->mlx.ptr);

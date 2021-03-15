@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_move.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:30:37 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 16:30:54 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/15 13:43:36 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ static void	ft_check_new_pos_z(t_ptr *ptr, t_c new_pos, t_i new_pos_i)
 			}
 			else if (pos->z < 0 && new_pos.z > pos->z)
 				;
-			else if (!ptr->pars->map[new_pos_i.y][new_pos_i.x])
+			else if (!(ptr->pars->map[new_pos_i.y][new_pos_i.x] == 0) && new_pos.z < pos->z)
+				;
+			else
 				pos->z = new_pos.z;
 		}
 		else

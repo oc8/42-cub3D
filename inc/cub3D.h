@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 19:32:34 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/15 13:49:55 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct	s_sprite
 	t_i		index;
 	t_c		pos;
 	char	viewable;
+	float	t;
 }				t_sprite;
 
 typedef struct	s_plan
@@ -202,8 +203,7 @@ typedef struct	s_ptr
 	pthread_t		thread[THREAD];
 	t_agl			agl;
 	int				epars;
-	float			*rs_plans_x;
-	float			*rs_plans_y;
+	float			delta;
 }				t_ptr;
 
 typedef struct	s_thread
@@ -258,7 +258,9 @@ int				ft_mouse(int x, int y, t_ptr *ptr);
 int				ft_key(int key, t_ptr *ptr);
 int				ft_key_release(int key, t_ptr *ptr);
 
-void		ft_check_new_pos(t_ptr *ptr, t_c new_pos);
+void			ft_check_new_pos(t_ptr *ptr, t_c new_pos);
+
+t_vector		ft_rotation(t_vector dir, const t_agl *agl, t_ptr *ptr);
 
 unsigned int	ft_nearest_wall(t_ptr *ptr, t_vector dir, t_dist x, t_dist y);
 
