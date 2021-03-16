@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/15 19:22:30 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 17:18:32 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_malloc_sprite(t_ptr *ptr)
 {
-	int		y;
-	int		x;
+	unsigned int	y;
+	unsigned int	x;
 	int		nbr;
 
 	nbr = ptr->pars->nbr_sprite;
@@ -33,9 +33,9 @@ void	ft_malloc_sprite(t_ptr *ptr)
 
 void	ft_pos_sprite(t_ptr *ptr)
 {
-	int		y;
-	int		x;
-	int		i;
+	unsigned int	y;
+	unsigned int	x;
+	unsigned int	i;
 	t_sprite	*p;
 
 	i = 0;
@@ -63,8 +63,8 @@ static void	ft_sort(t_ptr *ptr)
 	float			t_max;
 	unsigned int	j;
 
-	dir = ptr->player.dir[ptr->screen.height / 2 * (ptr->screen.s_l / 4)\
-			+ ptr->screen.width / 2];
+	dir = ptr->player.dir[ptr->screen.h / 2 * (ptr->screen.s_l / 4)\
+			+ ptr->screen.w / 2];
 	dir = ft_rotation(dir, &ptr->agl, ptr);
 	p = ptr->pars->plans_sprite;
 	t_max = 0;
@@ -99,9 +99,9 @@ void	ft_create_plan_sprite(t_ptr *ptr)
 	while (i < ptr->pars->nbr_sprite)
 	{
 		p = &ptr->pars->plans_sprite[i];
-		new_pos.x = p->pos.x - ((p->pos.x - pos->x) * ptr->delta);
-		new_pos.y = p->pos.y - ((p->pos.y - pos->y) * ptr->delta);
-		if (ptr->key.m % 2)
+		new_pos.x = p->pos.x - ((p->pos.x + 0.05 - pos->x) * ptr->delta / 2);
+		new_pos.y = p->pos.y - ((p->pos.y + 0.05 - pos->y) * ptr->delta / 2);
+		if (ptr->key.m)
 			ft_check_new_pos_sprite(ptr, new_pos, p);
 		p->a = p->pos.x - pos->x;
 		p->b = p->pos.y - pos->y;
@@ -110,10 +110,11 @@ void	ft_create_plan_sprite(t_ptr *ptr)
 		p->rs = -(p->a * pos->x + p->b * pos->y + p->c * pos->z + p->d);
 		i++;
 	}
-	ft_sort(ptr);
+	if (ptr->pars->nbr_sprite)
+		ft_sort(ptr);
 }
 
-static int	ft_is_sprite(t_ptr *ptr, t_c *pixel, t_vector dir, float t, t_sprite *sprite)
+int		ft_is_sprite(t_ptr *ptr, t_c *pixel, t_vector dir, float t, t_sprite *sprite)
 {
 	t_i			i_map;
 	int			color;

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 14:54:11 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/15 16:07:33 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 16:58:07 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 unsigned int	ft_wall_texture(t_c pixel, t_img img, char axe)
 {
-	t_i		index;
+	t_i_signed	index;
 
 	if (axe == 'y')
-		index.x = (int)((pixel.x - (int)pixel.x) * img.width);
+		index.x = (int)((pixel.x - (int)pixel.x) * img.w);
 	else
-		index.x = (int)((pixel.y - (int)pixel.y) * img.width);
-	index.y = (int)((1 - pixel.z - (int)pixel.z) * img.height);
-	if (!(index.x >= img.width || index.y >= img.height || index.x < 0 || index.y < 0))
+		index.x = (int)((pixel.y - (int)pixel.y) * img.w);
+	index.y = (int)((1 - pixel.z - (int)pixel.z) * img.h);
+	if (!(index.x >= img.w || index.y >= img.h || index.x < 0 || index.y < 0))
 		return (img.pixels[index.y * (img.s_l / 4) + index.x]);
 	return (0);
 }
@@ -32,8 +32,8 @@ unsigned int	ft_floor_texture(t_ptr *ptr, t_c *pixel)
 	t_img	*img;
 
 	img = &ptr->floor;
-	index.x = (int)((pixel->x - (int)pixel->x) * img->width);
-	index.y = (int)((pixel->y - (int)pixel->y) * img->height);
+	index.x = (int)((pixel->x - (int)pixel->x) * img->w);
+	index.y = (int)((pixel->y - (int)pixel->y) * img->h);
 	return (img->pixels[index.y * (img->s_l / 4) + index.x]);
 }
 
@@ -86,16 +86,16 @@ float			ft_pythagore(t_ptr *ptr, t_sprite *sprite, float ab, float bc)
 
 unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *img, t_c *pixel, t_sprite *sprite)
 {
-	t_i				i_img;
+	t_i_signed	i_img;
 	unsigned int	rs;
 	float			ac;
 
-	i_img.y = (int)((2 - pixel->z) * (img->height * 0.5));
-	if (i_img.y >= (img->height * 2) || i_img.y < 0)
+	i_img.y = (int)((2 - pixel->z) * (img->h * 0.5));
+	if (i_img.y >= (img->h * 2) || i_img.y < 0)
 		return (0);
 	ac = ft_pythagore(ptr, sprite, pixel->x - sprite->pos.x, pixel->y - sprite->pos.y);
-	i_img.x = (int)(ac * img->width);
-	if (i_img.x >= img->width || i_img.x < 0)
+	i_img.x = (int)(ac * img->w);
+	if (i_img.x >= img->w || i_img.x < 0)
 		return (0);
 	rs = img->pixels[i_img.y * (img->s_l / 4) + i_img.x];
 	if (rs != img->pixels[0])
@@ -105,9 +105,9 @@ unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *img, t_c *pixel, t_sprite *spr
 
 unsigned int	ft_sky_texture_up(t_ptr *ptr, float map, t_vector *dir)
 {
-	t_i				index;
-	t_c				c;
-	float			t;
+	t_i_signed	index;
+	t_c			c;
+	float		t;
 
 	t = -(ptr->player.pos.z - map + 1) / dir->z;
 	if (t > 0)
@@ -116,10 +116,10 @@ unsigned int	ft_sky_texture_up(t_ptr *ptr, float map, t_vector *dir)
 		c.y = ptr->player.pos.y + dir->y * t;
 		if (!(c.x <= -map || c.x >= map || c.y <= -map || c.y >= map))
 		{
-			index.x = (c.x + map) / (2 * map) * (ptr->sky.width / 4) + 3 * ptr->sky.width / 4;
-			index.y = (c.y + map) / (2 * map) * (ptr->sky.height / 3);
-			if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
-				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+			index.x = (c.x + map) / (2 * map) * (ptr->sky.w / 4) + 3 * ptr->sky.w / 4;
+			index.y = (c.y + map) / (2 * map) * (ptr->sky.h / 3);
+			if (!(index.x >= ptr->sky.w || index.y >= ptr->sky.h))
+				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.w) + index.x)]);
 		}
 	}
 	return (0);
@@ -127,9 +127,9 @@ unsigned int	ft_sky_texture_up(t_ptr *ptr, float map, t_vector *dir)
 
 unsigned int	ft_sky_texture_1(t_ptr *ptr, float map, t_vector *dir)
 {
-	t_i				index;
-	t_c				c;
-	float			t;
+	t_i_signed	index;
+	t_c			c;
+	float		t;
 
 	t = -(ptr->player.pos.x - map) / dir->x;
 	if (t > 0)
@@ -138,10 +138,10 @@ unsigned int	ft_sky_texture_1(t_ptr *ptr, float map, t_vector *dir)
 		c.y = ptr->player.pos.y + dir->y * t;
 		if (!(c.z <= -map || c.z >= map || c.y <= -map || c.y >= map))
 		{
-			index.x = (1 - (c.y + map) / (2 * map)) * (ptr->sky.width / 4);
-			index.y = (1 - (c.z + map) / (2 * map)) * (ptr->sky.height / 3) + ptr->sky.height / 3;
-			if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
-				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+			index.x = (1 - (c.y + map) / (2 * map)) * (ptr->sky.w / 4);
+			index.y = (1 - (c.z + map) / (2 * map)) * (ptr->sky.h / 3) + ptr->sky.h / 3;
+			if (!(index.x >= ptr->sky.w || index.y >= ptr->sky.h))
+				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.w) + index.x)]);
 		}
 	}
 	return (0);
@@ -149,9 +149,9 @@ unsigned int	ft_sky_texture_1(t_ptr *ptr, float map, t_vector *dir)
 
 unsigned int	ft_sky_texture_2(t_ptr *ptr, float map, t_vector *dir)
 {
-	t_i				index;
-	t_c				c;
-	float			t;
+	t_i_signed	index;
+	t_c			c;
+	float		t;
 
 	t = -(ptr->player.pos.x + map) / dir->x;
 	if (t > 0)
@@ -160,10 +160,10 @@ unsigned int	ft_sky_texture_2(t_ptr *ptr, float map, t_vector *dir)
 		c.y = ptr->player.pos.y + dir->y * t;
 		if (!(c.z <= -map || c.z >= map || c.y <= -map || c.y >= map))
 		{
-			index.x = ((c.y + map) / (2 * map)) * (ptr->sky.width / 4) + 2 * ptr->sky.width / 4;
-			index.y = (1 - (c.z + map) / (2 * map)) * (ptr->sky.height / 3) + 1 * ptr->sky.height / 3;
-			if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
-				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+			index.x = ((c.y + map) / (2 * map)) * (ptr->sky.w / 4) + 2 * ptr->sky.w / 4;
+			index.y = (1 - (c.z + map) / (2 * map)) * (ptr->sky.h / 3) + 1 * ptr->sky.h / 3;
+			if (!(index.x >= ptr->sky.w || index.y >= ptr->sky.h))
+				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.w) + index.x)]);
 		}
 	}
 	return (0);
@@ -171,7 +171,7 @@ unsigned int	ft_sky_texture_2(t_ptr *ptr, float map, t_vector *dir)
 
 unsigned int	ft_sky_texture_3(t_ptr *ptr, float map, t_vector *dir)
 {
-	t_i				index;
+	t_i_signed		index;
 	t_c				c;
 	float			t;
 
@@ -182,10 +182,10 @@ unsigned int	ft_sky_texture_3(t_ptr *ptr, float map, t_vector *dir)
 		c.z = ptr->player.pos.z + dir->z * t;
 		if (!(c.x <= -map || c.x >= map || c.z <= -map || c.z >= map))
 		{
-			index.x = ((c.x + map) / (2 * map)) * (ptr->sky.width / 4) + 3 * ptr->sky.width / 4;
-			index.y = (1 - (c.z + map) / (2 * map)) * (ptr->sky.height / 3) + 1 * ptr->sky.height / 3;
-			if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
-				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+			index.x = ((c.x + map) / (2 * map)) * (ptr->sky.w / 4) + 3 * ptr->sky.w / 4;
+			index.y = (1 - (c.z + map) / (2 * map)) * (ptr->sky.h / 3) + 1 * ptr->sky.h / 3;
+			if (!(index.x >= ptr->sky.w || index.y >= ptr->sky.h))
+				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.w) + index.x)]);
 		}
 	}
 	return (0);
@@ -193,7 +193,7 @@ unsigned int	ft_sky_texture_3(t_ptr *ptr, float map, t_vector *dir)
 
 unsigned int	ft_sky_texture_4(t_ptr *ptr, float map, t_vector *dir)
 {
-	t_i				index;
+	t_i_signed		index;
 	t_c				c;
 	float			t;
 
@@ -204,10 +204,10 @@ unsigned int	ft_sky_texture_4(t_ptr *ptr, float map, t_vector *dir)
 		c.z = ptr->player.pos.z + dir->z * t;
 		if (!(c.x <= -map || c.x >= map || c.z <= -map || c.z >= map))
 		{
-			index.x = (1 - (c.x + map) / (2 * map)) * (ptr->sky.width / 4) + ptr->sky.width / 4;
-			index.y = (1 - (c.z + map) / (2 * map)) * (ptr->sky.height / 3) + ptr->sky.height / 3;
-			if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
-				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+			index.x = (1 - (c.x + map) / (2 * map)) * (ptr->sky.w / 4) + ptr->sky.w / 4;
+			index.y = (1 - (c.z + map) / (2 * map)) * (ptr->sky.h / 3) + ptr->sky.h / 3;
+			if (!(index.x >= ptr->sky.w || index.y >= ptr->sky.h))
+				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.w) + index.x)]);
 		}
 	}
 	return (0);
@@ -215,7 +215,7 @@ unsigned int	ft_sky_texture_4(t_ptr *ptr, float map, t_vector *dir)
 
 unsigned int	ft_sky_texture_down(t_ptr *ptr, float map, t_vector *dir)
 {
-	t_i				index;
+	t_i_signed		index;
 	t_c				c;
 	float			t;
 
@@ -226,10 +226,10 @@ unsigned int	ft_sky_texture_down(t_ptr *ptr, float map, t_vector *dir)
 		c.y = ptr->player.pos.y + dir->y * t;
 		if (!(c.x <= -map || c.x >= map || c.y <= -map || c.y >= map))
 		{
-			index.x = ((c.x + map) / (2 * map)) * (ptr->sky.width / 4) + 3 * ptr->sky.width / 4;
-			index.y = (1 - (c.y + map) / (2 * map)) * (ptr->sky.height / 3) + 2 * ptr->sky.height / 3;
-			if (!(index.x >= ptr->sky.width || index.y >= ptr->sky.height))
-				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.width) + index.x)]);
+			index.x = ((c.x + map) / (2 * map)) * (ptr->sky.w / 4) + 3 * ptr->sky.w / 4;
+			index.y = (1 - (c.y + map) / (2 * map)) * (ptr->sky.h / 3) + 2 * ptr->sky.h / 3;
+			if (!(index.x >= ptr->sky.w || index.y >= ptr->sky.h))
+				return (ptr->sky.pixels[(int)(index.y * (ptr->sky.w) + index.x)]);
 		}
 	}
 	return (0);

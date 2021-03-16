@@ -6,44 +6,34 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/15 19:20:11 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 17:29:48 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-t_dist	ft_ray_y(t_ptr *ptr, t_vector dir)
+t_dist	ft_raycast_y(t_ptr *ptr, t_vector dir)
 {
-	t_axe	axe;
 	t_dist	dist;
 
-	axe.axe = 'y';
-	axe.dir = dir.y;
-	axe.pos = (int)ptr->player.pos.y;
-	axe.nbr_plan = ptr->pars->nbr_map.y;
 	// dir.z limit ?
 	dist.t = 0;
 	if (dir.y > 0)
-		dist = ft_ray(ptr, ptr->pars->plans_so, dir, &axe);
+		dist = ft_ray_y(ptr, dir, ptr->pars->plans_so);
 	else if (dir.y < 0)
-		dist = ft_ray(ptr, ptr->pars->plans_no, dir, &axe);
+		dist = ft_ray_y(ptr, dir, ptr->pars->plans_no);
 	return (dist);
 }
 
-t_dist	ft_ray_x(t_ptr *ptr, t_vector dir)
+t_dist	ft_raycast_x(t_ptr *ptr, t_vector dir)
 {
-	t_axe	axe;
 	t_dist	dist;
 
-	axe.axe = 'x';
-	axe.dir = dir.x;
-	axe.pos = (int)ptr->player.pos.x;
-	axe.nbr_plan = ptr->pars->nbr_map.x;
 	dist.t = 0;
 	if (dir.x > 0)
-		dist = ft_ray(ptr, ptr->pars->plans_ea, dir, &axe);
+		dist = ft_ray_x(ptr, dir, ptr->pars->plans_ea);
 	else if (dir.x < 0)
-		dist = ft_ray(ptr, ptr->pars->plans_we, dir, &axe);
+		dist = ft_ray_x(ptr, dir, ptr->pars->plans_we);
 	return (dist);
 }
 
@@ -91,32 +81,11 @@ static t_dist	ft_top(t_ptr *ptr, t_vector dir)
 	return (dist);
 }
 
-static t_dist	ft_sprite_nearest(t_ptr *ptr, t_vector dir, t_dist dist_x, t_dist dist_y)
-{
-	t_dist			dist_sprite;
-
-	if (dist_x.t && dist_y.t)
-	{
-		if (dist_x.t < dist_y.t)
-			dist_sprite.t = ft_ray_sprite(ptr, dir, &dist_sprite, dist_x.t);
-		else
-			dist_sprite.t = ft_ray_sprite(ptr, dir, &dist_sprite, dist_y.t);
-	}
-	else if (dist_y.t)
-		dist_sprite.t = ft_ray_sprite(ptr, dir, &dist_sprite, dist_y.t);
-	else if (dist_x.t)
-		dist_sprite.t = ft_ray_sprite(ptr, dir, &dist_sprite, dist_x.t);
-	else
-		dist_sprite.t = ft_ray_sprite(ptr, dir, &dist_sprite, 999999);
-	return (dist_sprite);
-}
-
 static void		ft_dist(t_ptr *ptr, t_dist dist[6], t_vector dir)
 {
-	ft_ray_ea(ptr, dir);
-	dist[0] = ft_ray_y(ptr, dir);
-	dist[1] = ft_ray_x(ptr, dir);
-	dist[2] = ft_sprite_nearest(ptr, dir, dist[0], dist[1]);
+	dist[0] = ft_raycast_y(ptr, dir);
+	dist[1] = ft_raycast_x(ptr, dir);
+	dist[2].t = ft_ray_sprite(ptr, dir, &dist[2]);
 	dist[3] = ft_top(ptr, dir);
 	dist[4] = ft_floor(ptr, dir);
 	dist[5].color = ft_skybox(ptr, dir);

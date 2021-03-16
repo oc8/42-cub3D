@@ -6,32 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/15 13:51:42 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 18:24:48 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-/*
-** fontion matrice
-*/
-t_vector	ft_rotation(t_vector dir, const t_agl *agl, t_ptr *ptr)
-{
-	t_vector	m_z;
-	t_vector	m_x;
-
-	if (ptr->player.agl_hor >= M_PI)
-		ptr->player.agl_hor -= 2 * M_PI;
-	else if (ptr->player.agl_hor <= -M_PI)
-		ptr->player.agl_hor += 2 * M_PI;
-	m_x.x = dir.x;
-	m_x.y = agl->cos_vrt * dir.y - agl->sin_vrt * dir.z;
-	m_x.z = agl->sin_vrt * dir.y + agl->cos_vrt * dir.z;
-	m_z.x = agl->cos_hor * m_x.x - agl->sin_hor * m_x.y;
-	m_z.y = agl->sin_hor * m_x.x + agl->cos_hor * m_x.y;
-	m_z.z = m_x.z;
-	return (m_z);
-}
 
 static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen, int thread_nb)
 {
@@ -39,14 +18,36 @@ static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen, int thread_nb)
 	int				y;
 	unsigned int	color;
 
-	y = (ptr->mlx.height / THREAD) * thread_nb;
-	while (y < (ptr->mlx.height / THREAD) * (thread_nb + 1))
+	y = (ptr->mlx.h / THREAD) * thread_nb;
+	while (y < (ptr->mlx.h / THREAD) * (thread_nb + 1))
 	{
 		x = 0;
-		while (x < ptr->mlx.width)
+		while (x < ptr->mlx.w)
+		{
+			color = ft_nearest(ptr, ft_rotation(ptr->player.dir[y * \
+				ptr->mlx.w + x], &ptr->agl, ptr));
+			if ((y * (int)(ptr->screen.s_l * 0.25) + x >= 0))
+				screen[y * (int)(ptr->screen.s_l * 0.25) + x] = color;
+			x++;
+		}
+		y++;
+	}
+}
+
+static void	ft_put_4_pixels(t_ptr *ptr, unsigned int *screen, int thread_nb)
+{
+	int				x;
+	int				y;
+	unsigned int	color;
+
+	y = (ptr->mlx.h / THREAD) * thread_nb;
+	while (y < (ptr->mlx.h / THREAD) * (thread_nb + 1))
+	{
+		x = 0;
+		while (x < ptr->mlx.w)
 		{
 			color = ft_nearest(ptr, ft_rotation(ptr->player.dir[y *\
-				ptr->mlx.width + x], &ptr->agl, ptr));
+				ptr->mlx.w + x], &ptr->agl, ptr));
 			if ((y * (int)(ptr->screen.s_l * 0.25) + x >= 0))
 			{
 				screen[y * (int)(ptr->screen.s_l * 0.25) + x] = color;
@@ -61,14 +62,17 @@ static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen, int thread_nb)
 	}
 }
 
-void	*ft_thread(void *work)
+void		*ft_thread(void *work)
 {
 	t_ptr			*ptr;
 	t_thread		*wptr;
 
 	wptr = (t_thread*)work;
 	ptr = (t_ptr*)wptr->ptr;
-	ft_put_pixels(ptr, ptr->screen.pixels, wptr->id);
+	if (ptr->mlx.w > 500 || ptr->mlx.h > 500)
+		ft_put_4_pixels(ptr, ptr->screen.pixels, wptr->id);
+	else
+		ft_put_pixels(ptr, ptr->screen.pixels, wptr->id);
 	return (ptr);
 }
 
@@ -81,7 +85,8 @@ static void	ft_threads(t_ptr *ptr)
 	while (++i < THREAD)
 	{
 		thread[i] = (t_thread){ptr, i};
-		pthread_create(&ptr->thread[i], NULL, &ft_thread, (void*)&thread[i]);
+		if (pthread_create(&ptr->thread[i], NULL, &ft_thread, (void*)&thread[i]))
+			ft_close(ptr, 7);
 	}
 	i = -1;
 	while (++i < THREAD)
@@ -121,16 +126,21 @@ static void	ft_before_calc(t_ptr *ptr)
 
 void	ft_edit_img(t_ptr *ptr)
 {
-	char			str[11];
-	static int		count_fps = 0;
+	char		fps_str[11];
+	char		life_str[5];
+	static int	count_fps = 0;
 
-	ptr->time = ft_time(ptr, str, &count_fps);
-	mlx_sync(MLX_SYNC_WIN_CMD_COMPLETED, ptr->mlx.window);
+	ptr->time = ft_time(ptr, fps_str, &count_fps);
+	if (ptr->nbr_life <= 0)
+		ft_close(ptr, -1);
+	mlx_sync(MLX_SYNC_WIN_CMD_COMPLETED, ptr->mlx.win);
 	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, ptr->screen.ptr);
 	ft_before_calc(ptr);
 	ft_threads(ptr);
-	mlx_put_image_to_window(ptr->mlx.ptr, ptr->mlx.window, ptr->screen.ptr, 0, 0);
-	mlx_string_put(ptr->mlx.ptr, ptr->mlx.window, 15, 20, 0xffffff, str);
-	mlx_sync(MLX_SYNC_WIN_FLUSH_CMD, ptr->mlx.window);
+	mlx_put_image_to_window(ptr->mlx.ptr, ptr->mlx.win, ptr->screen.ptr, 0, 0);
+	mlx_string_put(ptr->mlx.ptr, ptr->mlx.win, 15, 20, 0xffffff, fps_str);
+	sprintf(life_str, "%d%%", ptr->nbr_life);
+	mlx_string_put(ptr->mlx.ptr, ptr->mlx.win, 15, 40, 0xff0000, life_str);
+	mlx_sync(MLX_SYNC_WIN_FLUSH_CMD, ptr->mlx.win);
 	count_fps++;
 }

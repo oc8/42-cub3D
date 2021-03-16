@@ -25,13 +25,15 @@ display/sprite.o \
 display/mlx.o \
 nearest/nearest.o \
 nearest/wall.o \
-raycasting/raycasting.o \
+raycasting/sprite_ray.o \
+raycasting/utils_ray.o \
+raycasting/wall_ray.o \
 texture/texture.o \
 utils/utils.o \
 utils/utils_2.o \
 move/key.o \
 move/loop.o \
-move/sprite.o \
+move/sprite_move.o \
 move/utils_move.o \
 close.o
 LSRCS		= ${SRCS:.o=.c}

@@ -6,15 +6,15 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 16:22:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 19:36:45 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 13:26:19 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static int	ft_is_no_wall(t_ptr *ptr, int y)
+static int	ft_is_no_wall(t_ptr *ptr, unsigned int y)
 {
-	int		x;
+	unsigned int	x;
 
 	if (y < 1)
 		return (1);
@@ -25,9 +25,9 @@ static int	ft_is_no_wall(t_ptr *ptr, int y)
 	return (0);
 }
 
-static int	ft_is_so_wall(t_ptr *ptr, int y)
+static int	ft_is_so_wall(t_ptr *ptr, unsigned int y)
 {
-	int		x;
+	unsigned int	x;
 
 	if (y < 1)
 		return (1);
@@ -40,8 +40,8 @@ static int	ft_is_so_wall(t_ptr *ptr, int y)
 
 void		ft_create_plans_y(t_ptr *ptr)
 {
-	int	y;
-	int	i;
+	unsigned int	y;
+	unsigned int	i;
 
 	ptr->pars->plans_no = ft_calloc_lst(ptr, ptr->pars->nbr_map.y + 1, sizeof(t_plan));
 	ptr->pars->plans_so = ft_calloc_lst(ptr, ptr->pars->nbr_map.y + 1, sizeof(t_plan));
@@ -69,5 +69,4 @@ void		ft_create_plans_y(t_ptr *ptr)
 	}
 	ptr->pars->plans_so[++i] = ft_new_plan('y', y);
 	ptr->pars->plans_no[i] = ft_new_plan('y', y);
-	
 }

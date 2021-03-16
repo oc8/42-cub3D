@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/15 17:20:53 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 16:56:57 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static int	ft_atoi_nbr(t_ptr *ptr, char *line, int *i)
+static int	ft_atoi_nbr(t_ptr *ptr, char *line, unsigned int *i)
 {
 	int		rs;
 
@@ -29,14 +29,14 @@ static int	ft_atoi_nbr(t_ptr *ptr, char *line, int *i)
 	return (rs);
 }
 
-static int	ft_skip_spaces(char *line, int i)
+static int	ft_skip_spaces(char *line, unsigned int i)
 {
 	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
 		i++;
 	return (i);
 }
 
-static char	*ft_copy_str(t_ptr *ptr, char *line, int *i)
+static char	*ft_copy_str(t_ptr *ptr, char *line, unsigned int *i)
 {
 	char	*rs;
 	int		j;
@@ -65,7 +65,7 @@ static char	*ft_copy_str(t_ptr *ptr, char *line, int *i)
 	return (rs);
 }
 
-static int	ft_atoi_color_util(t_ptr *ptr, char *line, int *i, int flag)
+static int	ft_atoi_color_util(t_ptr *ptr, char *line, unsigned int *i, int flag)
 {
 	int		rs;
 
@@ -90,7 +90,7 @@ static int	ft_atoi_color_util(t_ptr *ptr, char *line, int *i, int flag)
 	return (rs);
 }
 
-static int	ft_atoi_color(t_ptr *ptr, char *line, int *i)
+static int	ft_atoi_color(t_ptr *ptr, char *line, unsigned int *i)
 {
 	int		r;
 	int		g;
@@ -106,7 +106,7 @@ void	ft_pars_resolution(t_ptr *ptr, t_line line, int e_res)
 {
 	int		x;
 	int		y;
-	int		*i;
+	unsigned int	*i;
 
 	i = line.i_ptr;
 	if (ptr->epars & e_res)
@@ -114,13 +114,13 @@ void	ft_pars_resolution(t_ptr *ptr, t_line line, int e_res)
 	*i += 1;
 	if (line.ptr[*i] != ' ' && line.ptr[*i] != '\t')
 		ft_close(ptr, 3);
-	ptr->mlx.width = ft_atoi_nbr(ptr, line.ptr, i);
-	ptr->mlx.height = ft_atoi_nbr(ptr, line.ptr, i);
+	ptr->mlx.w = ft_atoi_nbr(ptr, line.ptr, i);
+	ptr->mlx.h = ft_atoi_nbr(ptr, line.ptr, i);
 	mlx_get_screen_size(ptr->mlx.ptr, &x, &y);
-	if (ptr->mlx.width > x)
-		ptr->mlx.width = x;
-	if (ptr->mlx.height > y)
-		ptr->mlx.height = y;
+	if (ptr->mlx.w > x)
+		ptr->mlx.w = x;
+	if (ptr->mlx.h > y)
+		ptr->mlx.h = y;
 	ptr->epars |= e_res;
 }
 
@@ -132,7 +132,7 @@ void	ft_pars_path(t_ptr *ptr, t_line line, char **path, int e_wall)
 	ptr->epars |= e_wall;
 }
 
-static void	ft_criteria_color(t_ptr *ptr, t_line line, int *i)
+static void	ft_criteria_color(t_ptr *ptr, t_line line, unsigned int *i)
 {
 	if (line.ptr[*i] == 'F')
 	{
@@ -158,7 +158,7 @@ static void	ft_criteria_color(t_ptr *ptr, t_line line, int *i)
 
 static int	ft_parsing_criteria(t_ptr *ptr, t_line line)
 {
-	int		i;
+	unsigned int	i;
 
 	i = ft_skip_spaces(line.ptr, 0);
 	line.i_ptr = &i;
@@ -227,7 +227,7 @@ int		ft_parsing(char *path, t_ptr *ptr)
 	line.i = -1; //////
 	while (++line.i < ptr->pars->nbr_map.y) //////
 	{
-		int j = -1;
+		unsigned int j = -1;
 		while (++j < ptr->pars->nbr_map.x)
 			printf("%c", ptr->pars->map[line.i][j]); //////
 		printf("\n");

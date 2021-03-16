@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 17:46:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/15 17:47:18 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 18:19:24 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int		ft_init_struct(t_ptr *ptr)
 	ptr->time.tv_sec = 0;
 	ptr->time.tv_usec = 0;
 	ptr->last_second = ft_time_now();
+	ptr->nbr_life = 100;
+	ptr->fov = 80;
 	return (0);
 }
 

@@ -5,6 +5,8 @@
 		"ostream": "cpp",
 		"new": "cpp",
 		"cub3d.h": "c",
-		"algorithm": "c"
+		"algorithm": "c",
+		"ios": "c",
+		"istream": "c"
 	}
 }

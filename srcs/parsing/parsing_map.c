@@ -6,16 +6,45 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/15 17:39:26 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 13:49:51 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int		ft_check_map(t_ptr *ptr, char **map, int i, int j)
+// char		ft_check_map(t_ptr *ptr, char **map, unsigned int i, unsigned int j)///////// signed ?
+// {
+// 	if (i - 1 < 0 || i + 1 >= ptr->pars->nbr_map.x || j - 1 < 0 || \
+// 			j + 1 >= ptr->pars->nbr_map.y || map[j][i] == ' ')
+// 		ft_close(ptr, 3);
+// 	if (map[j][i] != '2')
+// 		map[j][i] = 0;
+// 	else
+// 		map[j][i] = 2;
+// 	if ((map[j][i - 1] == '0' || map[j][i - 1] == '2') && ft_check_map(ptr, map, i - 1, j))
+// 			return (1);
+// 	if ((map[j][i + 1] == '0' || map[j][i + 1] == '2') && ft_check_map(ptr, map, i + 1, j))
+// 			return (1);
+// 	if ((map[j - 1][i] == '0' || map[j - 1][i] == '2') && ft_check_map(ptr, map, i, j - 1))
+// 			return (1);
+// 	if ((map[j + 1][i] == '0' || map[j + 1][i] == '2') && ft_check_map(ptr, map, i, j + 1))
+// 			return (1);
+
+// 	if ((map[j - 1][i - 1] == '0' || map[j - 1][i - 1] == '2') && ft_check_map(ptr, map, i - 1, j - 1))
+// 			return (1);
+// 	if ((map[j + 1][i + 1] == '0' || map[j + 1][i + 1] == '2') && ft_check_map(ptr, map, i + 1, j + 1))
+// 			return (1);
+// 	if ((map[j - 1][i + 1] == '0' || map[j - 1][i + 1] == '2') && ft_check_map(ptr, map, i + 1, j - 1))
+// 			return (1);
+// 	if ((map[j + 1][i - 1] == '0' || map[j + 1][i - 1] == '2') && ft_check_map(ptr, map, i - 1, j + 1))
+// 			return (1);
+// 	return (0);
+// }
+
+char		ft_check_map(t_ptr *ptr, char **map, int i, int j)
 {
-	if (i - 1 < 0 || i + 1 >= ptr->pars->nbr_map.x || j - 1 < 0 || \
-			j + 1 >= ptr->pars->nbr_map.y || map[j][i] == ' ')
+	if (i - 1 < 0 || i + 1 >= (int)ptr->pars->nbr_map.x || j - 1 < 0 || \
+			j + 1 >= (int)ptr->pars->nbr_map.y || map[j][i] == ' ')
 		ft_close(ptr, 3);
 	if (map[j][i] != '2')
 		map[j][i] = 0;
@@ -118,9 +147,9 @@ static void	ft_first_pos(t_ptr *ptr, char c, int i, int j)
 
 void	ft_parsing_map(t_ptr *ptr, char *line, int j, t_i *first_pos)
 {
-	int			i;
-	static int	flag = 0;
-	int			tmp;
+	unsigned int	i;
+	static int		flag = 0;
+	unsigned int	tmp;
 
 	if (line[0] == '#')
 		return ;

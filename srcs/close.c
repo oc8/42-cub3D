@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:13:27 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 12:30:26 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 18:15:34 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ void	ft_close(t_ptr *ptr, int error)
 		printf("image error\n");
 	else if (error == 6)
 		printf("pars color error\n");
+	else if (error == 7)
+		printf("thread error\n");
 	if (ptr->screen.ptr)
 		mlx_destroy_image(ptr->mlx.ptr, ptr->screen.ptr);
+	// pthread_exit(NULL);
 	ft_lstclear(&ptr->malloc_lst, free);
 	ft_lstclear_mlx(&ptr->mlx_lst, mlx_destroy_image, ptr);
 	free(ptr);

@@ -6,15 +6,14 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:17:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/15 16:16:20 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 17:16:28 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int		ft_key(int key, t_ptr *ptr)
+static void		ft_key_move(t_ptr *ptr, int key)
 {
-	printf("%d\n", key);
 	if (key == KEY_AL)
 		ptr->key.al = 1;
 	else if (key == KEY_AR)
@@ -37,10 +36,17 @@ int		ft_key(int key, t_ptr *ptr)
 		ptr->key.down = 1;
 	else if (key == KEY_MAJ)
 		ptr->key.maj = 1;
-	else if (key == KEY_M)
-		ptr->key.m += 1;
+}
+
+int				ft_key(int key, t_ptr *ptr)
+{
+	printf("%d\n", key);
+	if (key == KEY_M)
+		ptr->key.m = 1;
 	else if (key == KEY_ESC)
 		ft_close(ptr, 0);
+	else
+		ft_key_move(ptr, key);
 	return (0);
 }
 
@@ -55,7 +61,7 @@ static float	ft_key_action(char *flag, float rs_1, float rs_2)
 	return (rs_2);
 }
 
-int		ft_key_release(int key, t_ptr *ptr)
+int				ft_key_release(int key, t_ptr *ptr)
 {
 	if (key == KEY_AL)
 		ptr->key.al = 0;
@@ -84,7 +90,7 @@ int		ft_key_release(int key, t_ptr *ptr)
 	return (0);
 }
 
-int		ft_mouse(int x, int y, t_ptr *ptr)
+int				ft_mouse(int x, int y, t_ptr *ptr)
 {
 	float		rs;
 	static int	x_temp = 0;
@@ -102,7 +108,7 @@ int		ft_mouse(int x, int y, t_ptr *ptr)
 	rs = ptr->player.agl_vrt + y / (M_PI * 180);
 	if (rs < M_PI_2 && rs > -M_PI_2)
 		ptr->player.agl_vrt = rs;
-	mlx_mouse_move(ptr->mlx.window, ptr->mlx.width * .5, ptr->mlx.height * .5);
-	mlx_mouse_get_pos(ptr->mlx.window, &x_temp, &y_temp);
+	mlx_mouse_move(ptr->mlx.win, ptr->mlx.w * .5, ptr->mlx.h * .5);
+	mlx_mouse_get_pos(ptr->mlx.win, &x_temp, &y_temp);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/15 17:45:36 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/16 17:48:14 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@
 typedef struct	s_mlx
 {
 	void	*ptr;
-	void	*window;
-	int		width;
-	int		height;
+	void	*win;
+	int		w;
+	int		h;
 }				t_mlx;
 
 typedef struct	s_vector
@@ -64,16 +64,23 @@ typedef struct	s_c
 
 typedef struct	s_line
 {
-	char	*ptr;
-	int		*i_ptr;
-	int		i;
+	char			*ptr;
+	unsigned int	*i_ptr;
+	unsigned int	i;
 }				t_line;
 
 typedef struct	s_i
 {
-	int		x;
-	int		y;
-}				t_i; // unsigned
+	unsigned int	x;
+	unsigned int	y;
+}				t_i;
+
+typedef struct	s_i_singed
+{
+	int	x;
+	int	y;
+	int	z;
+}				t_i_signed;
 
 typedef struct	s_key
 {
@@ -111,14 +118,15 @@ typedef struct	s_plan
 	int				c;
 	int				d;
 	float			rs;
+	float			t;
 }				t_plan;
 
 typedef struct	s_img
 {
 	void			*ptr;
 	unsigned int	*pixels;
-	int				width;
-	int				height;
+	int				w;
+	int				h;
 	int				bpp;
 	int				s_l;
 	int				endian;
@@ -162,8 +170,6 @@ typedef struct	s_pars
 	t_plan			*plans_we;
 	t_sprite		*plans_sprite;
 	unsigned int	nbr_sprite;
-	int				res_hor;
-	int				res_ver;
 	char			*path_we;
 	char			*path_no;
 	char			*path_so;
@@ -198,6 +204,8 @@ typedef struct	s_ptr
 	t_img			sky;
 	t_img			floor;
 	t_key			key;
+	int				nbr_life;
+	int				fov;
 	struct timeval	time;
 	struct timeval	last_second;
 	pthread_t		thread[THREAD];
@@ -230,7 +238,7 @@ int				ft_create_plan(t_ptr *ptr);
 int				ft_parsing(char *path, t_ptr *ptr);
 void			ft_parsing_map(t_ptr *ptr, char *line, int j, t_i *first_pos);
 int				ft_malloc_map(t_ptr *ptr, char *path);
-int				ft_check_map(t_ptr *ptr, char **map, int i, int j);
+char			ft_check_map(t_ptr *ptr, char **map, int i, int j);
 void			ft_create_plans_x(t_ptr *ptr);
 void			ft_create_plans_y(t_ptr *ptr);
 
@@ -246,13 +254,17 @@ int				ft_in_map(t_ptr *ptr, t_i coordinate);
 void			ft_add_to_lst(t_ptr *ptr, void *add_ptr);
 void			ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), t_ptr *ptr);
 
-t_dist			ft_ray(t_ptr *ptr, t_plan *plans, t_vector dir, t_axe *axe);
+t_dist			ft_ray_x(t_ptr *ptr, t_vector dir, t_plan *p);
+t_dist			ft_ray_y(t_ptr *ptr, t_vector dir, t_plan *p);
+float			ft_calc_dist(t_plan *p, t_vector dir);
+char			ft_check_index_map(t_ptr *ptr, t_i map);
 
-float			ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist, float small_dist);
+float			ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist);
 void			ft_create_plan_sprite(t_ptr *ptr);
 void			ft_malloc_sprite(t_ptr *ptr);
 void			ft_pos_sprite(t_ptr *ptr);
 void			ft_check_new_pos_sprite(t_ptr *ptr, t_c new_pos, t_sprite *p);
+int				ft_is_sprite(t_ptr *ptr, t_c *pixel, t_vector dir, float t, t_sprite *sprite);
 
 void			ft_mlx_init(t_ptr *ptr);
 int				ft_loop(t_ptr *ptr);
