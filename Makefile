@@ -78,6 +78,7 @@ clean:
 
 fclean:		clean
 			$(RM) $(NAME)
+			$(RM) libft.a
 
 re:			fclean all
 			make -C ./Libft/
