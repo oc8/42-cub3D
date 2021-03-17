@@ -21,7 +21,7 @@ static t_img	ft_init_img(t_ptr *ptr, char *path)
 		ft_close(ptr, 5);
 	img.pixels = (unsigned int *)mlx_get_data_addr(img.ptr, &img.bpp, \
 		&img.s_l, &img.endian);
-	ft_add_to_lst(ptr, img.pixels);
+	ft_add_to_lst(ptr, img.ptr);
 	return (img);
 }
 

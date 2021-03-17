@@ -14,8 +14,10 @@
 
 void	ft_close(t_ptr *ptr, int error)
 {
-	if (error)
+	if (error > 0)
 		printf("\033[31mError\n");
+	if (error == -1)
+		printf("\033[31mGame Over\n");
 	if (error == 1)
 		printf("malloc error\n");
 	else if (error == 2)

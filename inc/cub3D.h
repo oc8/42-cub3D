@@ -203,6 +203,7 @@ typedef struct	s_ptr
 	t_img			sprite;
 	t_img			sky;
 	t_img			floor;
+	t_img			save;
 	t_key			key;
 	int				nbr_life;
 	int				fov;

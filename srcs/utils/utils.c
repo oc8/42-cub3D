@@ -44,7 +44,7 @@ void	ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), t_ptr *ptr)
 	start = *lst;
 	while (start)
 	{
-		// del(ptr->mlx.ptr, start->content);
+		del(ptr->mlx.ptr, start->content);
 		start = start->next;
 	}
 	start = *lst;

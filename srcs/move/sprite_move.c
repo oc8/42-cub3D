@@ -12,6 +12,66 @@
 
 #include "cub3D.h"
 
+static void	ft_sort(t_ptr *ptr)
+{
+	t_vector		dir;
+	t_sprite		*p;
+	unsigned int	i;
+	t_sprite		tmp;
+	float			t_max;
+	unsigned int	j;
+
+	dir = ptr->player.dir[ptr->screen.h / 2 * (ptr->screen.s_l / 4)\
+			+ ptr->screen.w / 2];
+	dir = ft_rotation(dir, &ptr->agl, ptr);
+	p = ptr->pars->plans_sprite;
+	t_max = 0;
+	i = -1;
+	while (++i < ptr->pars->nbr_sprite)
+		p[i].t = p[i].a * dir.x + p[i].b * dir.y + p[i].c * dir.z / p[i].rs;
+	j = -1;
+	while (++j < ptr->pars->nbr_sprite - 1)
+	{
+		i = -1;
+		while (++i < ptr->pars->nbr_sprite - 1)
+		{
+			if (p[i].t > p[i + 1].t)
+			{
+				tmp = p[i];
+				p[i] = p[i + 1];
+				p[i + 1] = tmp;
+			}
+		}
+	}
+}
+
+void	ft_create_plan_sprite(t_ptr *ptr)
+{
+	unsigned int	i;
+	t_sprite		*p;
+	t_c				*pos;
+	t_c				new_pos;
+
+	pos = &ptr->player.pos;
+	i = 0;
+	while (i < ptr->pars->nbr_sprite)
+	{
+		p = &ptr->pars->plans_sprite[i];
+		new_pos.x = p->pos.x - ((p->pos.x - pos->x) * ptr->delta / 2);
+		new_pos.y = p->pos.y - ((p->pos.y - pos->y) * ptr->delta / 2);
+		if (ptr->key.m)
+			ft_check_new_pos_sprite(ptr, new_pos, p);
+		p->a = p->pos.x - pos->x;
+		p->b = p->pos.y - pos->y;
+		p->c = 0;
+		p->d = -p->a * p->pos.x - p->b * p->pos.y;
+		p->rs = -(p->a * pos->x + p->b * pos->y + p->c * pos->z + p->d);
+		i++;
+	}
+	if (ptr->pars->nbr_sprite)
+		ft_sort(ptr);
+}
+
 void	ft_check_new_pos_sprite(t_ptr *ptr, t_c new_pos, t_sprite *sprite)
 {
 	t_i		i_pos;
@@ -38,6 +98,6 @@ void	ft_check_new_pos_sprite(t_ptr *ptr, t_c new_pos, t_sprite *sprite)
 		sprite->pos.x = new_pos.x;
 	pos_player.x = ptr->player.pos.x;
 	pos_player.y = ptr->player.pos.y;
-	if (new_pos_i.x == pos_player.x && new_pos_i.y == pos_player.y)
+	if (new_pos_i.x == pos_player.x && new_pos_i.y == pos_player.y && !(int)ptr->player.pos.z)
 		ptr->nbr_life -= (int)(100 * ptr->delta);
 }
