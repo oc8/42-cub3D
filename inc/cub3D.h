@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/16 17:48:14 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/17 17:17:37 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,5 +295,7 @@ unsigned int	ft_sky_texture_4(t_ptr *ptr, float map, t_vector *dir);
 unsigned int	ft_sky_texture_down(t_ptr *ptr, float map, t_vector *dir);
 
 float			ft_calc_rs(t_ptr *ptr, t_plan *p);
+
+int				save_bmp(const char *filename, t_ptr *ptr);
 
 #endif

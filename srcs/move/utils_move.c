@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:30:37 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/16 16:24:43 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/17 17:48:36 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,14 @@ void	ft_check_new_pos(t_ptr *ptr, t_c new_pos)
 {
 	t_i		new_pos_i;
 	t_c		*pos;
+	t_i		pos_i;
 
+	pos_i.x = (int)ptr->player.pos.x;
+	pos_i.y = (int)ptr->player.pos.y;
 	pos = &ptr->player.pos;
 	new_pos_i.x = (int)new_pos.x;
 	new_pos_i.y = (int)new_pos.y;
-	if (ft_in_map(ptr, new_pos_i))
+	if (ft_in_map(ptr, new_pos_i) && ft_in_map(ptr, pos_i))
 		ft_check(ptr, new_pos_i, new_pos);
 	else if (pos->x != new_pos.x || pos->y != new_pos.y)
 	{
