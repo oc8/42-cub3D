@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:38:21 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/16 17:44:32 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/18 16:44:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 struct timeval	ft_time_now(void)
 {
@@ -20,7 +20,7 @@ struct timeval	ft_time_now(void)
 	return (time);
 }
 
-static float		ft_time_diff_ms(struct timeval t1, struct timeval t0)
+static float	ft_time_diff_ms(struct timeval t1, struct timeval t0)
 {
 	return ((t1.tv_sec - t0.tv_sec) * 1000.0f + (t1.tv_usec - t0.tv_usec) \
 		/ 1000.0f);

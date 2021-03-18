@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 16:18:37 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/16 17:03:15 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/18 16:43:50 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 static t_img	ft_init_img(t_ptr *ptr, char *path)
 {
@@ -18,18 +18,18 @@ static t_img	ft_init_img(t_ptr *ptr, char *path)
 
 	img.ptr = mlx_xpm_file_to_image(ptr->mlx.ptr, path, &img.w, &img.h);
 	if (!img.ptr)
-		ft_close(ptr, 5);
+		ft_close(ptr, 1, "mlx_xpm_file_to_image() error");
 	img.pixels = (unsigned int *)mlx_get_data_addr(img.ptr, &img.bpp, \
 		&img.s_l, &img.endian);
 	ft_add_to_lst(ptr, img.ptr);
 	return (img);
 }
 
-void	ft_mlx_init(t_ptr *ptr)
+void			ft_mlx_init(t_ptr *ptr)
 {
 	ptr->mlx.ptr = mlx_init();
 	ptr->mlx.win = mlx_new_window(ptr->mlx.ptr, ptr->mlx.w, ptr->mlx.h, \
-		"Cub3D");
+		"cub3d");
 	mlx_mouse_move(ptr->mlx.win, ptr->mlx.w * 0.5, ptr->mlx.h * 0.5);
 	mlx_hook(ptr->mlx.win, 6, 1L << 6, ft_mouse, ptr);
 	mlx_hook(ptr->mlx.win, 2, 1L << 0, ft_key, ptr);

@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:56:44 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/10 16:01:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/18 13:39:21 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 static int	ft_witch_texture_x(t_ptr *ptr, t_c pixel, t_vector dir)
 {

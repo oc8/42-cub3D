@@ -10,6 +10,9 @@ colision sprite
 look up and down
 fly
 multi thread
+sprite move
+life
+case finish
 
 
 

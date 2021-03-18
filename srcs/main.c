@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/16 17:48:45 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/18 16:46:39 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 /*
 **	steps :
@@ -34,12 +34,13 @@ static int	ft_error_arg(int nbr)
 	return (1);
 }
 
-int		ft_check_args(int argc, char *argv[])
+int			ft_check_args(int argc, char *argv[], char *flag_save)
 {
 	int		i;
 	int		j;
 	char	*str;
 
+	*flag_save = 0;
 	if (argc != 2 && argc != 3)
 		return (ft_error_arg(1));
 	i = ft_strlen(argv[1]);
@@ -53,43 +54,16 @@ int		ft_check_args(int argc, char *argv[])
 	if (argc == 3 && ft_strncmp(argv[2], "--save", 7))
 		return (ft_error_arg(4));
 	if (argc == 3)
-		;
+		*flag_save = 1;
 	return (0);
 }
 
-void	ft_ray_screen(t_ptr *ptr)
-{
-	float	fov;
-	float	fov_x;
-	float	fov_y;
-	int		x;
-	int		y;
-
-	fov = ptr->fov * M_PI / 180;
-	fov_x = 2 * tan(fov / 2);
-	fov_y = 2 * tan(fov * ptr->mlx.h / ptr->mlx.w * 0.5);
-	ptr->player.dir = ft_calloc_lst(ptr, ptr->mlx.h * ptr->mlx.w, \
-			sizeof(t_c));
-	y = -1;
-	while (++y < ptr->mlx.h)
-	{
-		x = -1;
-		while (++x < ptr->mlx.w)
-		{
-			ptr->player.dir[y * ptr->mlx.w + x].x = fov_x /\
-				ptr->mlx.w * (x - ptr->mlx.w * 0.5);
-			ptr->player.dir[y * ptr->mlx.w + x].y = -1;
-			ptr->player.dir[y * ptr->mlx.w + x].z = -fov_y /\
-				ptr->mlx.h * (y - ptr->mlx.h * 0.5);
-		}
-	}
-}
-
-int		main(int argc, char *argv[])
+int			main(int argc, char *argv[])
 {
 	t_ptr	*ptr;
+	char	flag_save;
 
-	if (ft_check_args(argc, argv))
+	if (ft_check_args(argc, argv, &flag_save))
 		return (1);
 	if (!(ptr = ft_calloc(1, sizeof(t_ptr))))
 		return (-1);
@@ -104,6 +78,8 @@ int		main(int argc, char *argv[])
 	ft_parsing(argv[1], ptr);
 	ft_mlx_init(ptr);
 	ft_ray_screen(ptr);
+	if (flag_save)
+		return (ft_save_bmp("save.bmp", ptr));
 	ft_edit_img(ptr);
 	mlx_loop_hook(ptr->mlx.ptr, ft_loop, ptr);
 	mlx_loop(ptr->mlx.ptr);

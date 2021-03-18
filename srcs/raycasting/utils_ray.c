@@ -6,18 +6,18 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:11:38 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/16 17:43:27 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/18 14:51:46 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 char	ft_check_index_map(t_ptr *ptr, t_i map)
 {
 	t_i		*nbr_map;
 
 	nbr_map = &ptr->pars->nbr_map;
-	if (map.x < nbr_map->x && map.y < nbr_map->y && map.x >= 0 && map.y >= 0)
+	if (ft_in_map(ptr, map))
 	{
 		if (ptr->pars->map[map.y][map.x] == '1')
 			return (1);
@@ -62,4 +62,30 @@ t_vector	ft_rotation(t_vector dir, const t_agl *agl, t_ptr *ptr)
 	m_z.y = agl->sin_hor * m_x.x + agl->cos_hor * m_x.y;
 	m_z.z = m_x.z;
 	return (m_z);
+}
+
+void	ft_ray_screen(t_ptr *ptr)
+{
+	float	fov_x;
+	float	fov_y;
+	int		x;
+	int		y;
+	t_vector	*dir;
+
+	ptr->fov = ptr->fov * M_PI / 180;
+	fov_x = 2 * tan(ptr->fov / 2) / ptr->mlx.w;
+	fov_y = fov_x * ptr->mlx.h / ptr->mlx.w;
+	ptr->player.dir = ft_calloc_lst(ptr, ptr->mlx.h * ptr->mlx.w, sizeof(t_c));
+	y = -1;
+	while (++y < ptr->mlx.h)
+	{
+		x = -1;
+		while (++x < ptr->mlx.w)
+		{
+			dir = &ptr->player.dir[y * ptr->mlx.w + x];
+			dir->x = fov_x * (x - ptr->mlx.w * 0.5);
+			dir->y = -1;
+			dir->z = -fov_y * (y - ptr->mlx.h * 0.5);
+		}
+	}
 }

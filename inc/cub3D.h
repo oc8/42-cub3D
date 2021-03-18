@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/16 17:48:14 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/18 17:35:44 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+
 # include <pthread.h>
 # include <sys/time.h>
 
@@ -107,18 +108,17 @@ typedef struct	s_sprite
 	float	d;
 	float	rs;
 	t_c		pos;
-	char	viewable;//
 	float	t;
 }				t_sprite;
 
 typedef struct	s_plan
 {
-	int				a;
-	int				b;
-	int				c;
-	int				d;
-	float			rs;
-	float			t;
+	int		a;
+	int		b;
+	int		c;
+	int		d;
+	float	rs;
+	float	t;
 }				t_plan;
 
 typedef struct	s_img
@@ -155,11 +155,6 @@ typedef struct	s_axe
 	int		nbr_plan;
 }				t_axe;
 
-// typedef struct	s_matrice
-// {
-// 	float	;
-// }				t_matrice;
-
 typedef struct	s_pars
 {
 	char			**map;
@@ -170,6 +165,7 @@ typedef struct	s_pars
 	t_plan			*plans_we;
 	t_sprite		*plans_sprite;
 	unsigned int	nbr_sprite;
+	t_i				finish;
 	char			*path_we;
 	char			*path_no;
 	char			*path_so;
@@ -177,7 +173,7 @@ typedef struct	s_pars
 	char			*path_sprite;
 	int				col_floor;
 	int				col_sky;
-}					t_pars;
+}				t_pars;
 
 typedef struct	s_player
 {
@@ -206,7 +202,8 @@ typedef struct	s_ptr
 	t_img			save;
 	t_key			key;
 	int				nbr_life;
-	int				fov;
+	float			fov;
+	char			flag_save;
 	struct timeval	time;
 	struct timeval	last_second;
 	pthread_t		thread[THREAD];
@@ -231,59 +228,75 @@ typedef enum	e_pars
 	e_EA = 32,
 	e_S = 64,
 	e_F = 128,
-	e_C = 256
+	e_C = 256,
+	e_FINISH = 512
 }				t_e_pars;
 
+/*
+**	parsing
+*/
 t_plan			ft_new_plan(char x_y, int c);
-int				ft_create_plan(t_ptr *ptr);
 int				ft_parsing(char *path, t_ptr *ptr);
 void			ft_parsing_map(t_ptr *ptr, char *line, int j, t_i *first_pos);
 int				ft_malloc_map(t_ptr *ptr, char *path);
 char			ft_check_map(t_ptr *ptr, char **map, int i, int j);
+void			ft_malloc_sprite(t_ptr *ptr);
+
+/*
+**	plan
+*/
+int				ft_create_plan(t_ptr *ptr);
 void			ft_create_plans_x(t_ptr *ptr);
 void			ft_create_plans_y(t_ptr *ptr);
+void			ft_create_plan_sprite(t_ptr *ptr);
 
+/*
+**	display
+*/
 void			ft_edit_img(t_ptr *ptr);
-unsigned int	ft_nearest(t_ptr *ptr, t_vector dir);
 struct timeval	ft_time_now(void);
 struct timeval	ft_time(t_ptr *ptr, char *str, int *count);
 
-void			*ft_calloc_lst(t_ptr *ptr, size_t nbr, size_t size);
-int				ft_init_struct(t_ptr *ptr);
-int				create_trgb(int t, int r, int g, int b);
-int				ft_in_map(t_ptr *ptr, t_i coordinate);
-void			ft_add_to_lst(t_ptr *ptr, void *add_ptr);
-void			ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), t_ptr *ptr);
-
-t_dist			ft_ray_x(t_ptr *ptr, t_vector dir, t_plan *p);
-t_dist			ft_ray_y(t_ptr *ptr, t_vector dir, t_plan *p);
-float			ft_calc_dist(t_plan *p, t_vector dir);
-char			ft_check_index_map(t_ptr *ptr, t_i map);
-
-float			ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist);
-void			ft_create_plan_sprite(t_ptr *ptr);
-void			ft_malloc_sprite(t_ptr *ptr);
+/*
+**	move
+*/
+t_vector		ft_rotation(t_vector dir, const t_agl *agl, t_ptr *ptr);
+void			ft_check_new_pos(t_ptr *ptr, t_c new_pos);
 void			ft_pos_sprite(t_ptr *ptr);
 void			ft_check_new_pos_sprite(t_ptr *ptr, t_c new_pos, t_sprite *p);
-int				ft_is_sprite(t_ptr *ptr, t_c *pixel, t_vector dir, float t, t_sprite *sprite);
-
 void			ft_mlx_init(t_ptr *ptr);
 int				ft_loop(t_ptr *ptr);
 int				ft_mouse(int x, int y, t_ptr *ptr);
 int				ft_key(int key, t_ptr *ptr);
 int				ft_key_release(int key, t_ptr *ptr);
+void			ft_check_wall(t_ptr *ptr, t_i new_pos_i, t_c new_pos, t_c *pos);
 
-void			ft_check_new_pos(t_ptr *ptr, t_c new_pos);
+/*
+**	raycasting
+*/
+void			ft_ray_screen(t_ptr *ptr);
+t_dist			ft_ray_x(t_ptr *ptr, t_vector dir, t_plan *p);
+t_dist			ft_ray_y(t_ptr *ptr, t_vector dir, t_plan *p);
+float			ft_calc_dist(t_plan *p, t_vector dir);
+void			ft_threads(t_ptr *ptr);
+float			ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist);
+float			ft_calc_rs(t_ptr *ptr, t_plan *p);
+void			ft_before_calc(t_ptr *ptr);
+t_dist			ft_top(t_ptr *ptr, t_vector dir);
+t_dist			ft_floor(t_ptr *ptr, t_vector dir);
 
-t_vector		ft_rotation(t_vector dir, const t_agl *agl, t_ptr *ptr);
-
+/*
+**	nearest
+*/
+unsigned int	ft_nearest(t_ptr *ptr, t_vector dir);
 unsigned int	ft_nearest_wall(t_ptr *ptr, t_vector dir, t_dist x, t_dist y);
 
-int				ft_quit_x(t_ptr *ptr);
-void			ft_close(t_ptr *ptr, int error);
-
+/*
+**	texture
+*/
 unsigned int	ft_wall_texture(t_c pixel, t_img img, char axe);
-unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *img, t_c *pixel, t_sprite *sprite);
+unsigned int	ft_sprite_texture(t_ptr *ptr, t_img *img, t_c *pixel, \
+	t_sprite *sprite);
 unsigned int	ft_floor_texture(t_ptr *ptr, t_c *pixel);
 unsigned int	ft_top_texture(t_ptr *ptr, t_dist *dist);
 unsigned int	ft_skybox(t_ptr *ptr, t_vector dir);
@@ -294,6 +307,25 @@ unsigned int	ft_sky_texture_3(t_ptr *ptr, float map, t_vector *dir);
 unsigned int	ft_sky_texture_4(t_ptr *ptr, float map, t_vector *dir);
 unsigned int	ft_sky_texture_down(t_ptr *ptr, float map, t_vector *dir);
 
-float			ft_calc_rs(t_ptr *ptr, t_plan *p);
+/*
+**	utils
+*/
+void			*ft_calloc_lst(t_ptr *ptr, size_t nbr, size_t size);
+int				ft_init_struct(t_ptr *ptr);
+int				create_trgb(int t, int r, int g, int b);
+int				ft_in_map(t_ptr *ptr, t_i coordinate);
+void			ft_add_to_lst(t_ptr *ptr, void *add_ptr);
+void			ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), \
+	t_ptr *ptr);
+int				ft_save_bmp(const char *filename, t_ptr *ptr);
+char			ft_check_index_map(t_ptr *ptr, t_i map);
+int				ft_is_sprite(t_ptr *ptr, t_c *pixel, t_vector dir, float t, \
+	t_sprite *sprite);
+
+/*
+**	close
+*/
+int				ft_quit_x(t_ptr *ptr);
+void			ft_close(t_ptr *ptr, int error, const char *str);
 
 #endif
