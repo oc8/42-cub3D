@@ -13,7 +13,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# define THREAD 6
+# define THREAD 4
 
 # define KEY_D 2
 # define KEY_A 0
