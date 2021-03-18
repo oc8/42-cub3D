@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:17:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/16 17:16:28 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/18 13:39:21 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 static void		ft_key_move(t_ptr *ptr, int key)
 {
@@ -44,7 +44,7 @@ int				ft_key(int key, t_ptr *ptr)
 	if (key == KEY_M)
 		ptr->key.m = 1;
 	else if (key == KEY_ESC)
-		ft_close(ptr, 0);
+		ft_close(ptr, 0, "\033[34mclose");
 	else
 		ft_key_move(ptr, key);
 	return (0);

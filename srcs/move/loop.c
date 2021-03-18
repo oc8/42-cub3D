@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 18:54:01 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/14 16:30:16 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/18 16:47:07 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 static void	ft_new_pos(t_ptr *ptr, t_c *pos)
 {
@@ -74,7 +74,7 @@ static void	ft_move(t_ptr *ptr)
 	ft_check_new_pos(ptr, new_pos);
 }
 
-int		ft_loop(t_ptr *ptr)
+int			ft_loop(t_ptr *ptr)
 {
 	ft_move(ptr);
 	ft_edit_img(ptr);

@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 15:37:28 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/16 16:31:28 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/18 13:39:22 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 float	ft_calc_rs(t_ptr *ptr, t_plan *p)
 {
@@ -62,7 +62,7 @@ void	ft_add_to_lst(t_ptr *ptr, void *add_ptr)
 	t_list	*content;
 
 	if (!add_ptr)
-		ft_close(ptr, 5);
+		ft_close(ptr, 1, "mlx_get_data_addr() error");
 	if (!ptr->mlx_lst)
 		ptr->mlx_lst = ft_lstnew(add_ptr);
 	else
@@ -79,7 +79,7 @@ void	*ft_calloc_lst(t_ptr *ptr, size_t nbr, size_t size)
 
 	rs = ft_calloc(nbr, size);
 	if (!rs)
-		ft_close(ptr, 1);
+		ft_close(ptr, 1, "calloc_lst error");
 	if (!ptr->malloc_lst)
 		ptr->malloc_lst = ft_lstnew(rs);
 	else

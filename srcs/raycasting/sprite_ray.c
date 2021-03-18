@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 12:57:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/16 17:29:35 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/18 13:39:22 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 float	ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist)
 {

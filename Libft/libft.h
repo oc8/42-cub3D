@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 13:33:17 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/01/11 18:17:34 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/18 13:22:36 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+
+# include <stdlib.h>
+# include <fcntl.h>
+# include <unistd.h>
 
 typedef struct	s_list
 {
@@ -69,10 +73,6 @@ t_list			*ft_lstmap(t_list *l, void *(*f)(void *), void (*del)(void *));
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
 # endif
-
-# include <stdlib.h>
-# include <fcntl.h>
-# include <unistd.h>
 
 int				get_next_line(int fd, char **line);
 int				ft_new_buf(char *buf, int i);

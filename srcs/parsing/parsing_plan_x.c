@@ -6,11 +6,11 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 16:22:29 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/16 14:51:03 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/18 13:39:21 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 static int	ft_is_we_wall(t_ptr *ptr, unsigned int x)
 {
