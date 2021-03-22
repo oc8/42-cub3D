@@ -6,7 +6,7 @@
 #    By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 17:35:36 by odroz-ba          #+#    #+#              #
-#    Updated: 2021/03/07 18:40:55 by odroz-ba         ###   ########lyon.fr    #
+#    Updated: 2021/03/22 18:40:35 by odroz-ba         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,8 @@ ft_lstlast.o \
 ft_lstmap.o \
 ft_lstnew.o \
 ft_lstsize.o \
-get_next_line.o
+get_next_line.o \
+ft_cmp_float.o
 INCLUDES	= libft.h
 NAME		= libft.a
 CC			= gcc

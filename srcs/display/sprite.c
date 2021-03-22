@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 10:27:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/22 19:02:34 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_malloc_sprite(t_ptr *ptr)
 {
 	unsigned int	y;
 	unsigned int	x;
-	int		nbr;
+	int				nbr;
 
 	nbr = ptr->pars->nbr_sprite;
 	y = -1;
@@ -36,7 +36,7 @@ void	ft_pos_sprite(t_ptr *ptr)
 	unsigned int	y;
 	unsigned int	x;
 	unsigned int	i;
-	t_sprite	*p;
+	t_sprite		*p;
 
 	i = 0;
 	y = -1;
@@ -55,10 +55,10 @@ void	ft_pos_sprite(t_ptr *ptr)
 }
 
 int		ft_is_sprite(t_ptr *ptr, t_c *pixel, t_vector dir, float t, \
-			t_sprite *sprite)
+			t_sprite *sprite)//
 {
-	t_i			i_map;
-	int			color;
+	t_i	i_map;
+	int	color;
 
 	pixel->z = ptr->player.pos.z + dir.z * t;
 	if (pixel->z > 0 && pixel->z < 2)

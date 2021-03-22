@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 14:33:59 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/22 16:49:26 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,18 @@ int		ft_parsing(char *path, t_ptr *ptr)
 			ft_parsing_map(ptr, line.ptr, line.i++, &first_pos);
 		free(line.ptr);
 	}
+	
+	printf("\n");
+	line.i = -1; //////
+	while (++line.i < ptr->pars->nbr_map.y) //////
+	{
+		unsigned int j = -1;
+		while (++j < ptr->pars->nbr_map.x)
+			printf("%c", ptr->pars->map[line.i][j]); //////
+		printf("\n");
+	}
+	printf("\n");
+	
 	if (ptr->epars != 511 && ptr->epars != 1023)
 		ft_close(ptr, 1, "missing criteria");
 	if (ft_check_map(ptr, ptr->pars->map, first_pos.x, first_pos.y))

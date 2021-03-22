@@ -6,39 +6,45 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 10:27:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/22 17:42:03 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static char	ft_check_c(t_ptr *ptr, char c)
+{
+	if (c == '1' || c == 0 || c == 2)
+		return (0);
+	if (c != '0' && c != '2')
+		ft_close(ptr, 1, "extra caracter on map");
+	return (1);
+}
 
 char		ft_check_map(t_ptr *ptr, char **map, int i, int j)
 {
 	if (i - 1 < 0 || i + 1 >= (int)ptr->pars->nbr_map.x || j - 1 < 0 || \
 			j + 1 >= (int)ptr->pars->nbr_map.y)
 		ft_close(ptr, 1, "open map");
-	else if (map[j][i] == ' ')
-		ft_close(ptr, 1, "space on map");
 	if (map[j][i] != '2')
 		map[j][i] = 0;
 	else
 		map[j][i] = 2;
-	if ((map[j][i - 1] == '0' || map[j][i - 1] == '2') && ft_check_map(ptr, map, i - 1, j))
+	if (ft_check_c(ptr, map[j][i - 1]) && ft_check_map(ptr, map, i - 1, j))
 			return (1);
-	if ((map[j][i + 1] == '0' || map[j][i + 1] == '2') && ft_check_map(ptr, map, i + 1, j))
+	if (ft_check_c(ptr, map[j][i + 1]) && ft_check_map(ptr, map, i + 1, j))
 			return (1);
-	if ((map[j - 1][i] == '0' || map[j - 1][i] == '2') && ft_check_map(ptr, map, i, j - 1))
+	if (ft_check_c(ptr, map[j - 1][i]) && ft_check_map(ptr, map, i, j - 1))
 			return (1);
-	if ((map[j + 1][i] == '0' || map[j + 1][i] == '2') && ft_check_map(ptr, map, i, j + 1))
+	if (ft_check_c(ptr, map[j + 1][i]) && ft_check_map(ptr, map, i, j + 1))
 			return (1);
-
-	if ((map[j - 1][i - 1] == '0' || map[j - 1][i - 1] == '2') && ft_check_map(ptr, map, i - 1, j - 1))
+	if (ft_check_c(ptr, map[j - 1][i - 1]) && ft_check_map(ptr, map, i - 1, j - 1))
 			return (1);
-	if ((map[j + 1][i + 1] == '0' || map[j + 1][i + 1] == '2') && ft_check_map(ptr, map, i + 1, j + 1))
+	if (ft_check_c(ptr, map[j + 1][i + 1]) && ft_check_map(ptr, map, i + 1, j + 1))
 			return (1);
-	if ((map[j - 1][i + 1] == '0' || map[j - 1][i + 1] == '2') && ft_check_map(ptr, map, i + 1, j - 1))
+	if (ft_check_c(ptr, map[j - 1][i + 1]) && ft_check_map(ptr, map, i + 1, j - 1))
 			return (1);
-	if ((map[j + 1][i - 1] == '0' || map[j + 1][i - 1] == '2') && ft_check_map(ptr, map, i - 1, j + 1))
+	if (ft_check_c(ptr, map[j + 1][i - 1]) && ft_check_map(ptr, map, i - 1, j + 1))
 			return (1);
 	return (0);
 }
@@ -122,6 +128,8 @@ void	ft_parsing_map(t_ptr *ptr, char *line, int j, t_i *first_pos)
 
 	if (line[0] == '#')
 		return ;
+	if (line[0] == '\0')
+		ft_close(ptr, 1, "void line on the map");
 	i = -1;
 	while (line[++i])
 	{
@@ -146,5 +154,5 @@ void	ft_parsing_map(t_ptr *ptr, char *line, int j, t_i *first_pos)
 			ft_close(ptr, 1, "extra caracter in the map");
 	}
 	while (++i < ptr->pars->nbr_map.x)
-		ptr->pars->map[j][i] = 0;
+		ptr->pars->map[j][i] = '0';
 }

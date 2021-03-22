@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close.c                                            :+:      :+:    :+:   */
+/*   ft_cmp_float.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/01 11:13:27 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 19:00:56 by odroz-ba         ###   ########lyon.fr   */
+/*   Created: 2021/03/22 18:36:47 by odroz-ba          #+#    #+#             */
+/*   Updated: 2021/03/22 18:41:39 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-void	ft_close(t_ptr *ptr, int error, const char *str)
+char	ft_cmp_equal_flt(float c, float *lst, unsigned int nbr)
 {
-	if (error)
-		printf("\033[31mError\n");
-	printf("%s\n", str);
-	if (ptr->screen.ptr)
-		mlx_destroy_image(ptr->mlx.ptr, ptr->screen.ptr);
-	ft_lstclear(&ptr->malloc_lst, free);
-	ft_lstclear_mlx(&ptr->mlx_lst, mlx_destroy_image, ptr);
-	free(ptr->pars);
-	free(ptr);
-	exit(0);
+	unsigned int	i;
+
+	i = -1;
+	while (++i < nbr)
+		if (c == lst[i])
+			return (1);
+	return (0);
 }
 
-int		ft_quit_x(t_ptr *ptr)
+char	ft_cmp_dif_flt(float c, float *lst, unsigned int nbr)
 {
-	ft_close(ptr, 0, "close");
-	return (0);
+	unsigned int	i;
+
+	i = -1;
+	while (++i < nbr)
+		if (c == lst[i])
+			return (0);
+	return (1);
 }

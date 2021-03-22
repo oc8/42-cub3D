@@ -260,8 +260,8 @@ int				ft_mouse(int x, int y, t_ptr *ptr);
 int				ft_key(int key, t_ptr *ptr);
 int				ft_key_release(int key, t_ptr *ptr);
 void			ft_check_wall(t_ptr *ptr, t_i new_pos_i, t_c new_pos, t_c *pos);
-void			ft_three_dimensional(t_ptr *ptr);
-void			ft_three_dimensional_move(t_ptr *ptr, t_dist dist);
+void			ft_fly(t_ptr *ptr);
+void			ft_fly_move(t_ptr *ptr, t_dist dist);
 
 /*
 **	raycasting

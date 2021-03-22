@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 13:33:17 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/18 13:22:36 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/22 18:41:39 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ void			ft_lstdelone(t_list *lst, void (*del)(void*));
 void			ft_lstclear(t_list **lst, void (*del)(void*));
 void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *l, void *(*f)(void *), void (*del)(void *));
+
+char			ft_cmp_equal_flt(float c, float *lst, unsigned int nbr);
+char			ft_cmp_dif_flt(float c, float *lst, unsigned int nbr);
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1

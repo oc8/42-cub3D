@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   three_dimensional.c                                :+:      :+:    :+:   */
+/*   fly.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 11:37:15 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 14:33:59 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/22 18:02:36 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_three_dimensional(t_ptr *ptr)
+void	ft_fly(t_ptr *ptr)
 {
 	t_vector		dir;
 	static char		flag = 0;
@@ -28,17 +28,17 @@ void	ft_three_dimensional(t_ptr *ptr)
 		dir = ptr->player.dir[ptr->screen.h / 2 * ptr->screen.w + ptr->screen.w / 2];
 		dir = ft_rotation(dir, &ptr->agl, ptr);
 		dist = ft_nearest(ptr, dir);
-		if (dist.t > 5)
+		if (dist.t > 8 || dist.pixel.z < 0.5)
 		{
 			ptr->key.space = 0;
 			return ;
 		}
 		flag = 1;
 	}
-	ft_three_dimensional_move(ptr, dist);
+	ft_fly_move(ptr, dist);
 }
 
-void	ft_three_dimensional_move(t_ptr *ptr, t_dist dist)
+void	ft_fly_move(t_ptr *ptr, t_dist dist)
 {
 	t_c		*pos;
 

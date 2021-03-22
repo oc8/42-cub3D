@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:30:37 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 10:27:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/22 18:44:36 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,45 @@
 void	ft_check_wall(t_ptr *ptr, t_i new_pos_i, t_c new_pos, t_c *pos)
 {
 	t_i		pos_i;
+	char	**map;
+	float	lst[1];
 
+	lst[0] = '1';
 	pos_i.x = (unsigned int)pos->x;
 	pos_i.y = (unsigned int)pos->y;
-	if ((ptr->pars->map[new_pos_i.y][new_pos_i.x] != '1' && \
-			ptr->pars->map[new_pos_i.y][pos_i.x] != '1' && \
-			ptr->pars->map[pos_i.y][new_pos_i.x] != '1'))
+	map = ptr->pars->map;
+	if (ft_cmp_dif_flt(map[new_pos_i.y][new_pos_i.x], lst, 1) && \
+			ft_cmp_dif_flt(map[new_pos_i.y][pos_i.x], lst, 1) && \
+			ft_cmp_dif_flt(map[pos_i.y][new_pos_i.x] , lst, 1))
 	{
 		pos->x = new_pos.x;
 		pos->y = new_pos.y;
 	}
-	else if (ptr->pars->map[new_pos_i.y][pos_i.x] != '1')
+	else if (ft_cmp_dif_flt(map[new_pos_i.y][pos_i.x], lst, 1))
 		pos->y = new_pos.y;
-	else if (ptr->pars->map[pos_i.y][new_pos_i.x] != '1')
+	else if (ft_cmp_dif_flt(map[pos_i.y][new_pos_i.x] , lst, 1))
 		pos->x = new_pos.x;
 }
 
-static void	ft_check_all(t_ptr *ptr, t_i new_pos_i, t_c new_pos, t_i pos)
+static void	ft_check_all(t_ptr *ptr, t_i npos_i, t_c npos, t_i pos)
 {
-	if ((!ptr->pars->map[new_pos_i.y][new_pos_i.x] && \
-			!ptr->pars->map[new_pos_i.y][pos.x] && \
-			!ptr->pars->map[pos.y][new_pos_i.x]))
+	char	**map;
+	float	lst[2];
+
+	lst[0] = 0;
+	lst[1] = '0';
+	map = ptr->pars->map;
+	if (ft_cmp_equal_flt(map[npos_i.y][npos_i.x], lst, 2) && \
+		ft_cmp_equal_flt(map[npos_i.y][pos.x], lst, 2) && \
+		ft_cmp_equal_flt(map[pos.y][npos_i.x], lst, 2))
 	{
-		ptr->player.pos.x = new_pos.x;
-		ptr->player.pos.y = new_pos.y;
+		ptr->player.pos.x = npos.x;
+		ptr->player.pos.y = npos.y;
 	}
-	else if (!ptr->pars->map[new_pos_i.y][pos.x])
-		ptr->player.pos.y = new_pos.y;
-	else if (!ptr->pars->map[pos.y][new_pos_i.x])
-		ptr->player.pos.x = new_pos.x;
+	else if (ft_cmp_equal_flt(map[npos_i.y][pos.x], lst, 2))
+		ptr->player.pos.y = npos.y;
+	else if (ft_cmp_equal_flt(map[pos.y][npos_i.x], lst, 2))
+		ptr->player.pos.x = npos.x;
 }
 
 static void	ft_check(t_ptr *ptr, t_i new_pos_i, t_c new_pos)

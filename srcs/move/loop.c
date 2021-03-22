@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 18:54:01 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 13:43:40 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/22 18:00:39 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ static void	ft_move(t_ptr *ptr)
 {
 	t_c		new_pos;
 
-	ft_three_dimensional(ptr);
+	ft_fly(ptr);
 	new_pos = ptr->player.pos;
-	if (new_pos.z > 0.5)
-		new_pos.z -= ptr->delta;
+	if (new_pos.z > 0.5 && !ptr->key.up)
+		new_pos.z = new_pos.z - ((new_pos.z + 0.5) * ptr->delta);
 	ft_new_pos(ptr, &new_pos);
 	ft_view(ptr);
 	ft_check_new_pos(ptr, new_pos);
