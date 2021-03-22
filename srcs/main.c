@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/18 16:46:39 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/22 14:22:16 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int			main(int argc, char *argv[])
 	ft_mlx_init(ptr);
 	ft_ray_screen(ptr);
 	if (flag_save)
-		return (ft_save_bmp("save.bmp", ptr));
+		ft_save_bmp("save.bmp", ptr);
 	ft_edit_img(ptr);
 	mlx_loop_hook(ptr->mlx.ptr, ft_loop, ptr);
 	mlx_loop(ptr->mlx.ptr);

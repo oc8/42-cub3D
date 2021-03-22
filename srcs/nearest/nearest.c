@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/18 17:35:12 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/22 12:10:47 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ static void		ft_dist(t_ptr *ptr, t_dist dist[6], t_vector dir)
 	dist[5].t = 9999998;
 }
 
-unsigned int	ft_nearest(t_ptr *ptr, t_vector dir)
+t_dist	ft_nearest(t_ptr *ptr, t_vector dir)
 {
-	t_dist			dist[6];
-	int				i;
-	float			small_dist;
-	int				nearest;
+	t_dist	dist[6];
+	int		i;
+	float	small_dist;
+	int		nearest;
 
 	ft_dist(ptr, dist, dir);
 	small_dist = 9999999;
@@ -84,5 +84,5 @@ unsigned int	ft_nearest(t_ptr *ptr, t_vector dir)
 		else
 			dist[1].color = ft_wall_texture(dist[1].pixel, ptr->ea, 'x');
 	}
-	return (dist[nearest].color);
+	return (dist[nearest]);
 }

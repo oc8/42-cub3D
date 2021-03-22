@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:11:38 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/18 14:51:46 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/22 14:33:59 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,19 @@ void	ft_ray_screen(t_ptr *ptr)
 	t_vector	*dir;
 
 	ptr->fov = ptr->fov * M_PI / 180;
-	fov_x = 2 * tan(ptr->fov / 2) / ptr->mlx.w;
-	fov_y = fov_x * ptr->mlx.h / ptr->mlx.w;
-	ptr->player.dir = ft_calloc_lst(ptr, ptr->mlx.h * ptr->mlx.w, sizeof(t_c));
+	fov_x = 2 * tan(ptr->fov / 2) / ptr->screen.w;
+	fov_y = fov_x * ptr->screen.h / ptr->screen.w;
+	ptr->player.dir = ft_calloc_lst(ptr, ptr->screen.h * ptr->screen.w, sizeof(t_c));
 	y = -1;
-	while (++y < ptr->mlx.h)
+	while (++y < ptr->screen.h)
 	{
 		x = -1;
-		while (++x < ptr->mlx.w)
+		while (++x < ptr->screen.w)
 		{
-			dir = &ptr->player.dir[y * ptr->mlx.w + x];
-			dir->x = fov_x * (x - ptr->mlx.w * 0.5);
+			dir = &ptr->player.dir[y * ptr->screen.w + x];
+			dir->x = fov_x * (x - ptr->screen.w * 0.5);
 			dir->y = -1;
-			dir->z = -fov_y * (y - ptr->mlx.h * 0.5);
+			dir->z = -fov_y * (y - ptr->screen.h * 0.5);
 		}
 	}
 }

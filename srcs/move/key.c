@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:17:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/18 13:39:21 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/22 14:34:57 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static void		ft_key_move(t_ptr *ptr, int key)
 		ptr->key.down = 1;
 	else if (key == KEY_MAJ)
 		ptr->key.maj = 1;
+	else if (key == KEY_SPACE)
+		ptr->key.space = 1;
 }
 
 int				ft_key(int key, t_ptr *ptr)
@@ -108,7 +110,7 @@ int				ft_mouse(int x, int y, t_ptr *ptr)
 	rs = ptr->player.agl_vrt + y / (M_PI * 180);
 	if (rs < M_PI_2 && rs > -M_PI_2)
 		ptr->player.agl_vrt = rs;
-	mlx_mouse_move(ptr->mlx.win, ptr->mlx.w * .5, ptr->mlx.h * .5);
+	mlx_mouse_move(ptr->mlx.win, ptr->screen.w * .5, ptr->screen.h * .5);
 	mlx_mouse_get_pos(ptr->mlx.win, &x_temp, &y_temp);
 	return (0);
 }

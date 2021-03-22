@@ -1,9 +1,8 @@
-R 1000 720
-NO ./textures/snk/mur1.xpm
-SO  ./textures/snk/mur2.xpm
-WE ./textures/snk/mur2.xpm
-
-EA textures/snk/mur1.xpm
+R 1080 720
+NO ./1textures/snk/wall.xpm
+SO  ./textures/snk/wall.xpm
+WE ./textures/snk/mur1.xpm
+EA textures/snk/wall.xpm
 
 #S         textures/Rick_Sanchez.xpm
 S textures/snk/sprite.xpm
@@ -123,7 +122,7 @@ C 20,20,30
 10001000101
 10000000121
 10000000101
-10000200101
+10200200101
 11111111101
 1F222222221
 11111111111

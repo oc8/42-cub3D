@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/05 14:33:04 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/18 17:35:44 by odroz-ba         ###   ########lyon.fr   */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -29,6 +19,7 @@
 # define KEY_M 46
 # define KEY_CTRL 256
 # define KEY_MAJ 257
+# define KEY_SPACE 49
 
 # include "mlx.h"
 # include "libft.h"
@@ -45,8 +36,6 @@ typedef struct	s_mlx
 {
 	void	*ptr;
 	void	*win;
-	int		w;
-	int		h;
 }				t_mlx;
 
 typedef struct	s_vector
@@ -98,6 +87,7 @@ typedef struct	s_key
 	char	m;
 	char	ctrl;
 	char	maj;
+	char	space;
 }				t_key;
 
 typedef struct	s_sprite
@@ -270,6 +260,8 @@ int				ft_mouse(int x, int y, t_ptr *ptr);
 int				ft_key(int key, t_ptr *ptr);
 int				ft_key_release(int key, t_ptr *ptr);
 void			ft_check_wall(t_ptr *ptr, t_i new_pos_i, t_c new_pos, t_c *pos);
+void			ft_three_dimensional(t_ptr *ptr);
+void			ft_three_dimensional_move(t_ptr *ptr, t_dist dist);
 
 /*
 **	raycasting
@@ -288,7 +280,7 @@ t_dist			ft_floor(t_ptr *ptr, t_vector dir);
 /*
 **	nearest
 */
-unsigned int	ft_nearest(t_ptr *ptr, t_vector dir);
+t_dist			ft_nearest(t_ptr *ptr, t_vector dir);
 unsigned int	ft_nearest_wall(t_ptr *ptr, t_vector dir, t_dist x, t_dist y);
 
 /*
@@ -317,7 +309,7 @@ int				ft_in_map(t_ptr *ptr, t_i coordinate);
 void			ft_add_to_lst(t_ptr *ptr, void *add_ptr);
 void			ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), \
 	t_ptr *ptr);
-int				ft_save_bmp(const char *filename, t_ptr *ptr);
+void			ft_save_bmp(const char *filename, t_ptr *ptr);
 char			ft_check_index_map(t_ptr *ptr, t_i map);
 int				ft_is_sprite(t_ptr *ptr, t_c *pixel, t_vector dir, float t, \
 	t_sprite *sprite);

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:10:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/18 13:39:22 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/22 14:01:52 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static char	ft_is_wall_x(t_ptr *ptr, t_c *pixel, t_vector dir, t_plan *p)
 		if (dir.x < 0)
 			i_map.x -= 1;
 		i_map.y = (int)pixel->y;
+		pixel->x = ptr->player.pos.x + dir.x * p->t;
 		return (ft_check_index_map(ptr, i_map));
 	}
 	return (0);
@@ -41,6 +42,7 @@ static char	ft_is_wall_y(t_ptr *ptr, t_c *pixel, t_vector dir, t_plan *p)
 		if (dir.y < 0)
 			i_map.y -= 1;
 		i_map.x = (int)pixel->x;
+		pixel->y = ptr->player.pos.y + dir.y * p->t;
 		return (ft_check_index_map(ptr, i_map));
 	}
 	return (0);

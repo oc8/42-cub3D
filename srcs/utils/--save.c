@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 17:55:40 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/18 13:39:22 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/22 16:00:54 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,23 @@ static unsigned char	*ft_create_bitmap_info_header(t_ptr *ptr)
 
 void	ft_write_img(int fd, t_ptr *ptr)
 {
-	int		x;
-	int		y;
+	int	x;
+	int	y;
 
 	ft_before_calc(ptr);
+	ft_threads(ptr);
+	ft_create_plan_sprite(ptr);
 	ft_threads(ptr);
 	y = -1;
 	while (++y < ptr->screen.h)
 	{
 		x = -1;
 		while (++x < ptr->screen.w)
-			write(fd, &ptr->screen.pixels[y * (ptr->screen.s_l / 4) * + x], ptr->screen.bpp);
+			write(fd, &ptr->screen.pixels[(ptr->screen.h - 1 - y) * (ptr->screen.s_l / 4) + x], 4);
 	}
 }
 
-int	ft_save_bmp(const char *filename, t_ptr *ptr)
+void	ft_save_bmp(const char *filename, t_ptr *ptr)
 {
 	int	fd;
 	int	img_size;
@@ -93,8 +95,7 @@ int	ft_save_bmp(const char *filename, t_ptr *ptr)
 		ft_close(ptr, 1, "open 2 failed\n");
 	write(fd, ft_create_bitmap_file_header(file_size), 14);
 	write(fd, ft_create_bitmap_info_header(ptr), 40);
-	// ft_write_img(fd, ptr);
+	ft_write_img(fd, ptr);
 	close(fd);
-	ft_putstr_fd("save.bmp generated !\n", 1);
-	return (1);
+	ft_close(ptr, 0, "\033[33msave.bmp generated !");
 }

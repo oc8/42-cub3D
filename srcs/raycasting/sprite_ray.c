@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 12:57:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/18 13:39:22 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/22 15:55:01 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ float	ft_ray_sprite(t_ptr *ptr, t_vector dir, t_dist *dist)
 	while (i < ptr->pars->nbr_sprite)
 	{
 		p = &ptr->pars->plans_sprite[i];
+		// printf("t = %f\n", ptr->pars->plans_sprite[i].t);
 		if (p->t > 0)
 		{
 			rs_dir = p->a * dir.x + p->b * dir.y + p->c * dir.z;
