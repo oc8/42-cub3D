@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/23 17:10:09 by odroz-ba          #+#    #+#             */
+/*   Updated: 2021/03/23 18:53:13 by odroz-ba         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -226,7 +237,7 @@ typedef enum	e_pars
 */
 t_plan			ft_new_plan(char x_y, int c);
 int				ft_parsing(char *path, t_cub *ptr);
-void			ft_parsing_map(t_cub *ptr, char *line, int j, t_i *first_pos);
+void			ft_parsing_map(t_cub *ptr, char *line, int j);
 int				ft_malloc_map(t_cub *ptr, char *path);
 char			ft_check_map(t_cub *ptr, char **map, int i, int j);
 void			ft_malloc_sprite(t_cub *ptr);
@@ -234,6 +245,7 @@ int				ft_atoi_nbr(t_cub *ptr, char *line, unsigned int *i);
 char			*ft_copy_str(t_cub *ptr, char *line, unsigned int *i);
 int				ft_atoi_color_util(t_cub *ptr, char *line, unsigned int *i, int flag);
 int				ft_atoi_color(t_cub *ptr, char *line, unsigned int *i);
+int				ft_parsing_criteria(t_cub *cub, t_line line);
 
 /*
 **	plan

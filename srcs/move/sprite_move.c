@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 14:49:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:22:07 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_switch(t_sprite *p1, t_sprite *p2)
 	*p2 = tmp;
 }
 
-static void	ft_sort(t_cub *ptr)
+static void	ft_sort(t_cub *cub)
 {
 	t_vector		dir;
 	t_sprite		*p;
@@ -29,19 +29,19 @@ static void	ft_sort(t_cub *ptr)
 	float			t_max;
 	unsigned int	j;
 
-	dir = ptr->player.dir[ptr->screen.h / 2 * (ptr->screen.s_l / 4) \
-			+ ptr->screen.w / 2];
-	dir = ft_rotation(dir, &ptr->agl, ptr);
-	p = ptr->pars->plans_sprite;
+	dir = cub->player.dir[cub->screen.h / 2 * (cub->screen.s_l / 4) \
+			+ cub->screen.w / 2];
+	dir = ft_rotation(dir, &cub->agl, cub);
+	p = cub->pars->plans_sprite;
 	t_max = 0;
 	i = -1;
-	while (++i < ptr->pars->nbr_sprite)
+	while (++i < cub->pars->nbr_sprite)
 		p[i].t = p[i].a * dir.x + p[i].b * dir.y + p[i].c * dir.z / p[i].rs;
 	j = -1;
-	while (++j < ptr->pars->nbr_sprite - 1)
+	while (++j < cub->pars->nbr_sprite - 1)
 	{
 		i = -1;
-		while (++i < ptr->pars->nbr_sprite - 1)
+		while (++i < cub->pars->nbr_sprite - 1)
 		{
 			if (p[i].t > p[i + 1].t)
 				ft_switch(&p[i], &p[i + 1]);
@@ -49,22 +49,22 @@ static void	ft_sort(t_cub *ptr)
 	}
 }
 
-void		ft_create_plan_sprite(t_cub *ptr)
+void		ft_create_plan_sprite(t_cub *cub)
 {
 	unsigned int	i;
 	t_sprite		*p;
 	t_c				*player_pos;
 	t_c				new_pos;
 
-	player_pos = &ptr->player.pos;
+	player_pos = &cub->player.pos;
 	i = 0;
-	while (i < ptr->pars->nbr_sprite)
+	while (i < cub->pars->nbr_sprite)
 	{
-		p = &ptr->pars->plans_sprite[i];
-		new_pos.x = p->pos.x - ((p->pos.x - player_pos->x) * ptr->delta / 2);
-		new_pos.y = p->pos.y - ((p->pos.y - player_pos->y) * ptr->delta / 2);
-		if (ptr->key.m)
-			ft_check_new_pos_sprite(ptr, new_pos, p);
+		p = &cub->pars->plans_sprite[i];
+		new_pos.x = p->pos.x - ((p->pos.x - player_pos->x) * cub->delta / 2);
+		new_pos.y = p->pos.y - ((p->pos.y - player_pos->y) * cub->delta / 2);
+		if (cub->key.m)
+			ft_check_new_pos_sprite(cub, new_pos, p);
 		p->a = p->pos.x - player_pos->x;
 		p->b = p->pos.y - player_pos->y;
 		p->c = 0;
@@ -73,23 +73,23 @@ void		ft_create_plan_sprite(t_cub *ptr)
 			player_pos->z + p->d);
 		i++;
 	}
-	if (ptr->pars->nbr_sprite)
-		ft_sort(ptr);
+	if (cub->pars->nbr_sprite)
+		ft_sort(cub);
 }
 
-void		ft_check_new_pos_sprite(t_cub *ptr, t_c new_pos, t_sprite *sprite)
+void		ft_check_new_pos_sprite(t_cub *cub, t_c new_pos, t_sprite *sprite)
 {
 	t_i		new_pos_i;
 	t_i		pos;
 
 	new_pos_i.x = (int)new_pos.x;
 	new_pos_i.y = (int)new_pos.y;
-	if (!(new_pos_i.x < ptr->pars->nbr_map.x && new_pos_i.y < \
-			ptr->pars->nbr_map.y && new_pos_i.x >= 0 && new_pos_i.y >= 0))
+	if (!(new_pos_i.x < cub->pars->nbr_map.x && new_pos_i.y < \
+			cub->pars->nbr_map.y && new_pos_i.x >= 0 && new_pos_i.y >= 0))
 		return ;
-	ft_check_wall(ptr, new_pos_i, new_pos, &sprite->pos);
-	pos.x = ptr->player.pos.x;
-	pos.y = ptr->player.pos.y;
-	if (new_pos_i.x == pos.x && new_pos_i.y == pos.y && !(int)ptr->player.pos.z)
-		ptr->nbr_life -= (int)(100 * ptr->delta);
+	ft_check_wall(cub, new_pos_i, new_pos, &sprite->pos);
+	pos.x = cub->player.pos.x;
+	pos.y = cub->player.pos.y;
+	if (new_pos_i.x == pos.x && new_pos_i.y == pos.y && !(int)cub->player.pos.z)
+		cub->nbr_life -= (int)(100 * cub->delta);
 }

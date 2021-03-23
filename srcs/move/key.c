@@ -6,49 +6,49 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:17:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 18:46:46 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void		ft_key_move(t_cub *ptr, int key)
+static void		ft_key_move(t_cub *cub, int key)
 {
 	if (key == KEY_AL)
-		ptr->key.al = 1;
+		cub->key.al = 1;
 	else if (key == KEY_AR)
-		ptr->key.ar = 1;
+		cub->key.ar = 1;
 	else if (key == KEY_W)
-		ptr->key.w = 1;
+		cub->key.w = 1;
 	else if (key == KEY_S)
-		ptr->key.s = 1;
+		cub->key.s = 1;
 	else if (key == KEY_A)
-		ptr->key.a = 1;
+		cub->key.a = 1;
 	else if (key == KEY_D)
-		ptr->key.d = 1;
+		cub->key.d = 1;
 	else if (key == KEY_AD)
-		ptr->key.ad = 1;
+		cub->key.ad = 1;
 	else if (key == KEY_AU)
-		ptr->key.au = 1;
+		cub->key.au = 1;
 	else if (key == KEY_UP)
-		ptr->key.up = 1;
+		cub->key.up = 1;
 	else if (key == KEY_DOWN)
-		ptr->key.down = 1;
+		cub->key.down = 1;
 	else if (key == KEY_MAJ)
-		ptr->key.maj = 1;
+		cub->key.maj = 1;
 	else if (key == KEY_SPACE)
-		ptr->key.space = 1;
+		cub->key.space = 1;
 }
 
-int				ft_key(int key, t_cub *ptr)
+int				ft_key(int key, t_cub *cub)
 {
 	printf("%d\n", key);
 	if (key == KEY_M)
-		ptr->key.m = 1;
+		cub->key.m = 1;
 	else if (key == KEY_ESC)
-		ft_close(ptr, 0, "\033[34mclose");
+		ft_close(cub, 0, "\033[34mclose");
 	else
-		ft_key_move(ptr, key);
+		ft_key_move(cub, key);
 	return (0);
 }
 
@@ -63,36 +63,38 @@ static float	ft_key_action(char *flag, float rs_1, float rs_2)
 	return (rs_2);
 }
 
-int				ft_key_release(int key, t_cub *ptr)
+int				ft_key_release(int key, t_cub *cub)
 {
 	if (key == KEY_AL)
-		ptr->key.al = 0;
+		cub->key.al = 0;
 	else if (key == KEY_AR)
-		ptr->key.ar = 0;
+		cub->key.ar = 0;
 	else if (key == KEY_W)
-		ptr->key.w = 0;
+		cub->key.w = 0;
 	else if (key == KEY_S)
-		ptr->key.s = 0;
+		cub->key.s = 0;
 	else if (key == KEY_A)
-		ptr->key.a = 0;
+		cub->key.a = 0;
 	else if (key == KEY_D)
-		ptr->key.d = 0;
+		cub->key.d = 0;
 	else if (key == KEY_AD)
-		ptr->key.ad = 0;
+		cub->key.ad = 0;
 	else if (key == KEY_AU)
-		ptr->key.au = 0;
+		cub->key.au = 0;
 	else if (key == KEY_UP)
-		ptr->key.up = 0;
+		cub->key.up = 0;
 	else if (key == KEY_DOWN)
-		ptr->key.down = 0;
+		cub->key.down = 0;
 	else if (key == KEY_CTRL)
-		ptr->player.pos.z += ft_key_action(&ptr->key.ctrl, 0.2, -0.2);
+		cub->player.pos.z += ft_key_action(&cub->key.ctrl, 0.2, -0.2);
 	else if (key == KEY_MAJ)
-		ptr->key.maj = 0;
+		cub->key.maj = 0;
+	else if (key == KEY_SPACE)
+		cub->key.space = 0;
 	return (0);
 }
 
-int				ft_mouse(int x, int y, t_cub *ptr)
+int				ft_mouse(int x, int y, t_cub *cub)
 {
 	float		rs;
 	static int	x_temp = 0;
@@ -106,11 +108,11 @@ int				ft_mouse(int x, int y, t_cub *ptr)
 	}
 	x -= x_temp;
 	y -= y_temp - 22;
-	ptr->player.agl_hor += x / (M_PI * 180);
-	rs = ptr->player.agl_vrt + y / (M_PI * 180);
+	cub->player.agl_hor += x / (M_PI * 180);
+	rs = cub->player.agl_vrt + y / (M_PI * 180);
 	if (rs < M_PI_2 && rs > -M_PI_2)
-		ptr->player.agl_vrt = rs;
-	mlx_mouse_move(ptr->mlx.win, ptr->screen.w * .5, ptr->screen.h * .5);
-	mlx_mouse_get_pos(ptr->mlx.win, &x_temp, &y_temp);
+		cub->player.agl_vrt = rs;
+	mlx_mouse_move(cub->mlx.win, cub->screen.w * .5, cub->screen.h * .5);
+	mlx_mouse_get_pos(cub->mlx.win, &x_temp, &y_temp);
 	return (0);
 }

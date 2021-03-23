@@ -15,10 +15,13 @@ SUR		= \033[7m
 NAME		= cub3D
 LOBJS		= main.o \
 parsing/parsing.o \
+parsing/criteria.o \
 parsing/map_pars.o \
 parsing/plan_pars.o \
 parsing/plan_x_pars.o \
 parsing/plan_y_pars.o \
+parsing/is_open.o \
+parsing/malloc_map.o \
 parsing/utils_pars.o \
 display/edit_screen.o \
 display/time.o \

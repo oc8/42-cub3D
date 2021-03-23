@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:38:21 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:18:51 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,29 +26,29 @@ static float	ft_time_diff_ms(struct timeval t1, struct timeval t0)
 		/ 1000.0f);
 }
 
-struct timeval	ft_time(t_cub *ptr, char *str, int *count)
+struct timeval	ft_time(t_cub *cub, char *str, int *count)
 {
 	struct timeval	time_now;
 	float			delta;
 	static int		time_fps = 0;
 
 	time_now = ft_time_now();
-	if (!ptr->time.tv_sec && !ptr->time.tv_usec)
+	if (!cub->time.tv_sec && !cub->time.tv_usec)
 		return (time_now);
-	delta = ft_time_diff_ms(time_now, ptr->time) / 1000.0f;
-	if (ft_time_diff_ms(time_now, ptr->last_second) > 1000)
+	delta = ft_time_diff_ms(time_now, cub->time) / 1000.0f;
+	if (ft_time_diff_ms(time_now, cub->last_second) > 1000)
 	{
 		time_fps = *count;
 		*count = 0;
-		ptr->last_second = ft_time_now();
+		cub->last_second = ft_time_now();
 	}
 	sprintf(str, "FPS : %i", time_fps);
-	if (ptr->key.maj)
-		ptr->player.speed = 6 * delta;
+	if (cub->key.maj)
+		cub->player.speed = 6 * delta;
 	else
-		ptr->player.speed = 3 * delta;
-	if (ptr->key.ctrl)
-		ptr->player.speed /= 2;
-	ptr->delta = delta;
+		cub->player.speed = 3 * delta;
+	if (cub->key.ctrl)
+		cub->player.speed /= 2;
+	cub->delta = delta;
 	return (time_now);
 }

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:58:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:21:30 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_plan		ft_new_plan(char x_y, int c)
 	return (plan);
 }
 
-int			ft_create_plan(t_cub *ptr)
+int			ft_create_plan(t_cub *cub)
 {
-	ft_create_plans_x(ptr);
-	ft_create_plans_y(ptr);
+	ft_create_plans_x(cub);
+	ft_create_plans_y(cub);
 	return (0);
 }

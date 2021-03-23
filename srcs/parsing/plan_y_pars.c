@@ -6,63 +6,63 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 16:22:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:22:07 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int	ft_is_no_wall(t_cub *ptr, unsigned int y)
+static int	ft_is_no_wall(t_cub *cub, unsigned int y)
 {
 	unsigned int	x;
 
 	if (y < 1)
 		return (1);
 	x = -1;
-	while (++x < ptr->pars->nbr_map.x)
-		if (ptr->pars->map[y - 1][x] == '1' && ptr->pars->map[y][x] != '1')
+	while (++x < cub->pars->nbr_map.x)
+		if (cub->pars->map[y - 1][x] == '1' && cub->pars->map[y][x] != '1')
 			return (1);
 	return (0);
 }
 
-static int	ft_is_so_wall(t_cub *ptr, unsigned int y)
+static int	ft_is_so_wall(t_cub *cub, unsigned int y)
 {
 	unsigned int	x;
 
 	if (y < 1)
 		return (1);
 	x = -1;
-	while (++x < ptr->pars->nbr_map.x)
-		if (ptr->pars->map[y - 1][x] != '1' && ptr->pars->map[y][x] == '1')
+	while (++x < cub->pars->nbr_map.x)
+		if (cub->pars->map[y - 1][x] != '1' && cub->pars->map[y][x] == '1')
 			return (1);
 	return (0);
 }
 
-void		ft_create_plans_y(t_cub *ptr)
+void		ft_create_plans_y(t_cub *cub)
 {
 	unsigned int	y;
 	unsigned int	i;
 	unsigned int	nbr_plan;
 
-	nbr_plan = ptr->pars->nbr_map.y;
-	ptr->pars->plans_no = ft_calloc_lst(ptr, nbr_plan + 1, sizeof(t_plan));
-	ptr->pars->plans_so = ft_calloc_lst(ptr, nbr_plan + 1, sizeof(t_plan));
+	nbr_plan = cub->pars->nbr_map.y;
+	cub->pars->plans_no = ft_calloc_lst(cub, nbr_plan + 1, sizeof(t_plan));
+	cub->pars->plans_so = ft_calloc_lst(cub, nbr_plan + 1, sizeof(t_plan));
 	i = -1;
 	y = -1;
-	// ptr->pars->plans_no[i].d = 0;
-	// ptr->pars->plans_so[i].d = 0;
+	// cub->pars->plans_no[i].d = 0;
+	// cub->pars->plans_so[i].d = 0;
 	while (++y < nbr_plan)
 	{
 		i++;
-		if (ft_is_no_wall(ptr, y))
-			ptr->pars->plans_no[i] = ft_new_plan('y', y);
+		if (ft_is_no_wall(cub, y))
+			cub->pars->plans_no[i] = ft_new_plan('y', y);
 		else
-			ptr->pars->plans_no[i].d = 0;
-		if (ft_is_so_wall(ptr, y))
-			ptr->pars->plans_so[i] = ft_new_plan('y', y);
+			cub->pars->plans_no[i].d = 0;
+		if (ft_is_so_wall(cub, y))
+			cub->pars->plans_so[i] = ft_new_plan('y', y);
 		else
-			ptr->pars->plans_so[i].d = 0;
+			cub->pars->plans_so[i].d = 0;
 	}
-	ptr->pars->plans_so[++i] = ft_new_plan('y', y);
-	ptr->pars->plans_no[i] = ft_new_plan('y', y);
+	cub->pars->plans_so[++i] = ft_new_plan('y', y);
+	cub->pars->plans_no[i] = ft_new_plan('y', y);
 }

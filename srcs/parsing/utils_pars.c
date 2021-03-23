@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 13:34:01 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:22:07 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		ft_atoi_nbr(t_cub *ptr, char *line, unsigned int *i)
+int		ft_atoi_nbr(t_cub *cub, char *line, unsigned int *i)
 {
 	int		rs;
 
@@ -25,18 +25,18 @@ int		ft_atoi_nbr(t_cub *ptr, char *line, unsigned int *i)
 		*i += 1;
 	}
 	if (!rs)
-		ft_close(ptr, 1, "invalid resolution");
+		ft_close(cub, 1, "invalid resolution");
 	return (rs);
 }
 
-char	*ft_copy_str(t_cub *ptr, char *line, unsigned int *i)
+char	*ft_copy_str(t_cub *cub, char *line, unsigned int *i)
 {
 	char	*rs;
 	int		j;
 	int		k;
 
 	if (line[*i + 2] != ' ' && line[*i + 2] != '\t')
-		ft_close(ptr, 1, "extra character");
+		ft_close(cub, 1, "extra character");
 	*i = ft_skip_spaces(line, *i + 2);
 	k = *i;
 	j = 0;
@@ -46,8 +46,8 @@ char	*ft_copy_str(t_cub *ptr, char *line, unsigned int *i)
 		k++;
 	}
 	if (!j)
-		ft_close(ptr, 1, "void path");
-	rs = ft_calloc_lst(ptr, j + 1, sizeof(char));
+		ft_close(cub, 1, "void path");
+	rs = ft_calloc_lst(cub, j + 1, sizeof(char));
 	j = -1;
 	while (line[*i] && line[*i] != ' ' && line[*i] != '\t')
 	{
@@ -58,7 +58,7 @@ char	*ft_copy_str(t_cub *ptr, char *line, unsigned int *i)
 	return (rs);
 }
 
-int		ft_atoi_color_util(t_cub *ptr, char *line, unsigned int *i, int flag)
+int		ft_atoi_color_util(t_cub *cub, char *line, unsigned int *i, int flag)
 {
 	int		rs;
 
@@ -69,7 +69,7 @@ int		ft_atoi_color_util(t_cub *ptr, char *line, unsigned int *i, int flag)
 		*i += 1;
 	}
 	if (flag > 1)
-		ft_close(ptr, 1, "too many ','");
+		ft_close(cub, 1, "too many ','");
 	flag = 0;
 	rs = 0;
 	while (line[*i] && line[*i] >= '0' && line[*i] <= '9')
@@ -79,18 +79,18 @@ int		ft_atoi_color_util(t_cub *ptr, char *line, unsigned int *i, int flag)
 		flag++;
 	}
 	if (rs < 0 || rs > 255 || !flag)
-		ft_close(ptr, 1, "color invalid");
+		ft_close(cub, 1, "color invalid");
 	return (rs);
 }
 
-int		ft_atoi_color(t_cub *ptr, char *line, unsigned int *i)
+int		ft_atoi_color(t_cub *cub, char *line, unsigned int *i)
 {
 	int		r;
 	int		g;
 	int		b;
 
-	r = ft_atoi_color_util(ptr, line, i, 1);
-	g = ft_atoi_color_util(ptr, line, i, 0);
-	b = ft_atoi_color_util(ptr, line, i, 0);
+	r = ft_atoi_color_util(cub, line, i, 1);
+	g = ft_atoi_color_util(cub, line, i, 0);
+	b = ft_atoi_color_util(cub, line, i, 0);
 	return (create_trgb(1, r, g, b));
 }

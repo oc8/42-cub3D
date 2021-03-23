@@ -6,25 +6,25 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 12:57:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 19:09:22 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		ft_is_sprite(t_cub *ptr, t_c *pixel, t_vector dir, t_sprite *sprite)
+int			ft_is_sprite(t_cub *cub, t_c *pixel, t_vector dir, t_sprite *sprite)
 {
 	t_i	i_map;
 	int	color;
 
-	pixel->z = ptr->player.pos.z + dir.z * sprite->t;
+	pixel->z = cub->player.pos.z + dir.z * sprite->t;
 	if (pixel->z > 0 && pixel->z < 2)
 	{
-		pixel->x = ptr->player.pos.x + dir.x * sprite->t;
-		pixel->y = ptr->player.pos.y + dir.y * sprite->t;
+		pixel->x = cub->player.pos.x + dir.x * sprite->t;
+		pixel->y = cub->player.pos.y + dir.y * sprite->t;
 		i_map.x = (int)pixel->x;
 		i_map.y = (int)pixel->y;
-		color = ft_sprite_texture(ptr, &ptr->sprite, pixel, sprite);
+		color = ft_sprite_texture(cub, &cub->sprite, pixel, sprite);
 		if (color)
 			return (color);
 	}
@@ -48,19 +48,18 @@ static char	ft_calc_dist_sprite(t_sprite *p, t_vector dir)
 	return (0);
 }
 
-float	ft_ray_sprite(t_cub *ptr, t_vector dir, t_dist *dist)
+float		ft_ray_sprite(t_cub *cub, t_vector dir, t_dist *dist)
 {
 	t_sprite		*p;
 	unsigned int	i;
 
 	i = 0;
-	while (i < ptr->pars->nbr_sprite)
+	while (i < cub->pars->nbr_sprite)
 	{
-		p = &ptr->pars->plans_sprite[i];
-		
-		if(ft_calc_dist_sprite(p, dir))
+		p = &cub->pars->plans_sprite[i];
+		if (ft_calc_dist_sprite(p, dir))
 		{
-			dist->color = ft_is_sprite(ptr, &dist->pixel, dir, p);
+			dist->color = ft_is_sprite(cub, &dist->pixel, dir, p);
 			if (dist->color)
 				return (p->t);
 		}

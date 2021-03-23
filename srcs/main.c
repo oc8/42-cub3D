@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:22:32 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,28 +60,28 @@ int			ft_check_args(int argc, char *argv[], char *flag_save)
 
 int			main(int argc, char *argv[])
 {
-	t_cub	*ptr;
+	t_cub	*cub;
 	char	flag_save;
 
 	if (ft_check_args(argc, argv, &flag_save))
 		return (1);
-	if (!(ptr = ft_calloc(1, sizeof(t_cub))))
+	if (!(cub = ft_calloc(1, sizeof(t_cub))))
 		return (-1);
-	if (!(ptr->pars = ft_calloc(1, sizeof(t_pars))))
+	if (!(cub->pars = ft_calloc(1, sizeof(t_pars))))
 	{
-		free(ptr);
+		free(cub);
 		printf("malloc error\n");
 		return (-1);
 	}
-	if (ft_init_struct(ptr) == -1)
+	if (ft_init_struct(cub) == -1)
 		return (-1);
-	ft_parsing(argv[1], ptr);
-	ft_mlx_init(ptr);
-	ft_ray_screen(ptr);
+	ft_parsing(argv[1], cub);
+	ft_mlx_init(cub);
+	ft_ray_screen(cub);
 	if (flag_save)
-		ft_save_bmp("save.bmp", ptr);
-	ft_edit_img(ptr);
-	mlx_loop_hook(ptr->mlx.ptr, ft_loop, ptr);
-	mlx_loop(ptr->mlx.ptr);
+		ft_save_bmp("save.bmp", cub);
+	ft_edit_img(cub);
+	mlx_loop_hook(cub->mlx.ptr, ft_loop, cub);
+	mlx_loop(cub->mlx.ptr);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 14:54:11 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:18:51 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,28 @@ unsigned int	ft_wall_texture(t_c pixel, t_img img, char axe)
 	return (0);
 }
 
-unsigned int	ft_floor_texture(t_cub *ptr, t_c *pixel)
+unsigned int	ft_floor_texture(t_cub *cub, t_c *pixel)
 {
 	t_i		index;
 	t_img	*img;
 
-	img = &ptr->floor;
+	img = &cub->floor;
 	index.x = (int)((pixel->x - (int)pixel->x) * img->w);
 	index.y = (int)((pixel->y - (int)pixel->y) * img->h);
 	return (img->pixels[index.y * (img->s_l / 4) + index.x]);
 }
 
-unsigned int	ft_top_texture(t_cub *ptr, t_dist *dist)
+unsigned int	ft_top_texture(t_cub *cub, t_dist *dist)
 {
 	t_i		i_map;
 
 	i_map.x = (int)dist->pixel.x;
 	i_map.y = (int)dist->pixel.y;
-	if (i_map.x < ptr->pars->nbr_map.x && i_map.y < ptr->pars->nbr_map.y &&\
+	if (i_map.x < cub->pars->nbr_map.x && i_map.y < cub->pars->nbr_map.y &&\
 		i_map.x >= 0 && i_map.y >= 0)
 	{
-		if (ptr->pars->map[i_map.y][i_map.x] == '1')
-			return (ptr->pars->col_sky);
+		if (cub->pars->map[i_map.y][i_map.x] == '1')
+			return (cub->pars->col_sky);
 	}
 	return (0);
 }

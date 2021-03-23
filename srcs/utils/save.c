@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 17:55:40 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:22:07 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static unsigned char	*ft_create_bitmap_file_header(int file_size)
 	return (file_header);
 }
 
-static unsigned char	*ft_create_bitmap_info_header(t_cub *ptr)
+static unsigned char	*ft_create_bitmap_info_header(t_cub *cub)
 {
 	static unsigned char	info_header[] = {
 		0, 0, 0, 0,
@@ -47,56 +47,56 @@ static unsigned char	*ft_create_bitmap_info_header(t_cub *ptr)
 	};
 
 	info_header[0] = (unsigned char)(40);
-	info_header[4] = (unsigned char)(ptr->screen.w >> 0);
-	info_header[5] = (unsigned char)(ptr->screen.w >> 8);
-	info_header[6] = (unsigned char)(ptr->screen.w >> 16);
-	info_header[7] = (unsigned char)(ptr->screen.w >> 24);
-	info_header[8] = (unsigned char)(ptr->screen.h >> 0);
-	info_header[9] = (unsigned char)(ptr->screen.h >> 8);
-	info_header[10] = (unsigned char)(ptr->screen.h >> 16);
-	info_header[11] = (unsigned char)(ptr->screen.h >> 24);
+	info_header[4] = (unsigned char)(cub->screen.w >> 0);
+	info_header[5] = (unsigned char)(cub->screen.w >> 8);
+	info_header[6] = (unsigned char)(cub->screen.w >> 16);
+	info_header[7] = (unsigned char)(cub->screen.w >> 24);
+	info_header[8] = (unsigned char)(cub->screen.h >> 0);
+	info_header[9] = (unsigned char)(cub->screen.h >> 8);
+	info_header[10] = (unsigned char)(cub->screen.h >> 16);
+	info_header[11] = (unsigned char)(cub->screen.h >> 24);
 	info_header[12] = (unsigned char)(1);
-	info_header[14] = (unsigned char)(ptr->screen.bpp);
+	info_header[14] = (unsigned char)(cub->screen.bpp);
 	return (info_header);
 }
 
-void					ft_write_img(int fd, t_cub *ptr)
+void					ft_write_img(int fd, t_cub *cub)
 {
 	int	x;
 	int	y;
 
-	ft_before_calc(ptr);
-	ft_threads(ptr);
-	ft_create_plan_sprite(ptr);
-	ft_threads(ptr);
+	ft_before_calc(cub);
+	ft_threads(cub);
+	ft_create_plan_sprite(cub);
+	ft_threads(cub);
 	y = -1;
-	while (++y < ptr->screen.h)
+	while (++y < cub->screen.h)
 	{
 		x = -1;
-		while (++x < ptr->screen.w)
-			write(fd, &ptr->screen.pixels[(ptr->screen.h - 1 - y) * \
-				(ptr->screen.s_l / 4) + x], 4);
+		while (++x < cub->screen.w)
+			write(fd, &cub->screen.pixels[(cub->screen.h - 1 - y) * \
+				(cub->screen.s_l / 4) + x], 4);
 	}
 }
 
-void					ft_save_bmp(const char *filename, t_cub *ptr)
+void					ft_save_bmp(const char *filename, t_cub *cub)
 {
 	int	fd;
 	int	img_size;
 	int	file_size;
 
-	img_size = ptr->screen.w * ptr->screen.h * 4;
+	img_size = cub->screen.w * cub->screen.h * 4;
 	file_size = img_size + (40 + 14);
 	fd = open(filename, O_RDONLY | O_CREAT, S_IRWXU);
 	if (fd < 0)
-		ft_close(ptr, 1, "open 1 failed\n");
+		ft_close(cub, 1, "open 1 failed\n");
 	close(fd);
 	fd = open(filename, O_RDWR);
 	if (fd < 0)
-		ft_close(ptr, 1, "open 2 failed\n");
+		ft_close(cub, 1, "open 2 failed\n");
 	write(fd, ft_create_bitmap_file_header(file_size), 14);
-	write(fd, ft_create_bitmap_info_header(ptr), 40);
-	ft_write_img(fd, ptr);
+	write(fd, ft_create_bitmap_info_header(cub), 40);
+	ft_write_img(fd, cub);
 	close(fd);
-	ft_close(ptr, 0, "\033[33msave.bmp generated !");
+	ft_close(cub, 0, "\033[33msave.bmp generated !");
 }
