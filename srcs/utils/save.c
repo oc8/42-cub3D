@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   --save.c                                           :+:      :+:    :+:   */
+/*   save.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 17:55:40 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 16:00:54 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static unsigned char	*ft_create_bitmap_file_header(int file_size)
 	return (file_header);
 }
 
-static unsigned char	*ft_create_bitmap_info_header(t_ptr *ptr)
+static unsigned char	*ft_create_bitmap_info_header(t_cub *ptr)
 {
 	static unsigned char	info_header[] = {
 		0, 0, 0, 0,
@@ -60,7 +60,7 @@ static unsigned char	*ft_create_bitmap_info_header(t_ptr *ptr)
 	return (info_header);
 }
 
-void	ft_write_img(int fd, t_ptr *ptr)
+void					ft_write_img(int fd, t_cub *ptr)
 {
 	int	x;
 	int	y;
@@ -74,11 +74,12 @@ void	ft_write_img(int fd, t_ptr *ptr)
 	{
 		x = -1;
 		while (++x < ptr->screen.w)
-			write(fd, &ptr->screen.pixels[(ptr->screen.h - 1 - y) * (ptr->screen.s_l / 4) + x], 4);
+			write(fd, &ptr->screen.pixels[(ptr->screen.h - 1 - y) * \
+				(ptr->screen.s_l / 4) + x], 4);
 	}
 }
 
-void	ft_save_bmp(const char *filename, t_ptr *ptr)
+void					ft_save_bmp(const char *filename, t_cub *ptr)
 {
 	int	fd;
 	int	img_size;

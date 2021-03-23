@@ -15,25 +15,28 @@ SUR		= \033[7m
 NAME		= cub3D
 LOBJS		= main.o \
 parsing/parsing.o \
-parsing/parsing_map.o \
-parsing/parsing_plan.o \
-parsing/parsing_plan_x.o \
-parsing/parsing_plan_y.o \
+parsing/map_pars.o \
+parsing/plan_pars.o \
+parsing/plan_x_pars.o \
+parsing/plan_y_pars.o \
+parsing/utils_pars.o \
 display/edit_screen.o \
 display/time.o \
 display/sprite.o \
 display/put_pixels.o \
 display/mlx.o \
 nearest/nearest.o \
-nearest/wall.o \
 raycasting/sprite_ray.o \
 raycasting/utils_ray.o \
 raycasting/wall_ray.o \
 raycasting/others_ray.o \
-texture/texture.o \
+texture/wall_texture.o \
+texture/sprite_texture.o \
+texture/skybox.o \
+texture/skybox_2.o \
 utils/utils.o \
 utils/utils_2.o \
-utils/--save.o \
+utils/save.o \
 move/key.o \
 move/loop.o \
 move/sprite_move.o \

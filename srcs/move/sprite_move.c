@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 14:49:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 16:00:05 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_switch(t_sprite *p1, t_sprite *p2)
 	*p2 = tmp;
 }
 
-static void	ft_sort(t_ptr *ptr)
+static void	ft_sort(t_cub *ptr)
 {
 	t_vector		dir;
 	t_sprite		*p;
@@ -49,7 +49,7 @@ static void	ft_sort(t_ptr *ptr)
 	}
 }
 
-void	ft_create_plan_sprite(t_ptr *ptr)
+void		ft_create_plan_sprite(t_cub *ptr)
 {
 	unsigned int	i;
 	t_sprite		*p;
@@ -75,12 +75,9 @@ void	ft_create_plan_sprite(t_ptr *ptr)
 	}
 	if (ptr->pars->nbr_sprite)
 		ft_sort(ptr);
-	// i = -1;
-	// while (++i < ptr->pars->nbr_sprite)
-	// 	printf("t = %f\n", ptr->pars->plans_sprite[i].t);
 }
 
-void	ft_check_new_pos_sprite(t_ptr *ptr, t_c new_pos, t_sprite *sprite)
+void		ft_check_new_pos_sprite(t_cub *ptr, t_c new_pos, t_sprite *sprite)
 {
 	t_i		new_pos_i;
 	t_i		pos;

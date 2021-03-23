@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:10:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 14:01:52 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static char	ft_is_wall_x(t_ptr *ptr, t_c *pixel, t_vector dir, t_plan *p)
+static char	ft_is_wall_x(t_cub *ptr, t_c *pixel, t_vector dir, t_plan *p)
 {
 	t_i			i_map;
 
@@ -30,7 +30,7 @@ static char	ft_is_wall_x(t_ptr *ptr, t_c *pixel, t_vector dir, t_plan *p)
 	return (0);
 }
 
-static char	ft_is_wall_y(t_ptr *ptr, t_c *pixel, t_vector dir, t_plan *p)
+static char	ft_is_wall_y(t_cub *ptr, t_c *pixel, t_vector dir, t_plan *p)
 {
 	t_i			i_map;
 
@@ -48,7 +48,7 @@ static char	ft_is_wall_y(t_ptr *ptr, t_c *pixel, t_vector dir, t_plan *p)
 	return (0);
 }
 
-t_dist	ft_ray_x(t_ptr *ptr, t_vector dir, t_plan *p)
+t_dist		ft_ray_x(t_cub *ptr, t_vector dir, t_plan *p)
 {
 	t_dist			dist;
 	unsigned int	i;
@@ -76,7 +76,7 @@ t_dist	ft_ray_x(t_ptr *ptr, t_vector dir, t_plan *p)
 	return (dist);
 }
 
-t_dist	ft_ray_y(t_ptr *ptr, t_vector dir, t_plan *p)
+t_dist		ft_ray_y(t_cub *ptr, t_vector dir, t_plan *p)
 {
 	t_dist			dist;
 	unsigned int	i;

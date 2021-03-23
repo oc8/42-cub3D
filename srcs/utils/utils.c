@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 15:37:28 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 10:27:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-float	ft_calc_rs(t_ptr *ptr, t_plan *p)
+float	ft_calc_rs(t_cub *ptr, t_plan *p)
 {
 	float	rs;
 	t_c		*pos;
@@ -22,7 +22,7 @@ float	ft_calc_rs(t_ptr *ptr, t_plan *p)
 	return (rs);
 }
 
-int		ft_in_map(t_ptr *ptr, t_i coordinate)
+int		ft_in_map(t_cub *ptr, t_i coordinate)
 {
 	t_i	nbr_map;
 
@@ -34,7 +34,7 @@ int		ft_in_map(t_ptr *ptr, t_i coordinate)
 	return (1);
 }
 
-void	ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), t_ptr *ptr)
+void	ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), t_cub *ptr)
 {
 	t_list	*start;
 	t_list	*tmp;
@@ -57,7 +57,7 @@ void	ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), t_ptr *ptr)
 	*lst = 0;
 }
 
-void	ft_add_to_lst(t_ptr *ptr, void *add_ptr)
+void	ft_add_to_lst(t_cub *ptr, void *add_ptr)
 {
 	t_list	*content;
 
@@ -72,7 +72,7 @@ void	ft_add_to_lst(t_ptr *ptr, void *add_ptr)
 	}
 }
 
-void	*ft_calloc_lst(t_ptr *ptr, size_t nbr, size_t size)
+void	*ft_calloc_lst(t_cub *ptr, size_t nbr, size_t size)
 {
 	void	*rs;
 	t_list	*content;

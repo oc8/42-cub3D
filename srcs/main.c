@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 14:22:16 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ int			ft_check_args(int argc, char *argv[], char *flag_save)
 
 int			main(int argc, char *argv[])
 {
-	t_ptr	*ptr;
+	t_cub	*ptr;
 	char	flag_save;
 
 	if (ft_check_args(argc, argv, &flag_save))
 		return (1);
-	if (!(ptr = ft_calloc(1, sizeof(t_ptr))))
+	if (!(ptr = ft_calloc(1, sizeof(t_cub))))
 		return (-1);
 	if (!(ptr->pars = ft_calloc(1, sizeof(t_pars))))
 	{

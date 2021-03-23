@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:11:38 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 14:33:59 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-char	ft_check_index_map(t_ptr *ptr, t_i map)
+char	ft_check_index_map(t_cub *ptr, t_i map)
 {
 	t_i		*nbr_map;
 
@@ -46,7 +46,7 @@ float	ft_calc_dist(t_plan *p, t_vector dir)
 /*
 ** rotation matrice
 */
-t_vector	ft_rotation(t_vector dir, const t_agl *agl, t_ptr *ptr)
+t_vector	ft_rotation(t_vector dir, const t_agl *agl, t_cub *ptr)
 {
 	t_vector	m_z;
 	t_vector	m_x;
@@ -64,7 +64,7 @@ t_vector	ft_rotation(t_vector dir, const t_agl *agl, t_ptr *ptr)
 	return (m_z);
 }
 
-void	ft_ray_screen(t_ptr *ptr)
+void	ft_ray_screen(t_cub *ptr)
 {
 	float	fov_x;
 	float	fov_y;

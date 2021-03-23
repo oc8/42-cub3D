@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:38:21 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 10:27:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static float	ft_time_diff_ms(struct timeval t1, struct timeval t0)
 		/ 1000.0f);
 }
 
-struct timeval	ft_time(t_ptr *ptr, char *str, int *count)
+struct timeval	ft_time(t_cub *ptr, char *str, int *count)
 {
 	struct timeval	time_now;
 	float			delta;

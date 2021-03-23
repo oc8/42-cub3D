@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_map.c                                      :+:      :+:    :+:   */
+/*   map_pars.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 17:42:03 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static char	ft_check_c(t_ptr *ptr, char c)
+static char	ft_check_c(t_cub *ptr, char c)
 {
 	if (c == '1' || c == 0 || c == 2)
 		return (0);
@@ -21,7 +21,7 @@ static char	ft_check_c(t_ptr *ptr, char c)
 	return (1);
 }
 
-char		ft_check_map(t_ptr *ptr, char **map, int i, int j)
+char		ft_check_map(t_cub *ptr, char **map, int i, int j)
 {
 	if (i - 1 < 0 || i + 1 >= (int)ptr->pars->nbr_map.x || j - 1 < 0 || \
 			j + 1 >= (int)ptr->pars->nbr_map.y)
@@ -49,22 +49,37 @@ char		ft_check_map(t_ptr *ptr, char **map, int i, int j)
 	return (0);
 }
 
-int		ft_malloc_map(t_ptr *ptr, char *path)
+static int	ft_check_longest_line(char *line, int *size_line_max)
+{
+	int			i;
+	int			size_line;
+	static char	flag = 1;
+
+	i = -1;
+	while (line[++i] == ' ')
+		;
+	if (flag && (line[i] == '1' || line[i] == '0' || line[i] == '2'))
+		flag = 0;
+	if (!flag)
+	{
+		size_line = ft_strlen(line);
+		if (*size_line_max < size_line)
+			*size_line_max = size_line;
+		return (1);
+	}
+	return (0);
+}
+
+static void	ft_count(t_cub *ptr, char *path, int *count_line, int *size_line_max)
 {
 	int		fd;
 	char	*line;
-	int		size_line_max;
-	int		size_line;
-	int		count_line;
-	int		i;
 	int		vr;
-	char	flag;
 
-	size_line_max = 0;
-	count_line = 0;
 	fd = open(path, O_RDONLY);
-	flag = 1;
 	vr = 1;
+	*count_line = 0;
+	*size_line_max = 0;
 	while (vr)
 	{
 		vr = get_next_line(fd, &line);
@@ -74,35 +89,33 @@ int		ft_malloc_map(t_ptr *ptr, char *path)
 			printf("error GNL\n");
 			ft_close(ptr, 1, "get_next_line() error");
 		}
-		i = -1;
-		while (line[++i] == ' ')
-			;
-		if (flag && (line[i] == '1' || line[i] == '0' || line[i] == '2'))
-			flag = 0;
-		if (!flag)
-		{
-			size_line = ft_strlen(line);
-			if (size_line_max < size_line)
-				size_line_max = size_line;
-			count_line++;
-		}
+		*count_line += ft_check_longest_line(line, size_line_max);
 		free(line);
 	}
+}
+
+int		ft_malloc_map(t_cub *ptr, char *path)
+{
+	int		count_line;
+	int		size_line_max;
+	int		i;
+
+	ft_count(ptr, path, &count_line, &size_line_max);
 	ptr->pars->nbr_map.x = size_line_max;
 	ptr->pars->nbr_map.y = count_line;
 	if (!(ptr->pars->map = ft_calloc_lst(ptr, count_line, sizeof(char *))))
 		return (-1);
-	vr = -1;
-	while (++vr < count_line)
+	i = -1;
+	while (++i < count_line)
 	{
-		ptr->pars->map[vr] = ft_calloc_lst(ptr, size_line_max, sizeof(char));
-		if (!ptr->pars->map[vr])
+		ptr->pars->map[i] = ft_calloc_lst(ptr, size_line_max, sizeof(char));
+		if (!ptr->pars->map[i])
 			ft_close(ptr, 1, "malloc map error");
 	}
 	return (0);
 }
 
-static void	ft_first_pos(t_ptr *ptr, char c, int i, int j)
+static void	ft_first_pos(t_cub *ptr, char c, int i, int j)
 {
 	if (ptr->epars & e_FIRST_DIR)
 		ft_close(ptr, 1, "too many player pos");
@@ -122,14 +135,12 @@ static void	ft_first_pos(t_ptr *ptr, char c, int i, int j)
 	ptr->pars->map[j][i] = '0';
 }
 
-void	ft_parsing_map(t_ptr *ptr, char *line, int j, t_i *first_pos)
+void	ft_parsing_map(t_cub *ptr, char *line, int j, t_i *first_pos)
 {
 	unsigned int	i;
 
 	if (line[0] == '#')
 		return ;
-	if (line[0] == '\0')
-		ft_close(ptr, 1, "void line on the map");
 	i = -1;
 	while (line[++i])
 	{

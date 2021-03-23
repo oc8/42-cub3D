@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 17:34:51 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 10:27:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-t_dist	ft_floor(t_ptr *ptr, t_vector dir)
+t_dist	ft_floor(t_cub *ptr, t_vector dir)
 {
 	t_c		*pixel;
 	t_dist	dist;
@@ -34,7 +34,7 @@ t_dist	ft_floor(t_ptr *ptr, t_vector dir)
 	return (dist);
 }
 
-t_dist	ft_top(t_ptr *ptr, t_vector dir)
+t_dist	ft_top(t_cub *ptr, t_vector dir)
 {
 	t_c		*pixel;
 	t_dist	dist;

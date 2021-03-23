@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 18:54:01 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 18:00:39 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	ft_new_pos(t_ptr *ptr, t_c *pos)
+static void	ft_new_pos(t_cub *ptr, t_c *pos)
 {
 	if (ptr->key.w)
 	{
@@ -40,7 +40,7 @@ static void	ft_new_pos(t_ptr *ptr, t_c *pos)
 		pos->z -= ptr->player.speed;
 }
 
-static void	ft_view(t_ptr *ptr)
+static void	ft_view(t_cub *ptr)
 {
 	float	rs;
 
@@ -62,7 +62,7 @@ static void	ft_view(t_ptr *ptr)
 	}
 }
 
-static void	ft_move(t_ptr *ptr)
+static void	ft_move(t_cub *ptr)
 {
 	t_c		new_pos;
 
@@ -75,7 +75,7 @@ static void	ft_move(t_ptr *ptr)
 	ft_check_new_pos(ptr, new_pos);
 }
 
-int			ft_loop(t_ptr *ptr)
+int			ft_loop(t_cub *ptr)
 {
 	ft_move(ptr);
 	ft_edit_img(ptr);

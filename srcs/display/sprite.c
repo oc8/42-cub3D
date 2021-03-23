@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 15:47:06 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 19:02:34 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_malloc_sprite(t_ptr *ptr)
+void	ft_malloc_sprite(t_cub *ptr)
 {
 	unsigned int	y;
 	unsigned int	x;
@@ -31,7 +31,7 @@ void	ft_malloc_sprite(t_ptr *ptr)
 	ptr->pars->nbr_sprite = nbr;
 }
 
-void	ft_pos_sprite(t_ptr *ptr)
+void	ft_pos_sprite(t_cub *ptr)
 {
 	unsigned int	y;
 	unsigned int	x;
@@ -52,24 +52,4 @@ void	ft_pos_sprite(t_ptr *ptr)
 				i++;
 			}
 	}
-}
-
-int		ft_is_sprite(t_ptr *ptr, t_c *pixel, t_vector dir, float t, \
-			t_sprite *sprite)//
-{
-	t_i	i_map;
-	int	color;
-
-	pixel->z = ptr->player.pos.z + dir.z * t;
-	if (pixel->z > 0 && pixel->z < 2)
-	{
-		pixel->x = ptr->player.pos.x + dir.x * t;
-		pixel->y = ptr->player.pos.y + dir.y * t;
-		i_map.x = (int)pixel->x;
-		i_map.y = (int)pixel->y;
-		color = ft_sprite_texture(ptr, &ptr->sprite, pixel, sprite);
-		if (color)
-			return (color);
-	}
-	return (0);
 }

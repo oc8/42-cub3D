@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 10:36:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 14:40:38 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen, int thread_nb)
+static void	ft_put_pixels(t_cub *ptr, unsigned int *screen, int thread_nb)
 {
 	int				x;
 	int				y;
@@ -34,7 +34,7 @@ static void	ft_put_pixels(t_ptr *ptr, unsigned int *screen, int thread_nb)
 	}
 }
 
-static void	ft_put_4_pixels(t_ptr *ptr, unsigned int *screen, int thread_nb)
+static void	ft_put_4_pixels(t_cub *ptr, unsigned int *scr, int thread_nb)
 {
 	int				x;
 	int				y;
@@ -50,11 +50,11 @@ static void	ft_put_4_pixels(t_ptr *ptr, unsigned int *screen, int thread_nb)
 				ptr->screen.w + x], &ptr->agl, ptr));
 			if ((y * (int)(ptr->screen.s_l * 0.25) + x >= 0))
 			{
-				screen[y * (int)(ptr->screen.s_l * 0.25) + x] = dist.color;
-				screen[y * (int)(ptr->screen.s_l * 0.25) + (x + 1)] = dist.color;
-				screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) + \
+				scr[y * (int)(ptr->screen.s_l * 0.25) + x] = dist.color;
+				scr[y * (int)(ptr->screen.s_l * 0.25) + (x + 1)] = dist.color;
+				scr[(y + 1) * (int)(ptr->screen.s_l * 0.25) + \
 					(x + 1)] = dist.color;
-				screen[(y + 1) * (int)(ptr->screen.s_l * 0.25) + x] = dist.color;
+				scr[(y + 1) * (int)(ptr->screen.s_l * 0.25) + x] = dist.color;
 			}
 			x += 2;
 		}
@@ -64,11 +64,11 @@ static void	ft_put_4_pixels(t_ptr *ptr, unsigned int *screen, int thread_nb)
 
 static void	*ft_thread(void *work)
 {
-	t_ptr			*ptr;
+	t_cub			*ptr;
 	t_thread		*wptr;
 
 	wptr = (t_thread *)work;
-	ptr = (t_ptr *)wptr->ptr;
+	ptr = (t_cub *)wptr->ptr;
 	if ((ptr->screen.w > 500 || ptr->screen.h > 500) && !ptr->flag_save)
 		ft_put_4_pixels(ptr, ptr->screen.pixels, wptr->id);
 	else
@@ -76,7 +76,7 @@ static void	*ft_thread(void *work)
 	return (ptr);
 }
 
-void		ft_threads(t_ptr *ptr)
+void		ft_threads(t_cub *ptr)
 {
 	t_thread	thread[THREAD];
 	int			i;

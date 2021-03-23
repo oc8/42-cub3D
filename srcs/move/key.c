@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:17:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 14:34:57 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void		ft_key_move(t_ptr *ptr, int key)
+static void		ft_key_move(t_cub *ptr, int key)
 {
 	if (key == KEY_AL)
 		ptr->key.al = 1;
@@ -40,7 +40,7 @@ static void		ft_key_move(t_ptr *ptr, int key)
 		ptr->key.space = 1;
 }
 
-int				ft_key(int key, t_ptr *ptr)
+int				ft_key(int key, t_cub *ptr)
 {
 	printf("%d\n", key);
 	if (key == KEY_M)
@@ -63,7 +63,7 @@ static float	ft_key_action(char *flag, float rs_1, float rs_2)
 	return (rs_2);
 }
 
-int				ft_key_release(int key, t_ptr *ptr)
+int				ft_key_release(int key, t_cub *ptr)
 {
 	if (key == KEY_AL)
 		ptr->key.al = 0;
@@ -92,7 +92,7 @@ int				ft_key_release(int key, t_ptr *ptr)
 	return (0);
 }
 
-int				ft_mouse(int x, int y, t_ptr *ptr)
+int				ft_mouse(int x, int y, t_cub *ptr)
 {
 	float		rs;
 	static int	x_temp = 0;

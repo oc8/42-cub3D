@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:13:27 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 19:00:56 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_close(t_ptr *ptr, int error, const char *str)
+void	ft_close(t_cub *ptr, int error, const char *str)
 {
 	if (error)
 		printf("\033[31mError\n");
@@ -26,7 +26,7 @@ void	ft_close(t_ptr *ptr, int error, const char *str)
 	exit(0);
 }
 
-int		ft_quit_x(t_ptr *ptr)
+int		ft_quit_x(t_cub *ptr)
 {
 	ft_close(ptr, 0, "close");
 	return (0);

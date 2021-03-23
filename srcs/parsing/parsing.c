@@ -6,103 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 16:49:26 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int	ft_atoi_nbr(t_ptr *ptr, char *line, unsigned int *i)
-{
-	int		rs;
-
-	while (line[*i] && (line[*i] == ' ' || line[*i] == '\t'))
-		*i += 1;
-	rs = 0;
-	while (line[*i] && line[*i] >= '0' && line[*i] <= '9')
-	{
-		rs = rs * 10 + line[*i] - '0';
-		*i += 1;
-	}
-	if (!rs)
-		ft_close(ptr, 1, "invalid resolution");
-	return (rs);
-}
-
-static int	ft_skip_spaces(char *line, unsigned int i)
-{
-	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
-		i++;
-	return (i);
-}
-
-static char	*ft_copy_str(t_ptr *ptr, char *line, unsigned int *i)
-{
-	char	*rs;
-	int		j;
-	int		k;
-
-	if (line[*i + 2] != ' ' && line[*i + 2] != '\t')
-		ft_close(ptr, 1, "extra character");
-	*i = ft_skip_spaces(line, *i + 2);
-	k = *i;
-	j = 0;
-	while (line[k] && line[k] != ' ' && line[k] != '\t')
-	{
-		j++;
-		k++;
-	}
-	if (!j)
-		ft_close(ptr, 1, "void path");
-	rs = ft_calloc_lst(ptr, j + 1, sizeof(char));
-	j = -1;
-	while (line[*i] && line[*i] != ' ' && line[*i] != '\t')
-	{
-		rs[++j] = line[*i];
-		*i += 1;
-	}
-	rs[++j] = '\0';
-	return (rs);
-}
-
-static int	ft_atoi_color_util(t_ptr *ptr, char *line, unsigned int *i, int flag)
-{
-	int		rs;
-
-	while (line[*i] && (line[*i] == ' ' || line[*i] == '\t' || line[*i] == ','))
-	{
-		if (line[*i] == ',')
-			flag++;
-		*i += 1;
-	}
-	if (flag > 1)
-		ft_close(ptr, 1, "too many ','");
-	flag = 0;
-	rs = 0;
-	while (line[*i] && line[*i] >= '0' && line[*i] <= '9')
-	{
-		rs = rs * 10 + line[*i] - '0';
-		*i += 1;
-		flag++;
-	}
-	if (rs < 0 || rs > 255 || !flag)
-		ft_close(ptr, 1, "color invalid");
-	return (rs);
-}
-
-static int	ft_atoi_color(t_ptr *ptr, char *line, unsigned int *i)
-{
-	int		r;
-	int		g;
-	int		b;
-
-	r = ft_atoi_color_util(ptr, line, i, 1);
-	g = ft_atoi_color_util(ptr, line, i, 0);
-	b = ft_atoi_color_util(ptr, line, i, 0);
-	return (create_trgb(1, r, g, b));
-}
-
-void	ft_pars_resolution(t_ptr *ptr, t_line line, int e_res)
+void		ft_pars_resolution(t_cub *ptr, t_line line, int e_res)
 {
 	int		x;
 	int		y;
@@ -124,7 +34,7 @@ void	ft_pars_resolution(t_ptr *ptr, t_line line, int e_res)
 	ptr->epars |= e_res;
 }
 
-void	ft_pars_path(t_ptr *ptr, t_line line, char **path, int e_wall)
+void		ft_pars_path(t_cub *ptr, t_line line, char **path, int e_wall)
 {
 	if (ptr->epars & e_wall)
 			ft_close(ptr, 1, "too many criteria wall");
@@ -132,7 +42,7 @@ void	ft_pars_path(t_ptr *ptr, t_line line, char **path, int e_wall)
 	ptr->epars |= e_wall;
 }
 
-static void	ft_criteria_color(t_ptr *ptr, t_line line, unsigned int *i)
+static void	ft_criteria_color(t_cub *ptr, t_line line, unsigned int *i)
 {
 	if (line.ptr[*i] == 'F')
 	{
@@ -156,7 +66,29 @@ static void	ft_criteria_color(t_ptr *ptr, t_line line, unsigned int *i)
 	}
 }
 
-static int	ft_parsing_criteria(t_ptr *ptr, t_line line)
+static void	ft_criteria_path_texture(t_cub *ptr, t_line line, unsigned int *i)
+{
+	if (line.ptr[*i] == 'N' && line.ptr[*i + 1] == 'O')
+		ft_pars_path(ptr, line, &ptr->pars->path_no, e_NO);
+	else if (line.ptr[*i] == 'S' && line.ptr[*i + 1] == 'O')
+		ft_pars_path(ptr, line, &ptr->pars->path_so, e_SO);
+	else if (line.ptr[*i] == 'W' && line.ptr[*i + 1] == 'E')
+		ft_pars_path(ptr, line, &ptr->pars->path_we, e_WE);
+	else if (line.ptr[*i] == 'E' && line.ptr[*i + 1] == 'A')
+		ft_pars_path(ptr, line, &ptr->pars->path_ea, e_EA);
+	else if (line.ptr[*i] == 'S')
+	{
+		if (ptr->epars & e_S)
+			ft_close(ptr, 1, "too many criteria 'S'");
+		*i -= 1;
+		ptr->pars->path_sprite = ft_copy_str(ptr, line.ptr, i);
+		ptr->epars |= e_S;
+	}
+	else
+		ft_criteria_color(ptr, line, i);
+}
+
+static int	ft_parsing_criteria(t_cub *ptr, t_line line)
 {
 	unsigned int	i;
 
@@ -170,41 +102,22 @@ static int	ft_parsing_criteria(t_ptr *ptr, t_line line)
 		return (0);
 	else if (line.ptr[i] == 'R')
 		ft_pars_resolution(ptr, line, e_R);
-	else if (line.ptr[i] == 'N' && line.ptr[i + 1] == 'O')
-		ft_pars_path(ptr, line, &ptr->pars->path_no, e_NO);
-	else if (line.ptr[i] == 'S' && line.ptr[i + 1] == 'O')
-		ft_pars_path(ptr, line, &ptr->pars->path_so, e_SO);
-	else if (line.ptr[i] == 'W' && line.ptr[i + 1] == 'E')
-		ft_pars_path(ptr, line, &ptr->pars->path_we, e_WE);
-	else if (line.ptr[i] == 'E' && line.ptr[i + 1] == 'A')
-		ft_pars_path(ptr, line, &ptr->pars->path_ea, e_EA);
-	else if (line.ptr[i] == 'S')
-	{
-		if (ptr->epars & e_S)
-			ft_close(ptr, 1, "too many criteria 'S'");
-		i--;
-		ptr->pars->path_sprite = ft_copy_str(ptr, line.ptr, &i);
-		ptr->epars |= e_S;
-	}
 	else
-		ft_criteria_color(ptr, line, &i);
+		ft_criteria_path_texture(ptr, line, &i);
 	i = ft_skip_spaces(line.ptr, i);
 	if (line.ptr[i])
 		ft_close(ptr, 1, "extra character");
 	return (0);
 }
 
-int		ft_parsing(char *path, t_ptr *ptr)
+static void	ft_parsing_loop(t_cub *ptr, char *path, t_i *first_pos)
 {
 	int		fd;
 	t_line	line;
 	int		vr;
 	char	flag;
-	t_i		first_pos;
 
 	flag = 1;
-	if (ft_malloc_map(ptr, path) == -1)
-		return (-1);
 	fd = open(path, O_RDONLY);
 	line.i = 0;
 	vr = 1;
@@ -217,23 +130,20 @@ int		ft_parsing(char *path, t_ptr *ptr)
 			ft_close(ptr, 1, "get_next_line() error");
 		}
 		if (flag && ft_parsing_criteria(ptr, line))
-				flag = 0;
+			flag = 0;
 		if (!flag)
-			ft_parsing_map(ptr, line.ptr, line.i++, &first_pos);
+			ft_parsing_map(ptr, line.ptr, line.i++, first_pos);
 		free(line.ptr);
 	}
-	
-	printf("\n");
-	line.i = -1; //////
-	while (++line.i < ptr->pars->nbr_map.y) //////
-	{
-		unsigned int j = -1;
-		while (++j < ptr->pars->nbr_map.x)
-			printf("%c", ptr->pars->map[line.i][j]); //////
-		printf("\n");
-	}
-	printf("\n");
-	
+}
+
+int			ft_parsing(char *path, t_cub *ptr)
+{
+	t_i		first_pos;
+
+	if (ft_malloc_map(ptr, path) == -1)
+		return (-1);
+	ft_parsing_loop(ptr, path, &first_pos);
 	if (ptr->epars != 511 && ptr->epars != 1023)
 		ft_close(ptr, 1, "missing criteria");
 	if (ft_check_map(ptr, ptr->pars->map, first_pos.x, first_pos.y))

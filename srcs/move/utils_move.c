@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:30:37 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 18:44:36 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_check_wall(t_ptr *ptr, t_i new_pos_i, t_c new_pos, t_c *pos)
+void	ft_check_wall(t_cub *ptr, t_i new_pos_i, t_c new_pos, t_c *pos)
 {
 	t_i		pos_i;
 	char	**map;
@@ -35,7 +35,7 @@ void	ft_check_wall(t_ptr *ptr, t_i new_pos_i, t_c new_pos, t_c *pos)
 		pos->x = new_pos.x;
 }
 
-static void	ft_check_all(t_ptr *ptr, t_i npos_i, t_c npos, t_i pos)
+static void	ft_check_all(t_cub *ptr, t_i npos_i, t_c npos, t_i pos)
 {
 	char	**map;
 	float	lst[2];
@@ -56,7 +56,7 @@ static void	ft_check_all(t_ptr *ptr, t_i npos_i, t_c npos, t_i pos)
 		ptr->player.pos.x = npos.x;
 }
 
-static void	ft_check(t_ptr *ptr, t_i new_pos_i, t_c new_pos)
+static void	ft_check(t_cub *ptr, t_i new_pos_i, t_c new_pos)
 {
 	t_i		pos;
 
@@ -72,7 +72,7 @@ static void	ft_check(t_ptr *ptr, t_i new_pos_i, t_c new_pos)
 		ft_check_all(ptr, new_pos_i, new_pos, pos);
 }
 
-static void	ft_check_new_pos_z(t_ptr *ptr, t_c new_pos, t_i new_pos_i)
+static void	ft_check_new_pos_z(t_cub *ptr, t_c new_pos, t_i new_pos_i)
 {
 	t_c		*pos;
 
@@ -99,7 +99,7 @@ static void	ft_check_new_pos_z(t_ptr *ptr, t_c new_pos, t_i new_pos_i)
 	}
 }
 
-void	ft_check_new_pos(t_ptr *ptr, t_c new_pos)
+void	ft_check_new_pos(t_cub *ptr, t_c new_pos)
 {
 	t_i		new_pos_i;
 	t_c		*pos;

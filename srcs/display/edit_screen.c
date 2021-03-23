@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 14:34:26 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	ft_before_calc_plans(t_ptr *ptr, t_plan *p1, t_plan *p2, int nbr)
+static void	ft_before_calc_plans(t_cub *ptr, t_plan *p1, t_plan *p2, int nbr)
 {
 	int		i;
 	t_c		pos;
@@ -28,7 +28,7 @@ static void	ft_before_calc_plans(t_ptr *ptr, t_plan *p1, t_plan *p2, int nbr)
 	}
 }
 
-void		ft_before_calc(t_ptr *ptr)
+void		ft_before_calc(t_cub *ptr)
 {
 	t_agl	agl;
 
@@ -43,7 +43,7 @@ void		ft_before_calc(t_ptr *ptr)
 		ptr->pars->plans_we, ptr->pars->nbr_map.x);
 }
 
-void		ft_edit_img(t_ptr *ptr)
+void		ft_edit_img(t_cub *ptr)
 {
 	char		fps_str[11];
 	char		life_str[5];

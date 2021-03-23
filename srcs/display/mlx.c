@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 16:18:37 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/22 14:44:51 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/23 16:16:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static t_img	ft_init_img(t_ptr *ptr, char *path)
+static t_img	ft_init_img(t_cub *ptr, char *path)
 {
 	t_img	img;
 
@@ -25,7 +25,7 @@ static t_img	ft_init_img(t_ptr *ptr, char *path)
 	return (img);
 }
 
-void			ft_mlx_init(t_ptr *ptr)
+void			ft_mlx_init(t_cub *ptr)
 {
 	ptr->mlx.ptr = mlx_init();
 	ptr->mlx.win = mlx_new_window(ptr->mlx.ptr, ptr->screen.w, \
