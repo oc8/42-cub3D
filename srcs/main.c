@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:22:32 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/24 18:44:54 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 static int	ft_error_arg(int nbr)
 {
+	printf("Error\n");
 	if (nbr == 1)
 		printf("nbr arg error\n");
 	else if (nbr == 2)

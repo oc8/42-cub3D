@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:10:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:22:07 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/24 20:04:14 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_dist		ft_ray_x(t_cub *cub, t_vector dir, t_plan *p)
 	if (i < 0)
 		i = 0;
 	if (i >= cub->pars->nbr_map.x)
-		i = cub->pars->nbr_map.x - 1;
+		i = 0;
 	if (dir.x != 0)
 		while (i >= 0 && i <= cub->pars->nbr_map.x)
 		{
@@ -87,7 +87,7 @@ t_dist		ft_ray_y(t_cub *cub, t_vector dir, t_plan *p)
 	if (i < 0)
 		i = 0;
 	if (i >= cub->pars->nbr_map.y)
-		i = cub->pars->nbr_map.y - 1;
+		i = 0;
 	if (dir.y != 0)
 		while (i >= 0 && i <= cub->pars->nbr_map.y)
 		{

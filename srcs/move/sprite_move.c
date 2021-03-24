@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 14:49:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:22:07 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/24 19:54:02 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,41 @@ static void	ft_sort(t_cub *cub)
 	}
 }
 
+void		ft_check_new_pos_sprite(t_cub *cub, t_sprite *p)
+{
+	t_i	new_pos_i;
+	t_i	pos;
+	t_c	*player_pos;
+	t_c	new_pos;
+
+	player_pos = &cub->player.pos;
+	new_pos.x = p->pos.x - ((p->pos.x - player_pos->x) * cub->delta / 2);
+	new_pos.y = p->pos.y - ((p->pos.y - player_pos->y) * cub->delta / 2);
+	new_pos_i.x = (int)new_pos.x;
+	new_pos_i.y = (int)new_pos.y;
+	if (!(new_pos_i.x < cub->pars->nbr_map.x && new_pos_i.y < \
+			cub->pars->nbr_map.y && new_pos_i.x >= 0 && new_pos_i.y >= 0))
+		return ;
+	ft_check_wall(cub, new_pos_i, new_pos, &p->pos);
+	pos.x = cub->player.pos.x;
+	pos.y = cub->player.pos.y;
+	if (new_pos_i.x == pos.x && new_pos_i.y == pos.y && !(int)cub->player.pos.z)
+		cub->nbr_life -= (int)(100 * cub->delta);
+}
+
 void		ft_create_plan_sprite(t_cub *cub)
 {
 	unsigned int	i;
 	t_sprite		*p;
 	t_c				*player_pos;
-	t_c				new_pos;
 
 	player_pos = &cub->player.pos;
 	i = 0;
 	while (i < cub->pars->nbr_sprite)
 	{
 		p = &cub->pars->plans_sprite[i];
-		new_pos.x = p->pos.x - ((p->pos.x - player_pos->x) * cub->delta / 2);
-		new_pos.y = p->pos.y - ((p->pos.y - player_pos->y) * cub->delta / 2);
 		if (cub->key.m)
-			ft_check_new_pos_sprite(cub, new_pos, p);
+			ft_check_new_pos_sprite(cub, p);
 		p->a = p->pos.x - player_pos->x;
 		p->b = p->pos.y - player_pos->y;
 		p->c = 0;
@@ -75,21 +94,4 @@ void		ft_create_plan_sprite(t_cub *cub)
 	}
 	if (cub->pars->nbr_sprite)
 		ft_sort(cub);
-}
-
-void		ft_check_new_pos_sprite(t_cub *cub, t_c new_pos, t_sprite *sprite)
-{
-	t_i		new_pos_i;
-	t_i		pos;
-
-	new_pos_i.x = (int)new_pos.x;
-	new_pos_i.y = (int)new_pos.y;
-	if (!(new_pos_i.x < cub->pars->nbr_map.x && new_pos_i.y < \
-			cub->pars->nbr_map.y && new_pos_i.x >= 0 && new_pos_i.y >= 0))
-		return ;
-	ft_check_wall(cub, new_pos_i, new_pos, &sprite->pos);
-	pos.x = cub->player.pos.x;
-	pos.y = cub->player.pos.y;
-	if (new_pos_i.x == pos.x && new_pos_i.y == pos.y && !(int)cub->player.pos.z)
-		cub->nbr_life -= (int)(100 * cub->delta);
 }
