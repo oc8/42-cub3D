@@ -6,32 +6,29 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 12:57:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 12:30:19 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 19:00:12 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-unsigned int	ft_is_sprite(t_cub *cub, t_c *pixel, t_vector dir, t_sprite *sprite)
+unsigned int	ft_is_sprite(t_cub *cub, t_c *pixel, t_vector dir, t_sprite *p)
 {
-	t_i				i_map;
 	unsigned int	color;
 
-	pixel->z = cub->player.pos.z + dir.z * sprite->t;
+	pixel->z = cub->player.pos.z + dir.z * p->t;
 	if (pixel->z > 0 && pixel->z < S_S)
 	{
-		pixel->x = cub->player.pos.x + dir.x * sprite->t;
-		pixel->y = cub->player.pos.y + dir.y * sprite->t;
-		i_map.x = (int)pixel->x;
-		i_map.y = (int)pixel->y;
-		color = ft_sprite_texture(cub, &cub->sprite, pixel, sprite);
+		pixel->x = cub->player.pos.x + dir.x * p->t;
+		pixel->y = cub->player.pos.y + dir.y * p->t;
+		color = ft_sprite_texture(cub, &cub->img.sprite, pixel, p);
 		if (color)
 			return (color);
 	}
 	return (0);
 }
 
-static char		ft_calc_dist_sprite(t_sprite *p, t_vector dir)
+char			ft_calc_dist_sprite(t_sprite *p, t_vector dir)
 {
 	float			rs_dir;
 
@@ -48,7 +45,7 @@ static char		ft_calc_dist_sprite(t_sprite *p, t_vector dir)
 	return (0);
 }
 
-float			ft_ray_sprite(t_cub *cub, t_vector dir, t_dist *dist)
+float			ft_sprite_ray(t_cub *cub, t_vector dir, t_dist *dist)
 {
 	t_sprite		*p;
 	unsigned int	i;
@@ -57,7 +54,6 @@ float			ft_ray_sprite(t_cub *cub, t_vector dir, t_dist *dist)
 	while (i < cub->pars->nbr_sprite)
 	{
 		p = &cub->pars->plans_sprite[i];
-		ft_calc_dist_sprite(p, dir);
 		if (ft_calc_dist_sprite(p, dir))
 		{
 			dist->color = ft_is_sprite(cub, &dist->pixel, dir, p);

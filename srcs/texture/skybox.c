@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 12:09:33 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:22:07 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 15:24:26 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ unsigned int	ft_sky_texture_up(t_cub *cub, float map, t_vector *dir)
 	float		t;
 	t_img		*sky;
 
-	sky = &cub->sky;
+	sky = &cub->img.sky;
 	t = -(cub->player.pos.z - map + 1) / dir->z;
 	if (t > 0)
 	{
@@ -43,7 +43,7 @@ unsigned int	ft_sky_texture_1(t_cub *cub, float map, t_vector *dir)
 	float		t;
 	t_img		*sky;
 
-	sky = &cub->sky;
+	sky = &cub->img.sky;
 	t = -(cub->player.pos.x - map) / dir->x;
 	if (t > 0)
 	{
@@ -67,7 +67,7 @@ unsigned int	ft_sky_texture_2(t_cub *cub, float map, t_vector *dir)
 	float		t;
 	t_img		*sky;
 
-	sky = &cub->sky;
+	sky = &cub->img.sky;
 	t = -(cub->player.pos.x + map) / dir->x;
 	if (t > 0)
 	{
@@ -91,7 +91,7 @@ unsigned int	ft_sky_texture_3(t_cub *cub, float map, t_vector *dir)
 	float		t;
 	t_img		*sky;
 
-	sky = &cub->sky;
+	sky = &cub->img.sky;
 	t = -(cub->player.pos.y - map) / dir->y;
 	if (t > 0)
 	{

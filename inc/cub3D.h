@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 17:10:09 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 15:19:09 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 19:43:49 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ typedef struct	s_pars
 	t_plan			*plans_ea;
 	t_plan			*plans_we;
 	t_sprite		*plans_sprite;
+	t_sprite		plan_win;
 	unsigned int	nbr_sprite;
 	t_i				finish;
 	char			*path_we;
@@ -184,6 +185,18 @@ typedef struct	s_pars
 	int				col_sky;
 }				t_pars;
 
+typedef struct	s_imgs
+{
+	t_img			we;
+	t_img			no;
+	t_img			so;
+	t_img			ea;
+	t_img			sprite;
+	t_img			sky;
+	t_img			floor;
+	t_img			win;
+}				t_imgs;
+
 typedef struct	s_player
 {
 	float		speed;
@@ -191,6 +204,7 @@ typedef struct	s_player
 	float		agl_vrt;
 	t_c			pos;
 	t_vector	*dir;
+	t_vector	dir_center;
 }				t_player;
 
 typedef struct	s_cub
@@ -201,20 +215,13 @@ typedef struct	s_cub
 	t_list			*mlx_lst;
 	t_mlx			mlx;
 	t_img			scr;
-	t_img			we;
-	t_img			no;
-	t_img			so;
-	t_img			ea;
-	t_img			sprite;
-	t_img			sky;
-	t_img			floor;
-	t_img			win;
-	t_img			save;
+	t_imgs			img;
 	t_key			key;
 	int				nbr_life;
 	float			fov;
 	char			flag_save;
 	char			flag_win;
+	char			flag_finish;
 	struct timeval	time;
 	struct timeval	last_second;
 	pthread_t		thread[THREAD];
@@ -231,16 +238,16 @@ typedef struct	s_thread
 
 typedef enum	e_pars
 {
-	e_FIRST_DIR = 1,
-	e_R = 2,
-	e_NO = 4,
-	e_SO = 8,
-	e_WE = 16,
-	e_EA = 32,
-	e_S = 64,
-	e_F = 128,
-	e_C = 256,
-	e_FINISH = 512
+	e_FIRST_DIR = 1 << 0,
+	e_R = 1 << 1,
+	e_NO = 1 << 2,
+	e_SO = 1 << 3,
+	e_WE = 1 << 4,
+	e_EA = 1 << 5,
+	e_S = 1 << 6,
+	e_F = 1 << 7,
+	e_C = 1 << 8,
+	e_FINISH = 1 << 9
 }				t_e_pars;
 
 /*
@@ -297,11 +304,13 @@ t_dist			ft_ray_x(t_cub *cub, t_vector dir, t_plan *p);
 t_dist			ft_ray_y(t_cub *cub, t_vector dir, t_plan *p);
 float			ft_calc_dist(t_plan *p, t_vector dir);
 void			ft_threads(t_cub *cub);
-float			ft_ray_sprite(t_cub *cub, t_vector dir, t_dist *dist);
+float			ft_sprite_ray(t_cub *cub, t_vector dir, t_dist *dist);
+char			ft_calc_dist_sprite(t_sprite *p, t_vector dir);
 float			ft_calc_rs(t_cub *cub, t_plan *p);
 void			ft_before_calc(t_cub *cub);
 t_dist			ft_top(t_cub *cub, t_vector dir);
 t_dist			ft_floor(t_cub *cub, t_vector dir);
+t_dist			ft_win_ray(t_cub *cub, t_vector dir);
 
 /*
 **	nearest
@@ -323,6 +332,7 @@ unsigned int	ft_sky_texture_2(t_cub *cub, float map, t_vector *dir);
 unsigned int	ft_sky_texture_3(t_cub *cub, float map, t_vector *dir);
 unsigned int	ft_sky_texture_4(t_cub *cub, float map, t_vector *dir);
 unsigned int	ft_sky_texture_down(t_cub *cub, float map, t_vector *dir);
+void			ft_win_texture(t_cub *cub);
 
 /*
 **	utils

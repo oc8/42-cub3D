@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 18:54:01 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 15:17:03 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 17:57:10 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	ft_move(t_cub *cub)
 	new_pos = cub->player.pos;
 	pos_i.x = (int)new_pos.x;
 	pos_i.y = (int)new_pos.y;
-	if (cub->pars->map[pos_i.y][pos_i.x] == '1' && new_pos.z < S_W + .2)
+	if (cub->pars->map[pos_i.y][pos_i.x] == '1' && new_pos.z < S_W + 0.2)
 		new_pos.z = S_W + 0.2;
 	if (new_pos.z > 0.5 && !cub->key.up && \
 			ft_in_map(cub, pos_i) && new_pos.z < 8)
@@ -89,6 +89,7 @@ int			ft_loop(t_cub *cub)
 {
 	if (cub->flag_win)
 	{
+		ft_win_texture(cub);
 		return (0);
 	}
 	ft_move(cub);

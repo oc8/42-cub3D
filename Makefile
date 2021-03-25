@@ -37,11 +37,13 @@ texture/wall_texture.o \
 texture/sprite_texture.o \
 texture/skybox.o \
 texture/skybox_2.o \
+texture/others_texture.o \
 utils/utils.o \
 utils/utils_2.o \
 utils/save.o \
-move/key.o \
 move/loop.o \
+move/key.o \
+move/mouse.o \
 move/sprite_move.o \
 move/utils_move.o \
 move/jump.o \
@@ -50,9 +52,9 @@ LSRCS		= ${SRCS:.o=.c}
 INCLUDES	= ./inc/cub3d.h
 CC			= clang
 RM			= rm -rf
-FLAGS		= -Wall -Wextra -Werror -Ofast
+# FLAGS		= -Wall -Wextra -Werror -Ofast
 # FLAGS		= -Wall -Wextra -Werror -g3 -fsanitize=address
-# FLAGS		= -Wall -Wextra -Werror -g #(lldb)
+FLAGS		= -Wall -Wextra -Werror -g #(lldb)
 CFLAGS		= -I./inc -I./libft/ -I./minilibx -I./mlx
 AR			= ar
 ARFLAGS		= rcs

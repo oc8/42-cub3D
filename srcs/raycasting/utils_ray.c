@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:11:38 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 15:08:40 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 18:47:00 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,6 @@ void		ft_ray_screen(t_cub *cub)
 			dir->z = -fov_y * (y - cub->scr.h * 0.5);
 		}
 	}
+	cub->player.dir_center = cub->player.dir[cub->scr.h / 2 * \
+		(cub->scr.s_l / 4) + cub->scr.w / 2];
 }

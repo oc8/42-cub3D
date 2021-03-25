@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:17:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 11:33:34 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 15:40:34 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,14 @@ static float	ft_key_action(char *flag, float rs_1, float rs_2)
 	return (rs_2);
 }
 
+static void		ft_key_release_2(int key, t_cub *cub)
+{
+	if (key == KEY_MAJ)
+		cub->key.maj = 0;
+	else if (key == KEY_SPACE)
+		cub->key.space = 0;
+}
+
 int				ft_key_release(int key, t_cub *cub)
 {
 	if (key == KEY_AL)
@@ -87,32 +95,7 @@ int				ft_key_release(int key, t_cub *cub)
 		cub->key.down = 0;
 	else if (key == KEY_CTRL)
 		cub->player.pos.z += ft_key_action(&cub->key.ctrl, 0.2, -0.2);
-	else if (key == KEY_MAJ)
-		cub->key.maj = 0;
-	else if (key == KEY_SPACE)
-		cub->key.space = 0;
-	return (0);
-}
-
-int				ft_mouse(int x, int y, t_cub *cub)
-{
-	float		rs;
-	static int	x_temp = 0;
-	static int	y_temp = 0;
-
-	if (!x_temp && !y_temp)
-	{
-		x_temp = x;
-		y_temp = y;
-		return (0);
-	}
-	x -= x_temp;
-	y -= y_temp - 22;
-	cub->player.agl_hor += x / (M_PI * 180);
-	rs = cub->player.agl_vrt + y / (M_PI * 180);
-	if (rs < M_PI_2 && rs > -M_PI_2)
-		cub->player.agl_vrt = rs;
-	mlx_mouse_move(cub->mlx.win, cub->scr.w * .5, cub->scr.h * .5);
-	mlx_mouse_get_pos(cub->mlx.win, &x_temp, &y_temp);
+	else
+		ft_key_release_2(key, cub);
 	return (0);
 }

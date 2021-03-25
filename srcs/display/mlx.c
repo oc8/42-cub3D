@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 16:18:37 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 15:19:12 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 17:47:56 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ void			ft_mlx_init(t_cub *cub)
 	mlx_hook(cub->mlx.win, 3, 1L << 1, ft_key_release, cub);
 	mlx_hook(cub->mlx.win, 17, 0, ft_quit_x, cub);
 	mlx_mouse_hide();
-	cub->no = ft_init_img(cub, cub->pars->path_no);
-	cub->so = ft_init_img(cub, cub->pars->path_so);
-	cub->we = ft_init_img(cub, cub->pars->path_we);
-	cub->ea = ft_init_img(cub, cub->pars->path_ea);
-	cub->sprite = ft_init_img(cub, cub->pars->path_sprite);
-	cub->sky = ft_init_img(cub, "textures/skybox.xpm");
-	cub->floor = ft_init_img(cub, "textures/floor.xpm");
-	cub->win = ft_init_img(cub, "textures/win.xpm");
+	cub->img.no = ft_init_img(cub, cub->pars->path_no);
+	cub->img.so = ft_init_img(cub, cub->pars->path_so);
+	cub->img.we = ft_init_img(cub, cub->pars->path_we);
+	cub->img.ea = ft_init_img(cub, cub->pars->path_ea);
+	cub->img.sprite = ft_init_img(cub, cub->pars->path_sprite);
+	cub->img.sky = ft_init_img(cub, "textures/skybox.xpm");
+	cub->img.floor = ft_init_img(cub, "textures/floor.xpm");
+	cub->img.win = ft_init_img(cub, "textures/win.xpm");
 	cub->scr.ptr = mlx_new_image(cub->mlx.ptr, cub->scr.w, cub->scr.h);
 	cub->scr.pixels = (unsigned int *)mlx_get_data_addr(cub->scr.ptr, \
 		&cub->scr.bpp, &cub->scr.s_l, &cub->scr.endian);

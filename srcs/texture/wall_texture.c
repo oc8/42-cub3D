@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 14:54:11 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 14:29:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 15:24:40 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ unsigned int	ft_floor_texture(t_cub *cub, t_c *pixel)
 	t_i		index;
 	t_img	*img;
 
-	img = &cub->floor;
+	img = &cub->img.floor;
 	index.x = (int)((pixel->x - (int)pixel->x) * img->w);
 	index.y = (int)((pixel->y - (int)pixel->y) * img->h);
 	return (img->pixels[index.y * (img->s_l / 4) + index.x]);

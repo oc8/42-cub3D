@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 10:36:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 11:57:44 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 15:44:45 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	ft_put_pixels(t_cub *cub, unsigned int *screen, int thread_nb)
 {
-	int				x;
-	int				y;
-	t_dist			dist;
+	int		x;
+	int		y;
+	t_dist	dist;
 
 	y = (cub->scr.h / THREAD) * thread_nb;
 	while (y < (cub->scr.h / THREAD) * (thread_nb + 1))

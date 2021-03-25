@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 14:49:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 14:26:24 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 19:18:44 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,11 @@ static void	ft_sort(t_cub *cub)
 	t_vector		dir;
 	t_sprite		*p;
 	unsigned int	i;
-	float			t_max;
 	unsigned int	j;
 
-	dir = cub->player.dir[cub->scr.h / 2 * (cub->scr.s_l / 4) \
-			+ cub->scr.w / 2];
+	dir = cub->player.dir_center;
 	dir = ft_rotation(dir, &cub->agl);
 	p = cub->pars->plans_sprite;
-	t_max = 0;
 	i = -1;
 	while (++i < cub->pars->nbr_sprite)
 		p[i].t = p[i].a * dir.x + p[i].b * dir.y + p[i].c * dir.z / p[i].rs;
@@ -71,27 +68,47 @@ void		ft_check_new_pos_sprite(t_cub *cub, t_sprite *p)
 		cub->nbr_life -= (int)(100 * cub->delta);
 }
 
+static void	ft_create_plan_win(t_cub *cub, t_c *p_pos)
+{
+	t_sprite	*p;
+	t_vector	dir;
+
+	dir = cub->player.dir[cub->scr.h / 2 * (cub->scr.s_l / 4) + cub->scr.w / 2];
+	p = &cub->pars->plan_win;
+	p->pos.x = cub->pars->finish.x + 0.5;
+	p->pos.y = cub->pars->finish.y + 0.5;
+	p_pos = &cub->player.pos;
+	p->a = p->pos.x - p_pos->x;
+	p->b = p->pos.y - p_pos->y;
+	p->c = 0;
+	p->d = -p->a * p->pos.x - p->b * p->pos.y;
+	p->rs = -(p->a * p_pos->x + p->b * p_pos->y + p->c * p_pos->z + p->d);
+	dir = cub->player.dir_center;
+	p->t = 1;
+}
+
 void		ft_create_plan_sprite(t_cub *cub)
 {
 	unsigned int	i;
 	t_sprite		*p;
-	t_c				*player_pos;
+	t_c				*p_pos;
 
-	player_pos = &cub->player.pos;
+	p_pos = &cub->player.pos;
 	i = 0;
 	while (i < cub->pars->nbr_sprite)
 	{
 		p = &cub->pars->plans_sprite[i];
 		if (cub->key.m)
 			ft_check_new_pos_sprite(cub, p);
-		p->a = p->pos.x - player_pos->x;
-		p->b = p->pos.y - player_pos->y;
+		p->a = p->pos.x - p_pos->x;
+		p->b = p->pos.y - p_pos->y;
 		p->c = 0;
 		p->d = -p->a * p->pos.x - p->b * p->pos.y;
-		p->rs = -(p->a * player_pos->x + p->b * player_pos->y + p->c * \
-			player_pos->z + p->d);
+		p->rs = -(p->a * p_pos->x + p->b * p_pos->y + p->c * p_pos->z + p->d);
 		i++;
 	}
 	if (cub->pars->nbr_sprite)
 		ft_sort(cub);
+	if (cub->flag_finish)
+		ft_create_plan_win(cub, p_pos);
 }

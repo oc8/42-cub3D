@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 12:04:03 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 18:28:31 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	ft_check_c(t_cub *cub, char c, unsigned int j, unsigned int i)
 		if (cub->epars & e_FINISH)
 			ft_close(cub, 1, "too many 'F'");
 		cub->epars |= e_FINISH;
+		cub->flag_finish = 1;
 		cub->pars->finish.x = i;
 		cub->pars->finish.y = j;
 		cub->pars->map[j][i] = '0';

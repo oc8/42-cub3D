@@ -2,27 +2,17 @@ Cub3D
 
 bonus :
 mouse
+jump
 snic
 sprint
 skybox
-colision
-colision sprite
+colision wall & sprite
 look up and down
 fly
 multi thread
 sprite move
 life
 case finish
+size wall & sprite
 
 
-
-
-
-1 = up
-2 = down
-maj = run
-deco
-
-
-
-x * x + y * y

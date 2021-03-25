@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:30:37 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 15:16:32 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 17:03:02 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void		ft_check_new_pos(t_cub *cub, t_c new_pos)
 	}
 	new_pos_i.x = (int)new_pos.x;
 	new_pos_i.y = (int)new_pos.y;
-	if (ft_in_map(cub, new_pos_i) && pos->z > 0 && pos->z < S_W + 0.5)
+	if (ft_in_map(cub, new_pos_i) && pos->z > 0 && pos->z < S_W + 0.2)
 	{
 		ft_check(cub, new_pos_i, new_pos);
 		ft_check_new_pos_z(cub, new_pos, new_pos_i);

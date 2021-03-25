@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 11:45:05 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 18:30:05 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ static void	ft_nearest_wall(t_cub *cub, t_dist dist[6], int nbr, t_vector dir)
 	if (nbr == 0)
 	{
 		if (dir.y < 0)
-			dist[0].color = ft_wall_texture(dist[0].pixel, cub->no, 'y');
+			dist[0].color = ft_wall_texture(dist[0].pixel, cub->img.no, 'y');
 		else
-			dist[0].color = ft_wall_texture(dist[0].pixel, cub->so, 'y');
+			dist[0].color = ft_wall_texture(dist[0].pixel, cub->img.so, 'y');
 	}
 	else if (nbr == 1)
 	{
 		if (dir.x < 0)
-			dist[1].color = ft_wall_texture(dist[1].pixel, cub->we, 'x');
+			dist[1].color = ft_wall_texture(dist[1].pixel, cub->img.we, 'x');
 		else
-			dist[1].color = ft_wall_texture(dist[1].pixel, cub->ea, 'x');
+			dist[1].color = ft_wall_texture(dist[1].pixel, cub->img.ea, 'x');
 	}
 }
 
@@ -58,7 +58,10 @@ static void	ft_dist(t_cub *cub, t_dist dist[6], t_vector dir)
 {
 	dist[0] = ft_raycast_y(cub, dir);
 	dist[1] = ft_raycast_x(cub, dir);
-	dist[2].t = ft_ray_sprite(cub, dir, &dist[2]);
+	dist[2].t = ft_sprite_ray(cub, dir, &dist[2]);
+	dist[6].t = 0;
+	if (cub->flag_finish)
+		dist[6] = ft_win_ray(cub, dir);
 	dist[3] = ft_top(cub, dir);
 	dist[4] = ft_floor(cub, dir);
 	if (dist[3].t || dist[4].t || dist[0].t || dist[1].t || dist[2].t)
@@ -69,7 +72,7 @@ static void	ft_dist(t_cub *cub, t_dist dist[6], t_vector dir)
 
 t_dist		ft_nearest(t_cub *cub, t_vector dir)
 {
-	t_dist	dist[6];
+	t_dist	dist[7];
 	int		i;
 	float	small_dist;
 	int		nearest;
@@ -77,7 +80,7 @@ t_dist		ft_nearest(t_cub *cub, t_vector dir)
 	ft_dist(cub, dist, dir);
 	small_dist = 9999999;
 	i = -1;
-	while (++i < 6)
+	while (++i < 7)
 	{
 		if (dist[i].t && dist[i].t < small_dist)
 		{
