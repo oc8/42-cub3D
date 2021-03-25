@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 18:51:52 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 18:53:39 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 11:33:34 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void		ft_pars_resolution(t_cub *cub, t_line line, int e_res)
 	*i += 1;
 	if (line.ptr[*i] != ' ' && line.ptr[*i] != '\t')
 		ft_close(cub, 1, "extra character");
-	cub->screen.w = ft_atoi_nbr(cub, line.ptr, i);
-	cub->screen.h = ft_atoi_nbr(cub, line.ptr, i);
+	cub->scr.w = ft_atoi_nbr(cub, line.ptr, i);
+	cub->scr.h = ft_atoi_nbr(cub, line.ptr, i);
 	mlx_get_screen_size(cub->mlx.ptr, &x, &y);
-	if (cub->screen.w > x)
-		cub->screen.w = x;
-	if (cub->screen.h > y)
-		cub->screen.h = y;
+	if (cub->scr.w > x)
+		cub->scr.w = x;
+	if (cub->scr.h > y)
+		cub->scr.h = y;
 	cub->epars |= e_res;
 }
 

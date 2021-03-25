@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:23:07 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 11:49:26 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ void		ft_edit_img(t_cub *cub)
 	if (cub->nbr_life <= 0)
 		ft_close(cub, 0, "\033[31mGame Over !");
 	mlx_sync(MLX_SYNC_WIN_CMD_COMPLETED, cub->mlx.win);
-	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, cub->screen.ptr);
+	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, cub->scr.ptr);
 	ft_before_calc(cub);
 	ft_threads(cub);
-	mlx_put_image_to_window(cub->mlx.ptr, cub->mlx.win, cub->screen.ptr, 0, 0);
+	mlx_put_image_to_window(cub->mlx.ptr, cub->mlx.win, cub->scr.ptr, 0, 0);
 	mlx_string_put(cub->mlx.ptr, cub->mlx.win, 15, 20, 0xffffff, fps_str);
 	sprintf(life_str, "%d%%", cub->nbr_life);
 	mlx_string_put(cub->mlx.ptr, cub->mlx.win, 15, 40, 0xff0000, life_str);

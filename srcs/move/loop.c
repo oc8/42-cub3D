@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 18:54:01 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/24 20:14:01 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 12:17:56 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ static void	ft_view(t_cub *cub)
 		if (rs < M_PI_2 && rs > -M_PI_2)
 			cub->player.agl_vrt = rs;
 	}
+	if (cub->player.agl_hor >= M_PI)
+		cub->player.agl_hor -= 2 * M_PI;
+	else if (cub->player.agl_hor <= -M_PI)
+		cub->player.agl_hor += 2 * M_PI;
 }
 
 static void	ft_move(t_cub *cub)
@@ -71,8 +75,8 @@ static void	ft_move(t_cub *cub)
 	new_pos = cub->player.pos;
 	pos_i.x = (int)new_pos.x;
 	pos_i.y = (int)new_pos.y;
-	if (new_pos.z > 0.5 && !cub->key.up && ft_in_map(cub, pos_i) && \
-			new_pos.z < 8)
+	if (new_pos.z > 0.5 && !cub->key.up && \
+			ft_in_map(cub, pos_i) && new_pos.z < 8)
 		new_pos.z = new_pos.z - ((new_pos.z + 0.5) * cub->delta);
 	ft_new_pos(cub, &new_pos);
 	ft_view(cub);

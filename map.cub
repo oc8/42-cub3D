@@ -1,6 +1,6 @@
-NO ./textures/snk/wall.xpm
+NO ./textures/snk/mur1.xpm
 SO  ./textures/snk/wall.xpm
-WE ./textures/snk/mur1.xpm
+WE ./textures/snk/wall.xpm
 EA ./textures/snk/wall.xpm
 
 #S         textures/Rick_Sanchez.xpm

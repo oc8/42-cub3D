@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 10:36:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:23:37 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 11:57:44 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ static void	ft_put_pixels(t_cub *cub, unsigned int *screen, int thread_nb)
 	int				y;
 	t_dist			dist;
 
-	y = (cub->screen.h / THREAD) * thread_nb;
-	while (y < (cub->screen.h / THREAD) * (thread_nb + 1))
+	y = (cub->scr.h / THREAD) * thread_nb;
+	while (y < (cub->scr.h / THREAD) * (thread_nb + 1))
 	{
 		x = 0;
-		while (x < cub->screen.w)
+		while (x < cub->scr.w)
 		{
 			dist = ft_nearest(cub, ft_rotation(cub->player.dir[y * \
-				cub->screen.w + x], &cub->agl, cub));
-			if ((y * (cub->screen.s_l / 4) + x >= 0))
-				screen[y * (cub->screen.s_l / 4) + x] = dist.color;
+				cub->scr.w + x], &cub->agl));
+			if ((y * (cub->scr.s_l / 4) + x >= 0))
+				screen[y * (cub->scr.s_l / 4) + x] = dist.color;
 			x++;
 		}
 		y++;
@@ -40,21 +40,20 @@ static void	ft_put_4_pixels(t_cub *cub, unsigned int *scr, int thread_nb)
 	int				y;
 	t_dist			dist;
 
-	y = (cub->screen.h / THREAD) * thread_nb;
-	while (y < (cub->screen.h / THREAD) * (thread_nb + 1))
+	y = (cub->scr.h / THREAD) * thread_nb;
+	while (y < (cub->scr.h / THREAD) * (thread_nb + 1))
 	{
 		x = 0;
-		while (x < cub->screen.w)
+		while (x < cub->scr.w)
 		{
 			dist = ft_nearest(cub, ft_rotation(cub->player.dir[y * \
-				cub->screen.w + x], &cub->agl, cub));
-			if ((y * (int)(cub->screen.s_l * 0.25) + x >= 0))
+				cub->scr.w + x], &cub->agl));
+			if ((y * (cub->scr.s_l / 4) + x >= 0))
 			{
-				scr[y * (int)(cub->screen.s_l * 0.25) + x] = dist.color;
-				scr[y * (int)(cub->screen.s_l * 0.25) + (x + 1)] = dist.color;
-				scr[(y + 1) * (int)(cub->screen.s_l * 0.25) + \
-					(x + 1)] = dist.color;
-				scr[(y + 1) * (int)(cub->screen.s_l * 0.25) + x] = dist.color;
+				scr[y * (cub->scr.s_l / 4) + x] = dist.color;
+				scr[y * (cub->scr.s_l / 4) + (x + 1)] = dist.color;
+				scr[(y + 1) * (cub->scr.s_l / 4) + (x + 1)] = dist.color;
+				scr[(y + 1) * (cub->scr.s_l / 4) + x] = dist.color;
 			}
 			x += 2;
 		}
@@ -68,11 +67,11 @@ static void	*ft_thread(void *work)
 	t_thread		*wcub;
 
 	wcub = (t_thread *)work;
-	cub = (t_cub *)wcub->ptr;
-	if ((cub->screen.w > 500 || cub->screen.h > 500) && !cub->flag_save)
-		ft_put_4_pixels(cub, cub->screen.pixels, wcub->id);
+	cub = (t_cub *)wcub->cub;
+	if ((cub->scr.w > 500 || cub->scr.h > 500) && !cub->flag_save)
+		ft_put_4_pixels(cub, cub->scr.pixels, wcub->id);
 	else
-		ft_put_pixels(cub, cub->screen.pixels, wcub->id);
+		ft_put_pixels(cub, cub->scr.pixels, wcub->id);
 	return (cub);
 }
 

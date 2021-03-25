@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 17:34:51 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 19:07:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 12:39:23 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_dist	ft_top(t_cub *cub, t_vector dir)
 
 	dist.color = 0;
 	pixel = &dist.pixel;
-	if ((dist.t = -(cub->player.pos.z - 1) / dir.z) > 0)
+	if ((dist.t = -(cub->player.pos.z - S_W) / dir.z) > 0)
 	{
 		pixel->x = cub->player.pos.x + dir.x * dist.t;
 		if (pixel->x >= 0 && pixel->x <= cub->pars->nbr_map.x)

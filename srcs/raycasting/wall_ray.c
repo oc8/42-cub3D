@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:10:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/24 20:04:14 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 12:41:59 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@ static char	ft_is_wall_x(t_cub *cub, t_c *pixel, t_vector dir, t_plan *p)
 	t_i			i_map;
 
 	pixel->z = cub->player.pos.z + dir.z * p->t;
-	if (pixel->z > 0 && pixel->z < 1)
+	if (pixel->z > 0 && pixel->z < S_W)
 	{
 		pixel->y = cub->player.pos.y + dir.y * p->t;
 		i_map.x = p->d * -1;
 		if (dir.x < 0)
 			i_map.x -= 1;
 		i_map.y = (int)pixel->y;
-		pixel->x = cub->player.pos.x + dir.x * p->t;
 		return (ft_check_index_map(cub, i_map));
 	}
 	return (0);
@@ -35,14 +34,13 @@ static char	ft_is_wall_y(t_cub *cub, t_c *pixel, t_vector dir, t_plan *p)
 	t_i			i_map;
 
 	pixel->z = cub->player.pos.z + dir.z * p->t;
-	if (pixel->z > 0 && pixel->z < 1)
+	if (pixel->z > 0 && pixel->z < S_W)
 	{
 		pixel->x = cub->player.pos.x + dir.x * p->t;
 		i_map.y = p->d * -1;
 		if (dir.y < 0)
 			i_map.y -= 1;
 		i_map.x = (int)pixel->x;
-		pixel->y = cub->player.pos.y + dir.y * p->t;
 		return (ft_check_index_map(cub, i_map));
 	}
 	return (0);

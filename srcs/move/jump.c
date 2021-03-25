@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 11:37:15 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 18:49:12 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 12:22:38 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ void	ft_fly(t_cub *cub)
 	static char		flag = 0;
 	static t_dist	dist;
 
-	if (cub->key.space && cub->player.pos.z < 0.6)
-		cub->player.pos.z += cub->delta * 10;
+	if (cub->player.pos.z < 0.6)
+		flag = 1;
+	if (cub->key.space && flag)
+		cub->player.pos.z += cub->delta * 6;
+	if (cub->player.pos.z > 1.3)
+		flag = 0;
 	return ;
 	if (!cub->key.space)
 	{
@@ -28,9 +32,9 @@ void	ft_fly(t_cub *cub)
 	}
 	if (!flag)
 	{
-		dir = cub->player.dir[cub->screen.h / 2 * cub->screen.w + \
-			cub->screen.w / 2];
-		dir = ft_rotation(dir, &cub->agl, cub);
+		dir = cub->player.dir[cub->scr.h / 2 * cub->scr.w + \
+			cub->scr.w / 2];
+		dir = ft_rotation(dir, &cub->agl);
 		dist = ft_nearest(cub, dir);
 		if (dist.t > 8 || dist.pixel.z < 0.5)
 		{

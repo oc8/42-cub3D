@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 18:54:09 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 12:04:03 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,7 @@ static void	ft_check_c(t_cub *cub, char c, unsigned int j, unsigned int i)
 	if (c == '0' || c == '1' || c == '2' || c == ' ')
 		cub->pars->map[j][i] = c;
 	else if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
-	{
 		ft_first_pos(cub, c, i, j);
-		cub->player.pos.x = i;
-		cub->player.pos.y = j;
-	}
 	else if (c == 'F')
 	{
 		if (cub->epars & e_FINISH)

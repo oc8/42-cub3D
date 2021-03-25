@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 14:54:11 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:18:51 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 14:29:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ unsigned int	ft_wall_texture(t_c pixel, t_img img, char axe)
 		index.x = (int)((pixel.x - (int)pixel.x) * img.w);
 	else
 		index.x = (int)((pixel.y - (int)pixel.y) * img.w);
-	index.y = (int)((1 - pixel.z - (int)pixel.z) * img.h);
-	if (!(index.x >= img.w || index.y >= img.h || index.x < 0 || index.y < 0))
+	index.y = (int)((S_W - pixel.z) * (img.h / S_W));
+	if (index.x < img.w && index.y < img.h * S_W && index.x > 0 && index.y > 0)
 		return (img.pixels[index.y * (img.s_l / 4) + index.x]);
 	return (0);
 }

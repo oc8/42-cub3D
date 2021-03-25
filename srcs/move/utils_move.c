@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:30:37 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 19:09:44 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 14:40:28 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,26 +77,15 @@ static void	ft_check_new_pos_z(t_cub *cub, t_c new_pos, t_i new_pos_i)
 	t_c		*pos;
 
 	pos = &cub->player.pos;
-	if (new_pos.z != pos->z)
-	{
-		if (ft_in_map(cub, new_pos_i) && pos->z > -0.2 && pos->z < 1.2)
-		{
-			if (pos->z < 0.6 && pos->z > 0)
-			{
-				if (new_pos.z > pos->z)
-					pos->z = new_pos.z;
-			}
-			else if (pos->z < 0 && new_pos.z > pos->z)
-				;
-			else if (!(cub->pars->map[new_pos_i.y][new_pos_i.x] == 0) && \
-				new_pos.z < pos->z)
-				;
-			else
-				pos->z = new_pos.z;
-		}
-		else
+	if (pos->z < 0.6 && pos->z > 0 && new_pos.z > pos->z)
 			pos->z = new_pos.z;
-	}
+	else if (pos->z < 0 && new_pos.z > pos->z)
+		;
+	else if (cub->pars->map[new_pos_i.y][new_pos_i.x] == '1' && \
+		new_pos.z < S_W + 0.2)
+		new_pos.z = S_W + 0.2;
+	else
+		pos->z = new_pos.z;
 }
 
 void		ft_check_new_pos(t_cub *cub, t_c new_pos)
@@ -108,16 +97,23 @@ void		ft_check_new_pos(t_cub *cub, t_c new_pos)
 	pos_i.x = (int)cub->player.pos.x;
 	pos_i.y = (int)cub->player.pos.y;
 	pos = &cub->player.pos;
+	if (pos->x == new_pos.x && pos->y == new_pos.y && pos->z == new_pos.z)
+	{
+		ft_create_plan_sprite(cub);
+		return ;
+	}
 	new_pos_i.x = (int)new_pos.x;
 	new_pos_i.y = (int)new_pos.y;
-	if (ft_in_map(cub, new_pos_i) && ft_in_map(cub, pos_i) && pos->z > 0 && \
-			pos->z < 1)
+	if (ft_in_map(cub, new_pos_i) && pos->z > 0 && pos->z < S_W + 0.5)
+	{
 		ft_check(cub, new_pos_i, new_pos);
+		ft_check_new_pos_z(cub, new_pos, new_pos_i);
+	}
 	else
 	{
 		pos->x = new_pos.x;
 		pos->y = new_pos.y;
+		pos->z = new_pos.z;
 	}
 	ft_create_plan_sprite(cub);
-	ft_check_new_pos_z(cub, new_pos, new_pos_i);
 }

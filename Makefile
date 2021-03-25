@@ -44,7 +44,7 @@ move/key.o \
 move/loop.o \
 move/sprite_move.o \
 move/utils_move.o \
-move/fly.o \
+move/jump.o \
 close.o
 LSRCS		= ${SRCS:.o=.c}
 INCLUDES	= ./inc/cub3d.h

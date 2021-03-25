@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:11:38 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 19:06:58 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 11:57:12 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,15 @@ float		ft_calc_dist(t_plan *p, t_vector dir)
 	return (0);
 }
 
-t_vector	ft_rotation(t_vector dir, const t_agl *agl, t_cub *cub)
+t_vector	ft_rotation(t_vector dir, const t_agl *agl)
 {
 	t_vector	m_z;
 	t_vector	m_x;
 
-	if (cub->player.agl_hor >= M_PI)
-		cub->player.agl_hor -= 2 * M_PI;
-	else if (cub->player.agl_hor <= -M_PI)
-		cub->player.agl_hor += 2 * M_PI;
-	m_x.x = dir.x;
 	m_x.y = agl->cos_vrt * dir.y - agl->sin_vrt * dir.z;
 	m_x.z = agl->sin_vrt * dir.y + agl->cos_vrt * dir.z;
-	m_z.x = agl->cos_hor * m_x.x - agl->sin_hor * m_x.y;
-	m_z.y = agl->sin_hor * m_x.x + agl->cos_hor * m_x.y;
+	m_z.x = agl->cos_hor * dir.x - agl->sin_hor * m_x.y;
+	m_z.y = agl->sin_hor * dir.x + agl->cos_hor * m_x.y;
 	m_z.z = m_x.z;
 	return (m_z);
 }
@@ -70,20 +65,20 @@ void		ft_ray_screen(t_cub *cub)
 	t_vector	*dir;
 
 	cub->fov = cub->fov * M_PI / 180;
-	fov_x = 2 * tan(cub->fov / 2) / cub->screen.w;
-	fov_y = fov_x * cub->screen.h / cub->screen.w;
-	cub->player.dir = ft_calloc_lst(cub, cub->screen.h * cub->screen.w, \
+	fov_x = 2 * tan(cub->fov / 2) / cub->scr.w;
+	fov_y = fov_x * cub->scr.h / cub->scr.w;
+	cub->player.dir = ft_calloc_lst(cub, cub->scr.h * cub->scr.w, \
 		sizeof(t_c));
 	y = -1;
-	while (++y < cub->screen.h)
+	while (++y < cub->scr.h)
 	{
 		x = -1;
-		while (++x < cub->screen.w)
+		while (++x < cub->scr.w)
 		{
-			dir = &cub->player.dir[y * cub->screen.w + x];
-			dir->x = fov_x * (x - cub->screen.w * 0.5);
+			dir = &cub->player.dir[y * cub->scr.w + x];
+			dir->x = fov_x * (x - cub->scr.w * 0.5);
 			dir->y = -1;
-			dir->z = -fov_y * (y - cub->screen.h * 0.5);
+			dir->z = -fov_y * (y - cub->scr.h * 0.5);
 		}
 	}
 }

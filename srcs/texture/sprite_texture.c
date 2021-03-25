@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 12:11:41 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/24 19:58:07 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 12:29:26 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ unsigned int	ft_sprite_texture(t_cub *cub, t_img *img, t_c *pixel, \
 	unsigned int	rs;
 	float			ac;
 
-	i_img.y = (int)((2 - pixel->z) * (img->h * 0.5));
-	if (i_img.y >= (img->h * 2) || i_img.y < 0)
+	i_img.y = (int)((S_S - pixel->z) * (img->h / S_S));
+	if (i_img.y >= (img->h * S_S) || i_img.y < 0)
 		return (0);
 	ac = ft_pythagore(cub, sprite, pixel->x - sprite->pos.x, pixel->y - \
 		sprite->pos.y);

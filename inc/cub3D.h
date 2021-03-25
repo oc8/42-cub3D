@@ -6,13 +6,20 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 17:10:09 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/24 19:59:18 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 14:38:50 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+/*
+**	min 1
+*/
+# define S_W 1
+# define S_S 1
+# define SPEED 4
+# define SPEED_S 1
 # define THREAD 4
 
 # define KEY_D 2
@@ -184,14 +191,14 @@ typedef struct	s_player
 	t_vector	*dir;
 }				t_player;
 
-typedef struct	s_ptr
+typedef struct	s_cub
 {
 	t_pars			*pars;
 	t_player		player;
 	t_list			*malloc_lst;
 	t_list			*mlx_lst;
 	t_mlx			mlx;
-	t_img			screen;
+	t_img			scr;
 	t_img			we;
 	t_img			no;
 	t_img			so;
@@ -214,7 +221,7 @@ typedef struct	s_ptr
 
 typedef struct	s_thread
 {
-	t_cub	*ptr;
+	t_cub	*cub;
 	int		id;
 }				t_thread;
 
@@ -265,7 +272,7 @@ struct timeval	ft_time(t_cub *cub, char *str, int *count);
 /*
 **	move
 */
-t_vector		ft_rotation(t_vector dir, const t_agl *agl, t_cub *cub);
+t_vector		ft_rotation(t_vector dir, const t_agl *agl);
 void			ft_check_new_pos(t_cub *cub, t_c new_pos);
 void			ft_pos_sprite(t_cub *cub);
 void			ft_check_new_pos_sprite(t_cub *cub, t_sprite *p);
