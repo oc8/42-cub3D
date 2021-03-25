@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:11:38 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 11:57:12 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 15:08:40 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void		ft_ray_screen(t_cub *cub)
 	int			y;
 	t_vector	*dir;
 
-	cub->fov = cub->fov * M_PI / 180;
+	cub->fov = FOV * M_PI / 180;
 	fov_x = 2 * tan(cub->fov / 2) / cub->scr.w;
 	fov_y = fov_x * cub->scr.h / cub->scr.w;
 	cub->player.dir = ft_calloc_lst(cub, cub->scr.h * cub->scr.w, \

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 17:10:09 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 14:38:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 15:19:09 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 /*
 **	min 1
 */
-# define S_W 1
-# define S_S 1
+# define S_W 1.8
+# define S_S 2.5
 # define SPEED 4
 # define SPEED_S 1
+# define SENSIBILITY 1
+# define FOV 80
 # define THREAD 4
 
 # define KEY_D 2
@@ -206,11 +208,13 @@ typedef struct	s_cub
 	t_img			sprite;
 	t_img			sky;
 	t_img			floor;
+	t_img			win;
 	t_img			save;
 	t_key			key;
 	int				nbr_life;
 	float			fov;
 	char			flag_save;
+	char			flag_win;
 	struct timeval	time;
 	struct timeval	last_second;
 	pthread_t		thread[THREAD];

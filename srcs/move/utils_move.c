@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:30:37 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 14:40:28 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/25 15:16:32 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	ft_check(t_cub *cub, t_i new_pos_i, t_c new_pos)
 	if (cub->key.m)
 	{
 		if (pos.x == cub->pars->finish.x && pos.y == cub->pars->finish.y)
-			ft_close(cub, 0, "\033[32mWin !");
+			cub->flag_win = 1;
 		ft_check_wall(cub, new_pos_i, new_pos, &cub->player.pos);
 	}
 	else
@@ -76,14 +76,12 @@ static void	ft_check_new_pos_z(t_cub *cub, t_c new_pos, t_i new_pos_i)
 {
 	t_c		*pos;
 
+	(void)new_pos_i;
 	pos = &cub->player.pos;
 	if (pos->z < 0.6 && pos->z > 0 && new_pos.z > pos->z)
 			pos->z = new_pos.z;
 	else if (pos->z < 0 && new_pos.z > pos->z)
 		;
-	else if (cub->pars->map[new_pos_i.y][new_pos_i.x] == '1' && \
-		new_pos.z < S_W + 0.2)
-		new_pos.z = S_W + 0.2;
 	else
 		pos->z = new_pos.z;
 }
