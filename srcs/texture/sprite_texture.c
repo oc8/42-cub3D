@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 12:11:41 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 20:30:40 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 21:26:05 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ float			ft_pythagore(t_cub *cub, t_sprite *sprite, float ab, float bc)
 {
 	float	ac;
 
-	(void)cub;
-	(void)sprite;
 	if (ab > 0.5 || ab < -0.5 || bc > 0.5 || bc < -0.5)
 		return (0);
 	ac = bc * bc + ab * ab;

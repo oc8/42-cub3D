@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 18:54:01 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 18:08:12 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 20:48:13 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ static void	ft_move(t_cub *cub)
 					cub->delta;
 		else
 			pos.z -= sqrt(2 * GRAVITY * (z_start - (pos.z - S_P))) * cub->delta;
-		;
 	}
 	else
 		z_start = 0;

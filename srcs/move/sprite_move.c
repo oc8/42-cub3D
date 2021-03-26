@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:59:42 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 20:12:53 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 21:06:43 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	ft_sort(t_cub *cub)
 	p = cub->pars->plans_sprite;
 	i = -1;
 	while (++i < cub->pars->nbr_sprite)
-		p[i].t = (p[i].a * dir.x + p[i].b * dir.y + p[i].c * dir.z) / p[i].rs;
+		p[i].t = p[i].a * dir.x + p[i].b * dir.y + p[i].c * dir.z / p[i].rs;
 	j = -1;
 	while (++j < cub->pars->nbr_sprite - 1)
 	{

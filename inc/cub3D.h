@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 17:10:09 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 20:00:15 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 21:23:28 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define S_S 2.7
 # define S_P 0.5
 
-typedef enum	e_conf
+typedef enum	e_settings
 {
 	SPEED = 4,
 	SPEED_S = 1,
@@ -39,7 +39,7 @@ typedef enum	e_conf
 	FPS_MIN = 15,
 	FPS_MAX = 80,
 	THREAD = 4
-}				t_e_conf;
+}				t_e_settings;
 
 typedef enum	e_key
 {
@@ -313,10 +313,10 @@ void			ft_fly_move(t_cub *cub, t_dist dist);
 void			ft_ray_screen(t_cub *cub);
 t_dist			ft_ray_x(t_cub *cub, t_vector dir, t_plan *p);
 t_dist			ft_ray_y(t_cub *cub, t_vector dir, t_plan *p);
-float			ft_calc_dist(t_plan *p, t_vector dir);
+float			ft_calc_dist(t_plan *p, t_vector dir, float *t);
 void			ft_threads(t_cub *cub);
 float			ft_sprite_ray(t_cub *cub, t_vector dir, t_dist *dist);
-char			ft_calc_dist_sprite(t_sprite *p, t_vector dir);
+char			ft_calc_dist_sprite(t_sprite *p, t_vector dir, float *t);
 float			ft_calc_rs(t_cub *cub, t_plan *p);
 void			ft_before_calc(t_cub *cub);
 t_dist			ft_top(t_cub *cub, t_vector dir);
@@ -358,7 +358,7 @@ void			ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), \
 	t_cub *cub);
 void			ft_save_bmp(const char *filename, t_cub *cub);
 char			ft_check_index_map(t_cub *cub, t_i map);
-unsigned int	ft_is_sprite(t_cub *cub, t_c *pixel, t_vector dir, t_sprite *sprite);
+unsigned int	ft_is_sprite(t_cub *cub, t_c *pixel, t_vector dir, t_sprite *sprite, float t);
 
 /*
 **	close

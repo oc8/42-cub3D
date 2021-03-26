@@ -6,20 +6,20 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:10:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 19:18:21 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 21:19:57 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static char	ft_is_wall_x(t_cub *cub, t_c *pixel, t_vector dir, t_plan *p)
+static char	ft_is_wall_x(t_cub *cub, t_c *pixel, t_vector dir, t_plan *p, float t)
 {
 	t_i			i_map;
 
-	pixel->z = cub->player.pos.z + dir.z * p->t;
+	pixel->z = cub->player.pos.z + dir.z * t;
 	if (pixel->z > 0 && pixel->z < S_W)
 	{
-		pixel->y = cub->player.pos.y + dir.y * p->t;
+		pixel->y = cub->player.pos.y + dir.y * t;
 		i_map.x = p->d * -1;
 		if (dir.x < 0)
 			i_map.x -= 1;
@@ -29,14 +29,14 @@ static char	ft_is_wall_x(t_cub *cub, t_c *pixel, t_vector dir, t_plan *p)
 	return (0);
 }
 
-static char	ft_is_wall_y(t_cub *cub, t_c *pixel, t_vector dir, t_plan *p)
+static char	ft_is_wall_y(t_cub *cub, t_c *pixel, t_vector dir, t_plan *p, float t)
 {
 	t_i			i_map;
 
-	pixel->z = cub->player.pos.z + dir.z * p->t;
+	pixel->z = cub->player.pos.z + dir.z * t;
 	if (pixel->z > 0 && pixel->z < S_W)
 	{
-		pixel->x = cub->player.pos.x + dir.x * p->t;
+		pixel->x = cub->player.pos.x + dir.x * t;
 		i_map.y = p->d * -1;
 		if (dir.y < 0)
 			i_map.y -= 1;
@@ -70,10 +70,9 @@ t_dist		ft_ray_x(t_cub *cub, t_vector dir, t_plan *p)
 	i = ft_init_index((int)cub->player.pos.x, dir.x, nbr_plan);
 	while (i >= 0 && i <= nbr_plan)
 	{
-		if (ft_calc_dist(&p[i], dir))
+		if (ft_calc_dist(&p[i], dir, &dist.t))
 		{
-			dist.t = p[i].t;
-			if (ft_is_wall_x(cub, &dist.pixel, dir, &p[i]))
+			if (ft_is_wall_x(cub, &dist.pixel, dir, &p[i], dist.t))
 				return (dist);
 		}
 		if (dir.x > 0)
@@ -95,10 +94,9 @@ t_dist		ft_ray_y(t_cub *cub, t_vector dir, t_plan *p)
 	i = ft_init_index((int)cub->player.pos.y, dir.y, nbr_plan);
 	while (i >= 0 && i <= nbr_plan)
 	{
-		if (ft_calc_dist(&p[i], dir))
+		if (ft_calc_dist(&p[i], dir, &dist.t))
 		{
-			dist.t = p[i].t;
-			if (ft_is_wall_y(cub, &dist.pixel, dir, &p[i]))
+			if (ft_is_wall_y(cub, &dist.pixel, dir, &p[i], dist.t))
 				return (dist);
 		}
 		if (dir.y > 0)

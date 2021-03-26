@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:11:38 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 19:03:11 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 21:16:34 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char		ft_check_index_map(t_cub *cub, t_i map)
 	return (0);
 }
 
-float		ft_calc_dist(t_plan *p, t_vector dir)
+float		ft_calc_dist(t_plan *p, t_vector dir, float *t)
 {
 	float		rs_dir;
 
@@ -34,8 +34,8 @@ float		ft_calc_dist(t_plan *p, t_vector dir)
 		rs_dir = p->a * dir.x + p->b * dir.y + p->c * dir.z;
 		if (rs_dir)
 		{
-			p->t = p->rs / rs_dir;
-			if (p->t > 0)
+			*t = p->rs / rs_dir;
+			if (*t > 0)
 				return (1);
 		}
 	}

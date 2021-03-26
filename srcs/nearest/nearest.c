@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 20:21:08 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 21:00:06 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ static void	ft_dist(t_cub *cub, t_dist dist[7], t_vector dir)
 	dist[4].t = 0;
 	dist[5].t = 0;
 	dist[6].t = 0;
-	// dist[0] = ft_raycast_y(cub, dir);
-	// dist[1] = ft_raycast_x(cub, dir);
-	// dist[2].t = ft_sprite_ray(cub, dir, &dist[2]);
+	dist[0] = ft_raycast_y(cub, dir);
+	dist[1] = ft_raycast_x(cub, dir);
+	dist[2].t = ft_sprite_ray(cub, dir, &dist[2]);
 	if (cub->flag_finish)
 		dist[6] = ft_win_ray(cub, dir);
 	dist[3] = ft_top(cub, dir);
