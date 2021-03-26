@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 12:57:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 19:00:12 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 20:34:05 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ unsigned int	ft_is_sprite(t_cub *cub, t_c *pixel, t_vector dir, t_sprite *p)
 
 char			ft_calc_dist_sprite(t_sprite *p, t_vector dir)
 {
-	float			rs_dir;
+	float		rs_dir;
 
 	if (p->t > 0)
 	{

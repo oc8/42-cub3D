@@ -6,39 +6,12 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 17:10:09 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 19:43:49 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 20:00:15 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-
-/*
-**	min 1
-*/
-# define S_W 1.8
-# define S_S 2.5
-# define SPEED 4
-# define SPEED_S 1
-# define SENSIBILITY 1
-# define FOV 80
-# define THREAD 4
-
-# define KEY_D 2
-# define KEY_A 0
-# define KEY_S 1
-# define KEY_ESC 53
-# define KEY_W 13
-# define KEY_AL 123
-# define KEY_AR 124
-# define KEY_AU 126
-# define KEY_AD 125
-# define KEY_UP 18
-# define KEY_DOWN 19
-# define KEY_M 46
-# define KEY_CTRL 256
-# define KEY_MAJ 257
-# define KEY_SPACE 49
 
 # include "mlx.h"
 # include "libft.h"
@@ -50,6 +23,56 @@
 
 # include <pthread.h>
 # include <sys/time.h>
+
+# define S_W 1.7
+# define S_S 2.7
+# define S_P 0.5
+
+typedef enum	e_conf
+{
+	SPEED = 4,
+	SPEED_S = 1,
+	GRAVITY = 7,
+	SENSIBILITY = 3,
+	FOV = 80,
+	SCALE_MAX = 3,
+	FPS_MIN = 15,
+	FPS_MAX = 80,
+	THREAD = 4
+}				t_e_conf;
+
+typedef enum	e_key
+{
+	KEY_D = 2,
+	KEY_A = 0,
+	KEY_S = 1,
+	KEY_ESC = 53,
+	KEY_W = 13,
+	KEY_AL = 123,
+	KEY_AR = 124,
+	KEY_AU = 126,
+	KEY_AD = 125,
+	KEY_UP = 18,
+	KEY_DOWN = 19,
+	KEY_M = 46,
+	KEY_CTRL = 256,
+	KEY_MAJ = 257,
+	KEY_SPACE = 49
+}				t_e_key;
+
+typedef enum	e_pars
+{
+	e_FIRST_DIR = 1 << 0,
+	e_R = 1 << 1,
+	e_NO = 1 << 2,
+	e_SO = 1 << 3,
+	e_WE = 1 << 4,
+	e_EA = 1 << 5,
+	e_S = 1 << 6,
+	e_F = 1 << 7,
+	e_C = 1 << 8,
+	e_FINISH = 1 << 9
+}				t_e_pars;
 
 typedef struct	s_mlx
 {
@@ -228,6 +251,8 @@ typedef struct	s_cub
 	t_agl			agl;
 	int				epars;
 	float			delta;
+	int				fps;
+	int				scale;
 }				t_cub;
 
 typedef struct	s_thread
@@ -235,20 +260,6 @@ typedef struct	s_thread
 	t_cub	*cub;
 	int		id;
 }				t_thread;
-
-typedef enum	e_pars
-{
-	e_FIRST_DIR = 1 << 0,
-	e_R = 1 << 1,
-	e_NO = 1 << 2,
-	e_SO = 1 << 3,
-	e_WE = 1 << 4,
-	e_EA = 1 << 5,
-	e_S = 1 << 6,
-	e_F = 1 << 7,
-	e_C = 1 << 8,
-	e_FINISH = 1 << 9
-}				t_e_pars;
 
 /*
 **	parsing
@@ -293,7 +304,7 @@ int				ft_mouse(int x, int y, t_cub *cub);
 int				ft_key(int key, t_cub *cub);
 int				ft_key_release(int key, t_cub *cub);
 void			ft_check_wall(t_cub *cub, t_i new_pos_i, t_c new_pos, t_c *pos);
-void			ft_fly(t_cub *cub);
+void			ft_jump(t_cub *cub);
 void			ft_fly_move(t_cub *cub, t_dist dist);
 
 /*
@@ -332,7 +343,7 @@ unsigned int	ft_sky_texture_2(t_cub *cub, float map, t_vector *dir);
 unsigned int	ft_sky_texture_3(t_cub *cub, float map, t_vector *dir);
 unsigned int	ft_sky_texture_4(t_cub *cub, float map, t_vector *dir);
 unsigned int	ft_sky_texture_down(t_cub *cub, float map, t_vector *dir);
-void			ft_win_texture(t_cub *cub);
+void			ft_win_screen(t_cub *cub);
 
 /*
 **	utils

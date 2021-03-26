@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 12:11:41 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 12:29:26 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 20:30:40 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ float			ft_pythagore(t_cub *cub, t_sprite *sprite, float ab, float bc)
 {
 	float	ac;
 
+	(void)cub;
+	(void)sprite;
 	if (ab > 0.5 || ab < -0.5 || bc > 0.5 || bc < -0.5)
 		return (0);
 	ac = bc * bc + ab * ab;
@@ -56,19 +58,19 @@ unsigned int	ft_sprite_texture(t_cub *cub, t_img *img, t_c *pixel, \
 	t_sprite *sprite)
 {
 	t_i_signed		i_img;
-	unsigned int	rs;
+	unsigned int	color;
 	float			ac;
 
-	i_img.y = (int)((S_S - pixel->z) * (img->h / S_S));
+	i_img.y = (S_S - pixel->z) * img->h / S_S;
 	if (i_img.y >= (img->h * S_S) || i_img.y < 0)
 		return (0);
 	ac = ft_pythagore(cub, sprite, pixel->x - sprite->pos.x, pixel->y - \
 		sprite->pos.y);
-	i_img.x = (int)(ac * img->w);
+	i_img.x = ac * img->w;
 	if (i_img.x >= img->w || i_img.x < 0)
 		return (0);
-	rs = img->pixels[i_img.y * (img->s_l / 4) + i_img.x];
-	if (rs != img->pixels[0])
-		return (rs);
+	color = img->pixels[(int)(i_img.y * img->s_l * 0.25 + i_img.x)];
+	if (!(color >> 24))
+		return (color);
 	return (0);
 }

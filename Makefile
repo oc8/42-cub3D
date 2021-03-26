@@ -53,8 +53,8 @@ INCLUDES	= ./inc/cub3d.h
 CC			= clang
 RM			= rm -rf
 # FLAGS		= -Wall -Wextra -Werror -Ofast
-# FLAGS		= -Wall -Wextra -Werror -g3 -fsanitize=address
-FLAGS		= -Wall -Wextra -Werror -g #(lldb)
+FLAGS		= -Wall -Wextra -Werror -g3 -fsanitize=address
+# FLAGS		= -Wall -Wextra -Werror -g #(lldb)
 CFLAGS		= -I./inc -I./libft/ -I./minilibx -I./mlx
 AR			= ar
 ARFLAGS		= rcs
@@ -82,6 +82,8 @@ $(PATH_OBJS)/%.o:		$(PATH_SRCS)/%.c $(INCLUDES)
 			@printf "$(ERASE)$(CYAN)⤖ $(NAME) : $(RED)[$<]"
 
 all:		$(NAME)
+
+bonus:		$(NAME)
 
 clean:		
 			$(RM) $(PATH_OBJS)

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 12:09:33 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 15:24:26 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 20:00:07 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ unsigned int	ft_sky_texture_up(t_cub *cub, float map, t_vector *dir)
 		{
 			i.x = (c.x + map) / (2 * map) * (sky->w / 4) + 3 * sky->w / 4;
 			i.y = (c.y + map) / (2 * map) * (sky->h / 3);
-			if (!(i.x >= sky->w || i.y >= sky->h))
-				return (sky->pixels[(int)(i.y * (sky->w) + i.x)]);
+			if (!(i.x >= sky->w || i.y >= sky->h || i.x < 0 || i.y < 0))
+				return (sky->pixels[i.y * (sky->s_l / 4) + i.x]);
 		}
 	}
 	return (0);
@@ -53,8 +53,8 @@ unsigned int	ft_sky_texture_1(t_cub *cub, float map, t_vector *dir)
 		{
 			i.x = (1 - (c.y + map) / (2 * map)) * (sky->w / 4);
 			i.y = (1 - (c.z + map) / (2 * map)) * (sky->h / 3) + sky->h / 3;
-			if (!(i.x >= sky->w || i.y >= sky->h))
-				return (sky->pixels[(int)(i.y * (sky->w) + i.x)]);
+			if (!(i.x >= sky->w || i.y >= sky->h || i.x < 0 || i.y < 0))
+				return (sky->pixels[i.y * (sky->s_l / 4) + i.x]);
 		}
 	}
 	return (0);
@@ -77,8 +77,8 @@ unsigned int	ft_sky_texture_2(t_cub *cub, float map, t_vector *dir)
 		{
 			i.x = ((c.y + map) / (2 * map)) * (sky->w / 4) + 2 * sky->w / 4;
 			i.y = (1 - (c.z + map) / (2 * map)) * (sky->h / 3) + 1 * sky->h / 3;
-			if (!(i.x >= sky->w || i.y >= sky->h))
-				return (sky->pixels[(int)(i.y * (sky->w) + i.x)]);
+			if (!(i.x >= sky->w || i.y >= sky->h || i.x < 0 || i.y < 0))
+				return (sky->pixels[i.y * (sky->s_l / 4) + i.x]);
 		}
 	}
 	return (0);
@@ -101,8 +101,8 @@ unsigned int	ft_sky_texture_3(t_cub *cub, float map, t_vector *dir)
 		{
 			i.x = ((c.x + map) / (2 * map)) * (sky->w / 4) + 3 * sky->w / 4;
 			i.y = (1 - (c.z + map) / (2 * map)) * (sky->h / 3) + 1 * sky->h / 3;
-			if (!(i.x >= sky->w || i.y >= sky->h))
-				return (sky->pixels[(int)(i.y * (sky->w) + i.x)]);
+			if (!(i.x >= sky->w || i.y >= sky->h || i.x < 0 || i.y < 0))
+				return (sky->pixels[i.y * (sky->s_l / 4) + i.x]);
 		}
 	}
 	return (0);

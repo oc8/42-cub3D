@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 14:54:11 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 15:24:40 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 20:23:15 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,37 +17,11 @@ unsigned int	ft_wall_texture(t_c pixel, t_img img, char axe)
 	t_i_signed	index;
 
 	if (axe == 'y')
-		index.x = (int)((pixel.x - (int)pixel.x) * img.w);
+		index.x = (pixel.x - (int)pixel.x) * img.w;
 	else
-		index.x = (int)((pixel.y - (int)pixel.y) * img.w);
-	index.y = (int)((S_W - pixel.z) * (img.h / S_W));
+		index.x = (pixel.y - (int)pixel.y) * img.w;
+	index.y = (S_W - pixel.z) * (img.h / S_W);
 	if (index.x < img.w && index.y < img.h * S_W && index.x > 0 && index.y > 0)
 		return (img.pixels[index.y * (img.s_l / 4) + index.x]);
-	return (0);
-}
-
-unsigned int	ft_floor_texture(t_cub *cub, t_c *pixel)
-{
-	t_i		index;
-	t_img	*img;
-
-	img = &cub->img.floor;
-	index.x = (int)((pixel->x - (int)pixel->x) * img->w);
-	index.y = (int)((pixel->y - (int)pixel->y) * img->h);
-	return (img->pixels[index.y * (img->s_l / 4) + index.x]);
-}
-
-unsigned int	ft_top_texture(t_cub *cub, t_dist *dist)
-{
-	t_i		i_map;
-
-	i_map.x = (int)dist->pixel.x;
-	i_map.y = (int)dist->pixel.y;
-	if (i_map.x < cub->pars->nbr_map.x && i_map.y < cub->pars->nbr_map.y &&\
-		i_map.x >= 0 && i_map.y >= 0)
-	{
-		if (cub->pars->map[i_map.y][i_map.x] == '1')
-			return (cub->pars->col_sky);
-	}
 	return (0);
 }

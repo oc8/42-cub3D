@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 17:34:51 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 19:20:05 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 20:00:07 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static unsigned int	ft_is_sprite_win(t_cub *cub, t_c *pixel, t_vector dir, \
 	return (0);
 }
 
-t_dist	ft_win_ray(t_cub *cub, t_vector dir)
+t_dist				ft_win_ray(t_cub *cub, t_vector dir)
 {
 	t_sprite	*p;
 	t_dist		dist;
@@ -45,7 +45,7 @@ t_dist	ft_win_ray(t_cub *cub, t_vector dir)
 	return (dist);
 }
 
-t_dist	ft_floor(t_cub *cub, t_vector dir)
+t_dist				ft_floor(t_cub *cub, t_vector dir)
 {
 	t_c		*pixel;
 	t_dist	dist;
@@ -67,7 +67,7 @@ t_dist	ft_floor(t_cub *cub, t_vector dir)
 	return (dist);
 }
 
-t_dist	ft_top(t_cub *cub, t_vector dir)
+t_dist				ft_top(t_cub *cub, t_vector dir)
 {
 	t_c		*pixel;
 	t_dist	dist;

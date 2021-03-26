@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 11:49:26 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 20:21:21 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ void		ft_edit_img(t_cub *cub)
 	cub->time = ft_time(cub, fps_str, &count_fps);
 	if (cub->nbr_life <= 0)
 		ft_close(cub, 0, "\033[31mGame Over !");
+	if (cub->fps < FPS_MIN && cub->scale < SCALE_MAX)
+		cub->scale++;
+	else if (cub->fps > FPS_MAX && cub->scale > 1)
+		cub->scale--;
 	mlx_sync(MLX_SYNC_WIN_CMD_COMPLETED, cub->mlx.win);
 	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, cub->scr.ptr);
 	ft_before_calc(cub);

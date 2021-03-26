@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 15:38:21 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 14:07:18 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 15:20:29 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ struct timeval	ft_time(t_cub *cub, char *str, int *count)
 {
 	struct timeval	time_now;
 	float			delta;
-	static int		time_fps = 0;
 
 	time_now = ft_time_now();
 	if (!cub->time.tv_sec && !cub->time.tv_usec)
@@ -38,11 +37,11 @@ struct timeval	ft_time(t_cub *cub, char *str, int *count)
 	delta = ft_time_diff_ms(time_now, cub->time) / 1000.0f;
 	if (ft_time_diff_ms(time_now, cub->last_second) > 1000)
 	{
-		time_fps = *count;
+		cub->fps = *count;
 		*count = 0;
 		cub->last_second = ft_time_now();
 	}
-	sprintf(str, "FPS : %i", time_fps);
+	sprintf(str, "FPS : %i", cub->fps);
 	if (cub->key.maj)
 		cub->player.speed = SPEED * 2 * delta;
 	else

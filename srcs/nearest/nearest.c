@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 16:56:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 18:30:05 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 20:21:08 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_dist		ft_raycast_x(t_cub *cub, t_vector dir)
 	return (dist);
 }
 
-static void	ft_nearest_wall(t_cub *cub, t_dist dist[6], int nbr, t_vector dir)
+static void	ft_nearest_wall(t_cub *cub, t_dist dist[7], int nbr, t_vector dir)
 {
 	if (nbr == 0)
 	{
@@ -54,12 +54,18 @@ static void	ft_nearest_wall(t_cub *cub, t_dist dist[6], int nbr, t_vector dir)
 	}
 }
 
-static void	ft_dist(t_cub *cub, t_dist dist[6], t_vector dir)
+static void	ft_dist(t_cub *cub, t_dist dist[7], t_vector dir)
 {
-	dist[0] = ft_raycast_y(cub, dir);
-	dist[1] = ft_raycast_x(cub, dir);
-	dist[2].t = ft_sprite_ray(cub, dir, &dist[2]);
+	dist[0].t = 0;
+	dist[1].t = 0;
+	dist[2].t = 0;
+	dist[3].t = 0;
+	dist[4].t = 0;
+	dist[5].t = 0;
 	dist[6].t = 0;
+	// dist[0] = ft_raycast_y(cub, dir);
+	// dist[1] = ft_raycast_x(cub, dir);
+	// dist[2].t = ft_sprite_ray(cub, dir, &dist[2]);
 	if (cub->flag_finish)
 		dist[6] = ft_win_ray(cub, dir);
 	dist[3] = ft_top(cub, dir);
@@ -67,7 +73,8 @@ static void	ft_dist(t_cub *cub, t_dist dist[6], t_vector dir)
 	if (dist[3].t || dist[4].t || dist[0].t || dist[1].t || dist[2].t)
 		return ;
 	dist[5].color = ft_skybox(cub, dir);
-	dist[5].t = 9999998;
+	if (dist[5].color)
+		dist[5].t = 9999998;
 }
 
 t_dist		ft_nearest(t_cub *cub, t_vector dir)
@@ -79,6 +86,8 @@ t_dist		ft_nearest(t_cub *cub, t_vector dir)
 
 	ft_dist(cub, dist, dir);
 	small_dist = 9999999;
+	nearest = 0;
+	dist[0].color = 0;
 	i = -1;
 	while (++i < 7)
 	{

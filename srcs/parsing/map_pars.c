@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 18:28:31 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/26 15:37:34 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	ft_first_pos(t_cub *cub, char c, int i, int j)
 	cub->player.agl_vrt = 0;
 	cub->player.pos.x = i + 0.5;
 	cub->player.pos.y = j + 0.5;
-	cub->player.pos.z = 0.5;
+	cub->player.pos.z = S_P;
 	cub->pars->map[j][i] = '0';
 }
 

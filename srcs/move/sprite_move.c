@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/15 14:49:32 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 19:18:44 by odroz-ba         ###   ########lyon.fr   */
+/*   Created: 2021/03/26 17:59:42 by odroz-ba          #+#    #+#             */
+/*   Updated: 2021/03/26 20:12:53 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	ft_sort(t_cub *cub)
 	p = cub->pars->plans_sprite;
 	i = -1;
 	while (++i < cub->pars->nbr_sprite)
-		p[i].t = p[i].a * dir.x + p[i].b * dir.y + p[i].c * dir.z / p[i].rs;
+		p[i].t = (p[i].a * dir.x + p[i].b * dir.y + p[i].c * dir.z) / p[i].rs;
 	j = -1;
 	while (++j < cub->pars->nbr_sprite - 1)
 	{
@@ -58,8 +58,8 @@ void		ft_check_new_pos_sprite(t_cub *cub, t_sprite *p)
 	new_pos.y = p->pos.y - ((p->pos.y - p_pos->y) * SPEED_S * cub->delta / 2);
 	new_pos_i.x = (int)new_pos.x;
 	new_pos_i.y = (int)new_pos.y;
-	if (!(new_pos_i.x < cub->pars->nbr_map.x && new_pos_i.y < \
-			cub->pars->nbr_map.y && new_pos_i.x >= 0 && new_pos_i.y >= 0))
+	if (new_pos_i.x >= cub->pars->nbr_map.x || new_pos_i.y >= \
+			cub->pars->nbr_map.y || new_pos_i.x < 0 || new_pos_i.y < 0)
 		return ;
 	ft_check_wall(cub, new_pos_i, new_pos, &p->pos);
 	pos.x = cub->player.pos.x;
@@ -73,7 +73,8 @@ static void	ft_create_plan_win(t_cub *cub, t_c *p_pos)
 	t_sprite	*p;
 	t_vector	dir;
 
-	dir = cub->player.dir[cub->scr.h / 2 * (cub->scr.s_l / 4) + cub->scr.w / 2];
+	dir = cub->player.dir[(int)((cub->scr.h * cub->scr.s_l * 0.25 \
+			+ cub->scr.w) * 0.5)];
 	p = &cub->pars->plan_win;
 	p->pos.x = cub->pars->finish.x + 0.5;
 	p->pos.y = cub->pars->finish.y + 0.5;
@@ -83,7 +84,6 @@ static void	ft_create_plan_win(t_cub *cub, t_c *p_pos)
 	p->c = 0;
 	p->d = -p->a * p->pos.x - p->b * p->pos.y;
 	p->rs = -(p->a * p_pos->x + p->b * p_pos->y + p->c * p_pos->z + p->d);
-	dir = cub->player.dir_center;
 	p->t = 1;
 }
 
