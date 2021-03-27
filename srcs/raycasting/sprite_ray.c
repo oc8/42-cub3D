@@ -6,13 +6,13 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 12:57:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/27 14:01:33 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 17:39:24 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-unsigned int	ft_is_sprite(t_cub *cub, t_dist *dist, t_vector dir, \
+unsigned int		ft_is_sprite(t_cub *cub, t_dist *dist, t_vector dir, \
 	t_sprite *p)
 {
 	unsigned int	color;
@@ -29,7 +29,7 @@ unsigned int	ft_is_sprite(t_cub *cub, t_dist *dist, t_vector dir, \
 	return (0);
 }
 
-static char		ft_calc_dist_sprite(t_sprite *p, t_vector dir, float *t)
+static char			ft_calc_dist_sprite(t_sprite *p, t_vector dir, float *t)
 {
 	float		rs_dir;
 
@@ -47,7 +47,7 @@ static char		ft_calc_dist_sprite(t_sprite *p, t_vector dir, float *t)
 	return (0);
 }
 
-t_dist			ft_sprite_ray(t_cub *cub, t_vector dir)
+t_dist				ft_sprite_ray(t_cub *cub, t_vector dir)
 {
 	t_sprite		*p;
 	unsigned int	i;

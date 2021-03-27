@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 11:37:15 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 17:55:30 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 17:23:44 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	ft_jump(t_cub *cub)
 {
 	static char		flag = 0;
 
-	if (cub->player.pos.z < S_P + 0.1)
+	if (cub->player.pos.z < S_P + 0.1 && cub->key.space)
 		flag = 1;
-	if (cub->key.space && flag)
+	if (flag)
 		cub->player.pos.z += cub->delta * SPEED;
 	if (cub->player.pos.z > S_P * 2)
 		flag = 0;

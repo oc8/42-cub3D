@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:59:42 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/27 12:07:32 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 17:38:53 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void		ft_check_new_pos_sprite(t_cub *cub, t_sprite *p)
 	t_c	new_pos;
 
 	p_pos = &cub->player.pos;
-	new_pos.x = p->pos.x - ((p->pos.x - p_pos->x) * S_SPEED * cub->delta / 2);
-	new_pos.y = p->pos.y - ((p->pos.y - p_pos->y) * S_SPEED * cub->delta / 2);
+	new_pos.x = p->pos.x - ((p->pos.x - p_pos->x) * cub->delta / 2 * SPEED_S);
+	new_pos.y = p->pos.y - ((p->pos.y - p_pos->y) * cub->delta / 2 * SPEED_S);
 	new_pos_i.x = (int)new_pos.x;
 	new_pos_i.y = (int)new_pos.y;
 	if (new_pos_i.x >= cub->pars->nbr_map.x || new_pos_i.y >= \
@@ -65,7 +65,7 @@ void		ft_check_new_pos_sprite(t_cub *cub, t_sprite *p)
 	pos.x = cub->player.pos.x;
 	pos.y = cub->player.pos.y;
 	if (new_pos_i.x == pos.x && new_pos_i.y == pos.y && cub->player.pos.z < S_S)
-		cub->nbr_life -= (int)(10 * cub->delta * S_DAMAGE);
+		cub->nbr_life -= (int)(10 * cub->delta * DAMAGE_S);
 }
 
 static void	ft_create_plan_win(t_cub *cub, t_c *p_pos)

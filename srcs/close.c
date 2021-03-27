@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:13:27 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 11:33:34 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 17:13:43 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	ft_close(t_cub *cub, int error, const char *str)
 	if (error)
 		printf("\033[31mError\n");
 	printf("%s\n", str);
-	if (cub->scr.ptr)
-		mlx_destroy_image(cub->mlx.ptr, cub->scr.ptr);
 	ft_lstclear(&cub->malloc_lst, free);
 	ft_lstclear_mlx(&cub->mlx_lst, mlx_destroy_image, cub);
 	free(cub->pars);

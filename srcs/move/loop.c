@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 18:54:01 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/27 16:19:28 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 17:40:02 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,24 @@ static void	ft_new_pos(t_cub *cub, t_c *pos)
 
 static void	ft_view(t_cub *cub)
 {
+	float	rs;
+
 	if (cub->key.al)
 		cub->player.agl_hor -= cub->delta * SENSIBILITY;
 	if (cub->key.ar)
 		cub->player.agl_hor += cub->delta * SENSIBILITY;
 	if (cub->key.ad)
-		cub->player.agl_vrt += cub->delta / 2 * SENSIBILITY;
+	{
+		rs = cub->player.agl_vrt + cub->delta / 2 * SENSIBILITY;
+		if (rs < M_PI_2 - 0.2)
+			cub->player.agl_vrt = rs;
+	}
 	if (cub->key.au)
-		cub->player.agl_vrt -= cub->delta / 2 * SENSIBILITY;
+	{
+		rs = cub->player.agl_vrt - cub->delta / 2 * SENSIBILITY;
+		if (rs > -M_PI_2 + 0.2)
+			cub->player.agl_vrt = rs;
+	}
 	if (cub->player.agl_hor >= M_PI)
 		cub->player.agl_hor -= 2 * M_PI;
 	else if (cub->player.agl_hor <= -M_PI)
@@ -70,10 +80,10 @@ static void	ft_move(t_cub *cub)
 	{
 		if (!z_start)
 			z_start = pos.z;
-		if (cub->pars->map[pos_i.y][pos_i.x] == '1')
+		if (cub->pars->map[pos_i.y][pos_i.x] == '1' && pos.z > S_W + S_P + 0.1)
 			pos.z -= sqrt(2 * GRAVITY * (z_start - pos.z + S_W + S_P)) * \
 					cub->delta;
-		else
+		else if (!cub->pars->map[pos_i.y][pos_i.x])
 			pos.z -= sqrt(2 * GRAVITY * (z_start - pos.z + S_P)) * cub->delta;
 	}
 	else

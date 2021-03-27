@@ -72,7 +72,6 @@ no_flag:	compilation $(OBJS)
 compilation	:
 			make -C ./minilibx/
 			make -C ./Libft/
-			cp ./Libft/libft.a ./
 			cp ./minilibx/libmlx.dylib ./
 			printf "$(ERASE)$(GREEN)⤖ $(CYAN)mlx : $(GREEN)ok$(END)\n"
 
@@ -92,7 +91,7 @@ clean:
 
 fclean:		clean
 			$(RM) $(NAME)
-			$(RM) libft.a
+			$(RM) save.bmp
 
 re:			fclean all
 			make -C ./Libft/

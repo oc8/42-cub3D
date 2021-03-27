@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 15:37:28 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/27 16:41:41 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 17:13:16 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), t_cub *cub)
 	start = *lst;
 	while (start)
 	{
-		del(cub->mlx.ptr, start->content);
+		if (del(cub->mlx.ptr, start->content))
+			ft_close(cub, 1, "mlx_destroy_image() error");
 		start = start->next;
 	}
 	start = *lst;

@@ -20,7 +20,7 @@ all: $(NAME)
 
 $(NAME): $(MODULE_OBJ) $(OBJ) $(C_OBJ)
 	swiftc $(OPTI) $(INC) -o $(NAME) -emit-library $(OBJ) $(C_OBJ) -lz
-	
+	cp ./libmlx.dylib ./..
 
 
 
@@ -32,4 +32,5 @@ $(NAME): $(MODULE_OBJ) $(OBJ) $(C_OBJ)
 
 clean:
 	rm -f $(NAME) $(OBJ) $(MODULE_OBJ) $(C_OBJ) *.swiftdoc *~
+	rm -f ../libmlx.dylib
 

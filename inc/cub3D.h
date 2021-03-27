@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 17:10:09 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/27 15:42:57 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 19:14:39 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@
 typedef enum	e_settings
 {
 	SPEED = 4,
-	S_SPEED = 1,
-	S_DAMAGE = 15,
-	GRAVITY = 3,
+	SPEED_S = 1,
+	DAMAGE_S = 15,
+	GRAVITY = 5,
 	SENSIBILITY = 3,
 	FOV = 60,
 	SCALE_MAX = 3,
