@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 15:40:42 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 15:40:57 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 12:27:07 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int				ft_mouse(int x, int y, t_cub *cub)
 	y -= y_temp - 22;
 	cub->player.agl_hor += x / (M_PI * 180);
 	rs = cub->player.agl_vrt + y / (M_PI * 180);
-	if (rs < M_PI_2 && rs > -M_PI_2)
+	if (rs < M_PI_2 - 0.2 && rs > -M_PI_2 + 0.2)
 		cub->player.agl_vrt = rs;
 	mlx_mouse_move(cub->mlx.win, cub->scr.w * .5, cub->scr.h * .5);
 	mlx_mouse_get_pos(cub->mlx.win, &x_temp, &y_temp);

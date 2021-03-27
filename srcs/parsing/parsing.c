@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 18:51:31 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 16:50:54 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static void	ft_parsing_loop(t_cub *cub, char *path)
 			ft_parsing_map(cub, line.ptr, line.i++);
 		free(line.ptr);
 	}
+	if (close(fd))
+		ft_close(cub, 1, "close() error");
 }
 
 int			ft_parsing(char *path, t_cub *cub)

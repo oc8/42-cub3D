@@ -7,6 +7,7 @@
 		"cub3d": "cub3d",
 		"algorithm": "c",
 		"ios": "c",
-		"istream": "c"
+		"istream": "c",
+		"__threading_support": "cpp"
 	}
 }

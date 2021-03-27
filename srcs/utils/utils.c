@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 15:37:28 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:24:12 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 16:41:41 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,16 @@ void	ft_add_to_lst(t_cub *cub, void *add_ptr)
 	if (!add_ptr)
 		ft_close(cub, 1, "mlx_get_data_addr() error");
 	if (!cub->mlx_lst)
+	{
 		cub->mlx_lst = ft_lstnew(add_ptr);
+		if (!cub->mlx_lst)
+			ft_close(cub, 1, "ft_lstnew() error");
+	}
 	else
 	{
 		content = ft_lstnew(add_ptr);
+		if (!content)
+			ft_close(cub, 1, "ft_lstnew() error");
 		ft_lstadd_front(&cub->mlx_lst, content);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 17:10:09 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 21:23:28 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 15:42:57 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@
 typedef enum	e_settings
 {
 	SPEED = 4,
-	SPEED_S = 1,
-	GRAVITY = 7,
+	S_SPEED = 1,
+	S_DAMAGE = 15,
+	GRAVITY = 3,
 	SENSIBILITY = 3,
-	FOV = 80,
+	FOV = 60,
 	SCALE_MAX = 3,
 	FPS_MIN = 15,
 	FPS_MAX = 80,
@@ -150,7 +151,6 @@ typedef struct	s_plan
 	int		c;
 	int		d;
 	float	rs;
-	float	t;
 }				t_plan;
 
 typedef struct	s_img
@@ -218,6 +218,7 @@ typedef struct	s_imgs
 	t_img			sky;
 	t_img			floor;
 	t_img			win;
+	t_img			finish;
 }				t_imgs;
 
 typedef struct	s_player
@@ -272,7 +273,8 @@ char			ft_check_map(t_cub *cub, char **map, int i, int j);
 void			ft_malloc_sprite(t_cub *cub);
 int				ft_atoi_nbr(t_cub *cub, char *line, unsigned int *i);
 char			*ft_copy_str(t_cub *cub, char *line, unsigned int *i);
-int				ft_atoi_color_util(t_cub *cub, char *line, unsigned int *i, int flag);
+int				ft_atoi_color_util(t_cub *cub, char *line, unsigned int *i, \
+					int flag);
 int				ft_atoi_color(t_cub *cub, char *line, unsigned int *i);
 int				ft_parsing_criteria(t_cub *cub, t_line line);
 
@@ -315,13 +317,12 @@ t_dist			ft_ray_x(t_cub *cub, t_vector dir, t_plan *p);
 t_dist			ft_ray_y(t_cub *cub, t_vector dir, t_plan *p);
 float			ft_calc_dist(t_plan *p, t_vector dir, float *t);
 void			ft_threads(t_cub *cub);
-float			ft_sprite_ray(t_cub *cub, t_vector dir, t_dist *dist);
-char			ft_calc_dist_sprite(t_sprite *p, t_vector dir, float *t);
+t_dist			ft_sprite_ray(t_cub *cub, t_vector dir);
 float			ft_calc_rs(t_cub *cub, t_plan *p);
 void			ft_before_calc(t_cub *cub);
 t_dist			ft_top(t_cub *cub, t_vector dir);
 t_dist			ft_floor(t_cub *cub, t_vector dir);
-t_dist			ft_win_ray(t_cub *cub, t_vector dir);
+t_dist			ft_finish_ray(t_cub *cub, t_vector dir);
 
 /*
 **	nearest
@@ -332,7 +333,7 @@ t_dist			ft_nearest(t_cub *cub, t_vector dir);
 **	texture
 */
 unsigned int	ft_wall_texture(t_c pixel, t_img img, char axe);
-unsigned int	ft_sprite_texture(t_cub *cub, t_img *img, t_c *pixel, \
+unsigned int	ft_sprite_texture(t_cub *cub, t_img *img, t_c *pixel, 		\
 	t_sprite *sprite);
 unsigned int	ft_floor_texture(t_cub *cub, t_c *pixel);
 unsigned int	ft_top_texture(t_cub *cub, t_dist *dist);
@@ -354,11 +355,12 @@ int				ft_init_struct(t_cub *cub);
 int				create_trgb(int t, int r, int g, int b);
 int				ft_in_map(t_cub *cub, t_i coordinate);
 void			ft_add_to_lst(t_cub *cub, void *add_ptr);
-void			ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), \
-	t_cub *cub);
+void			ft_lstclear_mlx(t_list **lst, int (*del)(void*, void*), 	\
+					t_cub *cub);
 void			ft_save_bmp(const char *filename, t_cub *cub);
 char			ft_check_index_map(t_cub *cub, t_i map);
-unsigned int	ft_is_sprite(t_cub *cub, t_c *pixel, t_vector dir, t_sprite *sprite, float t);
+unsigned int	ft_is_sprite(t_cub *cub, t_dist *dist, t_vector dir, 		\
+					t_sprite *sprite);
 
 /*
 **	close

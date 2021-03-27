@@ -76,7 +76,7 @@ compilation	:
 			cp ./minilibx/libmlx.dylib ./
 			printf "$(ERASE)$(GREEN)⤖ $(CYAN)mlx : $(GREEN)ok$(END)\n"
 
-$(PATH_OBJS)/%.o:		$(PATH_SRCS)/%.c $(INCLUDES)
+$(PATH_OBJS)/%.o:		$(PATH_SRCS)/%.c $(INCLUDES) libft/libft.a
 			@mkdir -p $(PATH_OBJS) $(PATH_OBJS)/parsing $(PATH_OBJS)/display $(PATH_OBJS)/utils $(PATH_OBJS)/move $(PATH_OBJS)/nearest $(PATH_OBJS)/raycasting $(PATH_OBJS)/texture
 			@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
 			@printf "$(ERASE)$(CYAN)⤖ $(NAME) : $(RED)[$<]"

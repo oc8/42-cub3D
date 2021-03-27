@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 16:18:37 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 20:00:07 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 14:28:31 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void			ft_mlx_init(t_cub *cub)
 	cub->img.sky = ft_init_img(cub, "textures/skybox.xpm");
 	cub->img.floor = ft_init_img(cub, "textures/floor.xpm");
 	cub->img.win = ft_init_img(cub, "textures/win.xpm");
+	cub->img.finish = ft_init_img(cub, "textures/finish.xpm");
 	cub->scr.ptr = mlx_new_image(cub->mlx.ptr, cub->scr.w, cub->scr.h);
 	cub->scr.pixels = (unsigned int *)mlx_get_data_addr(cub->scr.ptr, \
 		&cub->scr.bpp, &cub->scr.s_l, &cub->scr.endian);

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 18:37:25 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 18:55:52 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 16:50:59 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ static void	ft_count(t_cub *cub, char *path, int *count_line, int *s_l_max)
 		*count_line += ft_check_longest_line(line, s_l_max);
 		free(line);
 	}
+	if (close(fd))
+		ft_close(cub, 1, "close() error");
 }
 
 int			ft_malloc_map(t_cub *cub, char *path)

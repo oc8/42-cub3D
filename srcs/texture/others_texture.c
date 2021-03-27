@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 15:43:14 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 20:25:43 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 16:08:27 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void			ft_win_screen(t_cub *cub)
 		{
 			color = ft_win_texture(cub, x, y);
 			if (color)
-				scr->pixels[(int)(y * (scr->s_l / 4) + x)] = color;
+				scr->pixels[y * (scr->s_l / 4) + x] = color;
 		}
 	}
 	mlx_put_image_to_window(cub->mlx.ptr, cub->mlx.win, cub->scr.ptr, 0, 0);

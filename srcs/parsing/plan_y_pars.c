@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 16:22:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/23 16:22:07 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 14:44:58 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,10 @@ void		ft_create_plans_y(t_cub *cub)
 	nbr_plan = cub->pars->nbr_map.y;
 	cub->pars->plans_no = ft_calloc_lst(cub, nbr_plan + 1, sizeof(t_plan));
 	cub->pars->plans_so = ft_calloc_lst(cub, nbr_plan + 1, sizeof(t_plan));
-	i = -1;
+	i = 0;
 	y = -1;
-	// cub->pars->plans_no[i].d = 0;
-	// cub->pars->plans_so[i].d = 0;
 	while (++y < nbr_plan)
 	{
-		i++;
 		if (ft_is_no_wall(cub, y))
 			cub->pars->plans_no[i] = ft_new_plan('y', y);
 		else
@@ -62,7 +59,8 @@ void		ft_create_plans_y(t_cub *cub)
 			cub->pars->plans_so[i] = ft_new_plan('y', y);
 		else
 			cub->pars->plans_so[i].d = 0;
+		i++;
 	}
-	cub->pars->plans_so[++i] = ft_new_plan('y', y);
+	cub->pars->plans_so[i] = ft_new_plan('y', y);
 	cub->pars->plans_no[i] = ft_new_plan('y', y);
 }

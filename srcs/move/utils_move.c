@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:30:37 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 18:00:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 14:36:25 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@ static void	ft_check_new_pos_z(t_cub *cub, t_c new_pos, t_i new_pos_i)
 
 	(void)new_pos_i;
 	pos = &cub->player.pos;
+	if (new_pos.z < 0 && pos->z > 0)
+	{
+		pos->z = S_P;
+		return ;
+	}
 	if (pos->z < S_P + 0.1 && pos->z > 0 && new_pos.z > pos->z)
 		pos->z = new_pos.z;
 	else if (pos->z < 0 && new_pos.z > pos->z)
@@ -97,7 +102,8 @@ void		ft_check_new_pos(t_cub *cub, t_c new_pos)
 	pos = &cub->player.pos;
 	new_pos_i.x = (int)new_pos.x;
 	new_pos_i.y = (int)new_pos.y;
-	if (ft_in_map(cub, new_pos_i) && pos->z > 0 && pos->z < S_W + S_P)
+	if (ft_in_map(cub, new_pos_i) && ft_in_map(cub, pos_i) && pos->z > 0 \
+			&& pos->z < S_W + S_P)
 	{
 		if (cub->pars->map[pos_i.y][pos_i.x] == '1')
 			new_pos.z = S_W + S_P;

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 17:55:40 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 11:33:34 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 16:51:11 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,15 @@ void					ft_save_bmp(const char *filename, t_cub *cub)
 	fd = open(filename, O_RDONLY | O_CREAT, S_IRWXU);
 	if (fd < 0)
 		ft_close(cub, 1, "open 1 failed\n");
-	close(fd);
+	if (close(fd))
+		ft_close(cub, 1, "close() error");
 	fd = open(filename, O_RDWR);
 	if (fd < 0)
 		ft_close(cub, 1, "open 2 failed\n");
 	write(fd, ft_create_bitmap_file_header(file_size), 14);
 	write(fd, ft_create_bitmap_info_header(cub), 40);
 	ft_write_img(fd, cub);
-	close(fd);
+	if (close(fd))
+		ft_close(cub, 1, "close() error");
 	ft_close(cub, 0, "\033[33msave.bmp generated !");
 }

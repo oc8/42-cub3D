@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:17:10 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/25 15:40:34 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 11:52:01 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static void		ft_key_move(t_cub *cub, int key)
 
 int				ft_key(int key, t_cub *cub)
 {
-	printf("%d\n", key);
 	if (key == KEY_M)
 		cub->key.m = 1;
 	else if (key == KEY_ESC)

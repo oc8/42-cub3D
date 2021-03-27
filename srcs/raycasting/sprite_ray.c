@@ -6,29 +6,30 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 12:57:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 21:27:17 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 14:01:33 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-unsigned int	ft_is_sprite(t_cub *cub, t_c *pixel, t_vector dir, t_sprite *p, float t)
+unsigned int	ft_is_sprite(t_cub *cub, t_dist *dist, t_vector dir, \
+	t_sprite *p)
 {
 	unsigned int	color;
 
-	pixel->z = cub->player.pos.z + dir.z * t;
-	if (pixel->z > 0 && pixel->z < S_S)
+	dist->pixel.z = cub->player.pos.z + dir.z * dist->t;
+	if (dist->pixel.z > 0 && dist->pixel.z < S_S)
 	{
-		pixel->x = cub->player.pos.x + dir.x * t;
-		pixel->y = cub->player.pos.y + dir.y * t;
-		color = ft_sprite_texture(cub, &cub->img.sprite, pixel, p);
+		dist->pixel.x = cub->player.pos.x + dir.x * dist->t;
+		dist->pixel.y = cub->player.pos.y + dir.y * dist->t;
+		color = ft_sprite_texture(cub, &cub->img.sprite, &dist->pixel, p);
 		if (color)
 			return (color);
 	}
 	return (0);
 }
 
-char			ft_calc_dist_sprite(t_sprite *p, t_vector dir, float *t)
+static char		ft_calc_dist_sprite(t_sprite *p, t_vector dir, float *t)
 {
 	float		rs_dir;
 
@@ -42,25 +43,61 @@ char			ft_calc_dist_sprite(t_sprite *p, t_vector dir, float *t)
 				return (1);
 		}
 	}
+	*t = 0;
 	return (0);
 }
 
-float			ft_sprite_ray(t_cub *cub, t_vector dir, t_dist *dist)
+t_dist			ft_sprite_ray(t_cub *cub, t_vector dir)
 {
 	t_sprite		*p;
 	unsigned int	i;
+	t_dist			dist;
 
 	i = 0;
 	while (i < cub->pars->nbr_sprite)
 	{
 		p = &cub->pars->plans_sprite[i];
-		if (ft_calc_dist_sprite(p, dir, &dist->t))
+		if (ft_calc_dist_sprite(p, dir, &dist.t))
 		{
-			dist->color = ft_is_sprite(cub, &dist->pixel, dir, p, dist->t);
-			if (dist->color)
-				return (dist->t);
+			dist.color = ft_is_sprite(cub, &dist, dir, p);
+			if (dist.color)
+				return (dist);
 		}
 		i++;
 	}
+	dist.t = 0;
+	return (dist);
+}
+
+static unsigned int	ft_is_sprite_finish(t_cub *cub, t_dist *dist, \
+	t_vector dir, t_sprite *p)
+{
+	unsigned int	color;
+
+	dist->pixel.z = cub->player.pos.z + dir.z * dist->t;
+	if (dist->pixel.z > 0 && dist->pixel.z < S_S)
+	{
+		dist->pixel.x = cub->player.pos.x + dir.x * dist->t;
+		dist->pixel.y = cub->player.pos.y + dir.y * dist->t;
+		color = ft_sprite_texture(cub, &cub->img.finish, &dist->pixel, p);
+		if (color)
+			return (color);
+	}
 	return (0);
+}
+
+t_dist				ft_finish_ray(t_cub *cub, t_vector dir)
+{
+	t_sprite	*p;
+	t_dist		dist;
+
+	dist.t = 0;
+	p = &cub->pars->plan_win;
+	if (ft_calc_dist_sprite(p, dir, &dist.t))
+	{
+		dist.color = ft_is_sprite_finish(cub, &dist, dir, p);
+		if (!dist.color)
+			dist.t = 0;
+	}
+	return (dist);
 }

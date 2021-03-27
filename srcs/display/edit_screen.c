@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 20:21:21 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/27 14:20:57 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,25 @@ void		ft_before_calc(t_cub *cub)
 		cub->pars->plans_we, cub->pars->nbr_map.x);
 }
 
+static void	ft_put_str(t_cub *cub, char *fps_str)
+{
+	char		life_str[5];
+	static char	help[15] = " ^ your life";
+	static char	start[15] = "'m' to start !";
+
+	mlx_string_put(cub->mlx.ptr, cub->mlx.win, 15, 20, 0xffffff, fps_str);
+	if (!cub->key.m)
+	{
+		mlx_string_put(cub->mlx.ptr, cub->mlx.win, 15, 60, 0xffffff, help);
+		mlx_string_put(cub->mlx.ptr, cub->mlx.win, 15, 90, 0xffffff, start);
+	}
+	sprintf(life_str, "%d%%", cub->nbr_life);
+	mlx_string_put(cub->mlx.ptr, cub->mlx.win, 15, 40, 0xff0000, life_str);
+}
+
 void		ft_edit_img(t_cub *cub)
 {
 	char		fps_str[11];
-	char		life_str[5];
 	static int	count_fps = 0;
 
 	cub->time = ft_time(cub, fps_str, &count_fps);
@@ -61,9 +76,7 @@ void		ft_edit_img(t_cub *cub)
 	ft_before_calc(cub);
 	ft_threads(cub);
 	mlx_put_image_to_window(cub->mlx.ptr, cub->mlx.win, cub->scr.ptr, 0, 0);
-	mlx_string_put(cub->mlx.ptr, cub->mlx.win, 15, 20, 0xffffff, fps_str);
-	sprintf(life_str, "%d%%", cub->nbr_life);
-	mlx_string_put(cub->mlx.ptr, cub->mlx.win, 15, 40, 0xff0000, life_str);
+	ft_put_str(cub, fps_str);
 	mlx_sync(MLX_SYNC_WIN_FLUSH_CMD, cub->mlx.win);
 	count_fps++;
 }
