@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:11:38 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 21:16:34 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/29 14:01:42 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 char		ft_check_index_map(t_cub *cub, t_i map)
 {
-	t_i		*nbr_map;
-
-	nbr_map = &cub->pars->nbr_map;
 	if (ft_in_map(cub, map))
 	{
 		if (cub->pars->map[map.y][map.x] == '1')

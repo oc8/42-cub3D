@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wall_texture.c                                     :+:      :+:    :+:   */
+/*   utils_move_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/04 14:54:11 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/29 14:12:15 by odroz-ba         ###   ########lyon.fr   */
+/*   Created: 2021/03/29 14:54:06 by odroz-ba          #+#    #+#             */
+/*   Updated: 2021/03/29 14:54:38 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-unsigned int	ft_wall_texture(t_c pixel, t_img img, char axe)
+void	ft_pos_in_skybox(t_cub *cub, t_c new_pos)
 {
-	t_i_signed	index;
+	float	map;
+	t_c		*pos;
 
-	if (axe == 'y')
-		index.x = (pixel.x - (int)pixel.x) * img.w;
-	else
-		index.x = (pixel.y - (int)pixel.y) * img.w;
-	index.y = (S_W - pixel.z) * (img.h / S_W);
-	if (index.x < img.w && index.y < img.h && index.x > 0 && index.y > 0)
-		return (img.pixels[index.y * (img.s_l / 4) + index.x]);
-	return (0);
+	pos = &cub->player.pos;
+	map = 10 * cub->pars->nbr_map.x;
+	if (new_pos.x > -map && new_pos.x < map)
+		pos->x = new_pos.x;
+	if (new_pos.y > -map && new_pos.y < map)
+		pos->y = new_pos.y;
+	if (new_pos.z > -map && new_pos.z < map)
+		pos->z = new_pos.z;
 }

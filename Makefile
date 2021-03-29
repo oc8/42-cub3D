@@ -46,15 +46,16 @@ move/key.o \
 move/mouse.o \
 move/sprite_move.o \
 move/utils_move.o \
+move/utils_move_2.o \
 move/jump.o \
 close.o
 LSRCS		= ${SRCS:.o=.c}
 INCLUDES	= ./inc/cub3d.h
 CC			= clang
 RM			= rm -rf
-FLAGS		= -Wall -Wextra -Werror -Ofast
+# FLAGS		= -Wall -Wextra -Werror -Ofast
 # FLAGS		= -Wall -Wextra -Werror -g3 -fsanitize=address
-# FLAGS		= -Wall -Wextra -Werror -g #(lldb)
+FLAGS		= -Wall -Wextra -Werror -g #(lldb)
 CFLAGS		= -I./inc -I./libft/ -I./minilibx -I./mlx
 AR			= ar
 ARFLAGS		= rcs

@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 17:10:09 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/27 19:14:39 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/29 17:02:16 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ typedef enum	e_settings
 {
 	SPEED = 4,
 	SPEED_S = 1,
-	DAMAGE_S = 15,
+	DAMAGE_S = 14,
 	GRAVITY = 5,
 	SENSIBILITY = 3,
-	FOV = 60,
+	FOV = 100,
 	SCALE_MAX = 3,
 	FPS_MIN = 15,
 	FPS_MAX = 80,
@@ -308,6 +308,7 @@ int				ft_key_release(int key, t_cub *cub);
 void			ft_check_wall(t_cub *cub, t_i new_pos_i, t_c new_pos, t_c *pos);
 void			ft_jump(t_cub *cub);
 void			ft_fly_move(t_cub *cub, t_dist dist);
+void			ft_pos_in_skybox(t_cub *cub, t_c new_pos);
 
 /*
 **	raycasting
