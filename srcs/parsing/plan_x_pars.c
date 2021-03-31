@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plan_x_pars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
+/*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 16:22:29 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/29 19:18:30 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/31 17:25:15 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ void		ft_create_plans_x(t_cub *cub)
 		if (ft_is_we_wall(cub, x))
 			cub->pars->plans_we[i] = ft_new_plan('x', x);
 		else
-			cub->pars->plans_we[i].d = 0;
+			cub->pars->plans_we[i].d = 1;
 		if (ft_is_ea_wall(cub, x))
 			cub->pars->plans_ea[i] = ft_new_plan('x', x);
 		else
-			cub->pars->plans_ea[i].d = 0;
+			cub->pars->plans_ea[i].d = 1;
 		i++;
 	}
 	cub->pars->plans_ea[i] = ft_new_plan('x', x);

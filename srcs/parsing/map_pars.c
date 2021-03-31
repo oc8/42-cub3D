@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/29 17:44:12 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/30 12:08:56 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	ft_first_pos(t_cub *cub, char c, int i, int j)
 	cub->player.pos.x = i + 0.5;
 	cub->player.pos.y = j + 0.5;
 	cub->player.pos.z = S_P;
-	cub->pars->map[j][i] = '0';
+	cub->pars->map[j][i] = 0;
 }
 
 static void	ft_check_c(t_cub *cub, char c, unsigned int j, unsigned int i)
@@ -61,6 +61,7 @@ void		ft_parsing_map(t_cub *cub, char *line, int j)
 	i = -1;
 	while (line[++i])
 		ft_check_c(cub, line[i], j, i);
-	while (++i < cub->pars->nbr_map.x)
-		cub->pars->map[j][i] = '0';
+	// if (i)
+	while (i < cub->pars->nbr_map.x)
+		cub->pars->map[j][i++] = '0';//
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_ray.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
+/*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:11:38 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/29 14:01:42 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/31 17:24:51 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ float		ft_calc_dist(t_plan *p, t_vector dir, float *t)
 {
 	float		rs_dir;
 
-	if (p->d)
+	if (p->d < 1)
 	{
 		rs_dir = p->a * dir.x + p->b * dir.y + p->c * dir.z;
 		if (rs_dir)
@@ -74,7 +74,7 @@ void		ft_ray_screen(t_cub *cub)
 			dir = &cub->player.dir[y * cub->scr.w + x];
 			dir->x = fov_x * (x - cub->scr.w * 0.5);
 			dir->y = -1;
-			dir->z = -fov_y * (y - cub->scr.h * 0.5);
+			dir->z = -fov_x * (y - cub->scr.h * 0.5);
 		}
 	}
 	cub->player.dir_center = cub->player.dir[cub->scr.h / 2 * \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
+/*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 17:46:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/26 15:38:16 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/31 20:51:26 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,19 @@ int		ft_skip_spaces(char *line, unsigned int i)
 	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
 		i++;
 	return (i);
+}
+
+static void	*ft_thread_cmd(void *cmd)
+{
+	char	*str;
+
+	str = (char *)cmd;
+	system(cmd);
+	return (0);
+}
+
+void		ft_cmd(t_cub *cub, char *cmd)
+{
+	pthread_create(&cub->sound, 0, &ft_thread_cmd, (void *)cmd);
+	pthread_detach(cub->sound);
 }

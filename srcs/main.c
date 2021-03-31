@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
+/*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/27 19:14:32 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/03/31 20:51:50 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int			main(int argc, char *argv[])
 	ft_ray_screen(cub);
 	if (flag_save)
 		ft_save_bmp("save.bmp", cub);
+	ft_cmd(cub, "afplay sounds/snk.mp3");
 	ft_edit_img(cub);
 	mlx_loop_hook(cub->mlx.ptr, ft_loop, cub);
 	mlx_loop(cub->mlx.ptr);
