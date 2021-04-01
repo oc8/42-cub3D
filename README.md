@@ -5,6 +5,8 @@ $ make bonus
 $ ./cub3D ./map/...
 ```
 
+# Key :
+
 mouse for view
 
 shift for sprint
