@@ -4,7 +4,7 @@ SO ./textures/snk/wall.xpm
 WE ./textures/snk/wall.xpm
 EA ./textures/snk/wall.xpm
 S ./textures/snk/sprite.xpm
-F 0000000,0,0
+F 0,0,0
 C 20,20,30
 
 0

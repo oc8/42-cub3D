@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 18:34:49 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/04/01 11:53:20 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/04/01 19:17:17 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	ft_print_map(t_cub *cub, char **map)
 		}
 		printf("\n");
 	}
-	usleep(2500);
+	usleep(10000);
 	printf("\n");
 }
 

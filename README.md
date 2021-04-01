@@ -5,7 +5,7 @@ $ make bonus
 $ ./cub3D ./map/...
 ```
 
-# Key :
+**<u>Key :</u>**
 
 mouse for view
 

@@ -53,16 +53,16 @@ LSRCS		= ${SRCS:.o=.c}
 INCLUDES	= ./inc/cub3d.h
 CC			= clang
 RM			= rm -rf
-# FLAGS		= -Wall -Wextra -Werror -Ofast
+FLAGS		= -Wall -Wextra -Werror -Ofast
 # FLAGS		= -Wall -Wextra -Werror -g3 -fsanitize=address
-FLAGS		= -Wall -Wextra -Werror -g #(lldb)
+# FLAGS		= -Wall -Wextra -Werror -g #(lldb)
 CFLAGS		= -I./inc -I./libft/ -I./minilibx -I./mlx
 AR			= ar
 ARFLAGS		= rcs
 PATH_SRCS	= srcs
 PATH_OBJS	= objs
-SRCS	= $(addprefix $(PATH_SRCS)/,$(LSRCS))
-OBJS	= $(addprefix $(PATH_OBJS)/,$(LOBJS))
+SRCS		= $(addprefix $(PATH_SRCS)/,$(LSRCS))
+OBJS		= $(addprefix $(PATH_OBJS)/,$(LOBJS))
 
 $(NAME):	compilation $(OBJS)
 			$(CC) $(FLAGS) -L./libft -lft -L./minilibx -lmlx -o $@ $(OBJS)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
+/*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/30 12:04:51 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/04/01 19:16:11 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int			ft_parsing(char *path, t_cub *cub)
 		ft_close(cub, 1, "missing criteria");
 	if (ft_check_map(cub, cub->pars->map, cub->player.pos.x, cub->player.pos.y))
 		ft_close(cub, 1, "open map");
+	ft_cmd("clear");
 	ft_malloc_sprite(cub);
 	ft_pos_sprite(cub);
 	ft_create_plan(cub);
