@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 17:10:09 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/31 20:57:20 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/04/01 13:45:39 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-# define S_W 2
-# define S_S 3
+# define S_W 2.5
+# define S_S 3.3
 # define S_P 0.5
 
 typedef enum	e_settings
@@ -38,7 +38,7 @@ typedef enum	e_settings
 	FOV = 100,
 	SCALE_MAX = 3,
 	FPS_MIN = 10,
-	FPS_MAX = 75,
+	FPS_MAX = 60,
 	THREAD = 4
 }				t_e_settings;
 
@@ -249,7 +249,6 @@ typedef struct	s_cub
 	struct timeval	time;
 	struct timeval	last_second;
 	pthread_t		thread[THREAD];
-	pthread_t		sound;
 	t_agl			agl;
 	int				epars;
 	float			delta;
@@ -363,7 +362,7 @@ void			ft_save_bmp(const char *filename, t_cub *cub);
 char			ft_check_index_map(t_cub *cub, t_i map);
 unsigned int	ft_is_sprite(t_cub *cub, t_dist *dist, t_vector dir, 		\
 					t_sprite *sprite);
-void			ft_cmd(t_cub *cub, char *cmd);
+void			ft_cmd(char *cmd);
 
 /*
 **	close

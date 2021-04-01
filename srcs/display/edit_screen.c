@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 15:47:07 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/31 20:40:43 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/04/01 13:44:22 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void		ft_edit_img(t_cub *cub)
 	cub->time = ft_time(cub, fps_str, &count_fps);
 	if (cub->nbr_life <= 0)
 		ft_close(cub, 0, "\033[31mGame Over !");
-	if (cub->fps < FPS_MIN && cub->scale < SCALE_MAX)
+	if (cub->fps < FPS_MIN && cub->scale < SCALE_MAX && \
+		(cub->scr.h > 1000 || cub->scale == 1))
 		cub->scale++;
 	else if (cub->fps > FPS_MAX && cub->scale > 1)
 		cub->scale--;

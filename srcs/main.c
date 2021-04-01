@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 14:31:48 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/31 20:51:50 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/04/01 13:38:17 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,10 @@ int			main(int argc, char *argv[])
 	char	flag_save;
 
 	flag_save = 0;
-	if (ft_check_args(argc, argv, &flag_save))
-		return (1);
 	if (!(cub = ft_calloc(1, sizeof(t_cub))))
 		return (-1);
-	if (!(cub->pars = ft_calloc(1, sizeof(t_pars))))
-	{
-		free(cub);
-		printf("malloc error\n");
-		return (-1);
-	}
+	if (ft_check_args(argc, argv, &flag_save))
+		return (1);
 	if (ft_init_struct(cub) == -1)
 		return (-1);
 	ft_parsing(argv[1], cub);
@@ -82,7 +76,7 @@ int			main(int argc, char *argv[])
 	ft_ray_screen(cub);
 	if (flag_save)
 		ft_save_bmp("save.bmp", cub);
-	ft_cmd(cub, "afplay sounds/snk.mp3");
+	ft_cmd("afplay sounds/snk.mp3 &");
 	ft_edit_img(cub);
 	mlx_loop_hook(cub->mlx.ptr, ft_loop, cub);
 	mlx_loop(cub->mlx.ptr);

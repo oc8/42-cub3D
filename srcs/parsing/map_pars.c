@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_pars.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
+/*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:22 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/30 12:08:56 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/04/01 11:53:14 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void		ft_parsing_map(t_cub *cub, char *line, int j)
 	i = -1;
 	while (line[++i])
 		ft_check_c(cub, line[i], j, i);
-	// if (i)
 	while (i < cub->pars->nbr_map.x)
-		cub->pars->map[j][i++] = '0';//
+		cub->pars->map[j][i++] = '0';
 }

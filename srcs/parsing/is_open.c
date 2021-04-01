@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_open.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
+/*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 18:34:49 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/30 13:15:56 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/04/01 11:53:20 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,3 @@ char		ft_check_map(t_cub *cub, char **map, int i, int j)
 	ft_check_c(cub, map, j + 1, i - 1);
 	return (0);
 }
-

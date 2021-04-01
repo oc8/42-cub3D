@@ -1,18 +1,14 @@
-Cub3D
+# Cub3D
 
-bonus :
-mouse
-jump
-snic
-sprint
-skybox
-colision wall & sprite
-look up and down
-fly
-multi thread
-sprite move
-life
-case finish
-size wall & sprite
+```bash
+$ make bonus
+$ ./cub3D ./map/...
+```
 
+mouse for view
+shift for sprint
+space for jump
+ctrl for snic
+m to start
 
+1 & 2 for fly

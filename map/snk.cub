@@ -1,5 +1,5 @@
-R 1920 1080
-NO ./textures/snk/mur1.xpm
+R 1400 999
+NO ./textures/snk/wall_titan1.xpm
 SO ./textures/snk/wall.xpm
 WE ./textures/snk/wall.xpm
 EA ./textures/snk/wall.xpm
@@ -23,4 +23,3 @@ C 20,20,30
 01F222222221
 0111111111110
 0
-

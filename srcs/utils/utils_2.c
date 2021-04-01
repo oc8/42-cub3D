@@ -6,14 +6,20 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 17:46:13 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/31 20:51:26 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/04/01 11:52:34 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		ft_init_struct(t_cub *cub)
+int			ft_init_struct(t_cub *cub)
 {
+	if (!(cub->pars = ft_calloc(1, sizeof(t_pars))))
+	{
+		free(cub);
+		printf("malloc error\n");
+		return (-1);
+	}
 	cub->epars = 0;
 	cub->player.speed = 0;
 	cub->pars->nbr_sprite = 0;
@@ -28,12 +34,12 @@ int		ft_init_struct(t_cub *cub)
 	return (0);
 }
 
-int		create_trgb(int t, int r, int g, int b)
+int			create_trgb(int t, int r, int g, int b)
 {
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-int		ft_skip_spaces(char *line, unsigned int i)
+int			ft_skip_spaces(char *line, unsigned int i)
 {
 	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
 		i++;
@@ -49,8 +55,10 @@ static void	*ft_thread_cmd(void *cmd)
 	return (0);
 }
 
-void		ft_cmd(t_cub *cub, char *cmd)
+void		ft_cmd(char *cmd)
 {
-	pthread_create(&cub->sound, 0, &ft_thread_cmd, (void *)cmd);
-	pthread_detach(cub->sound);
+	pthread_t	thread;
+
+	pthread_create(&thread, 0, &ft_thread_cmd, (void *)cmd);
+	pthread_detach(thread);
 }

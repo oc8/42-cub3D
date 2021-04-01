@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:13:27 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/31 20:57:23 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/04/01 11:42:40 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ft_close(t_cub *cub, int error, const char *str)
 	ft_lstclear_mlx(&cub->mlx_lst, mlx_destroy_image, cub);
 	free(cub->pars);
 	free(cub);
+	ft_cmd("killall afplay");
 	exit(0);
 }
 
