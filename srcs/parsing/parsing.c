@@ -6,7 +6,7 @@
 /*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:56:20 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/04/01 19:16:11 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/04/04 14:59:54 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void	ft_parsing_loop(t_cub *cub, char *path)
 
 	flag = 1;
 	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		ft_close(cub, 1, "open() error");
 	line.i = 0;
 	vr = 1;
 	while (vr)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odroz-ba <odroz-ba@student.42lyon.f>       +#+  +:+       +#+        */
+/*   By: odroz-ba <odroz-ba@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 18:37:25 by odroz-ba          #+#    #+#             */
-/*   Updated: 2021/03/27 16:50:59 by odroz-ba         ###   ########lyon.fr   */
+/*   Updated: 2021/04/04 15:00:03 by odroz-ba         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	ft_count(t_cub *cub, char *path, int *count_line, int *s_l_max)
 	int		vr;
 
 	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		ft_close(cub, 1, "open() error");
 	vr = 1;
 	*count_line = 0;
 	*s_l_max = 0;
