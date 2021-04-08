@@ -86,10 +86,16 @@ void	*ft_calloc_lst(t_cub *cub, size_t nbr, size_t size)
 	if (!rs)
 		ft_close(cub, 1, "calloc_lst error");
 	if (!cub->malloc_lst)
+	{
 		cub->malloc_lst = ft_lstnew(rs);
+		if (!cub->malloc_lst)
+			ft_close(cub, 1, "ft_lstnew");
+	}
 	else
 	{
 		content = ft_lstnew(rs);
+		if (!content)
+			ft_close(cub, 1, "ft_lstnew");
 		ft_lstadd_front(&cub->malloc_lst, content);
 	}
 	return (rs);

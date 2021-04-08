@@ -34,11 +34,12 @@ typedef enum	e_settings
 	SPEED_S = 1,
 	DAMAGE_S = 12,
 	GRAVITY = 5,
-	SENSIBILITY = 3,
+	SENSIBILITY = 5,
 	FOV = 100,
 	SCALE_MAX = 3,
 	FPS_MIN = 10,
 	FPS_MAX = 60,
+	SIZE_BAR = 28, // 22 28
 	THREAD = 4
 }				t_e_settings;
 

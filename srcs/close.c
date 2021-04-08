@@ -22,6 +22,8 @@ void	ft_close(t_cub *cub, int error, const char *str)
 	free(cub->pars);
 	free(cub);
 	ft_cmd("killall afplay");
+	if (error)
+		exit(-1);
 	exit(0);
 }
 

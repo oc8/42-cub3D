@@ -25,7 +25,7 @@ int				ft_mouse(int x, int y, t_cub *cub)
 		return (0);
 	}
 	x -= x_temp;
-	y -= y_temp - 22;
+	y -= y_temp - SIZE_BAR;
 	cub->player.agl_hor += x / (M_PI * 180);
 	rs = cub->player.agl_vrt + y / (M_PI * 180);
 	if (rs < M_PI_2 - 0.2 && rs > -M_PI_2 + 0.2)
