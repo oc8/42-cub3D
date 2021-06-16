@@ -1,4 +1,4 @@
-R 12800 7200
+R 1920 1080
 #R 1500 999
 NO ./textures/snk/wall.xpm
 SO ./textures/snk/wall.xpm
