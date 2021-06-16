@@ -51,8 +51,8 @@ move/jump.c \
 close.c
 CC			= clang
 RM			= rm -rf
-FLAGS		= -Ofast
-# FLAGS		= -Wall -Wextra -Werror -Ofast
+# FLAGS		= -Ofast
+FLAGS		= -Wall -Wextra -Werror -Ofast
 # FLAGS		= -Wall -Wextra -Werror -g3 -fsanitize=address
 # FLAGS		= -Wall -Wextra -Werror -g #(lldb)
 CFLAGS		= -Iinc -Ilibft/ -Iminilibx -Imlx 
@@ -64,7 +64,7 @@ OBJS		= $(LST_SRCS:%.c=$(OBJS_DIR)/%.o)
 MKDIR		= mkdir -p
 
 $(OBJS_DIR):
-				$(MKDIR) $@
+			$(MKDIR) $@
 
 $(NAME):	$(OBJS_DIR) compilation $(OBJS)
 			$(CC) $(FLAGS) -Iinc -L./libft -lft -L./minilibx -lmlx  $(OBJS) -o $@
@@ -76,7 +76,7 @@ compilation	:
 			cp ./minilibx/libmlx.dylib ./
 			printf "$(ERASE)$(GREEN)⤖ $(CYAN)mlx : $(GREEN)ok$(END)\n"
 
-$(OBJS_DIR)/%.o:		$(SRCS_DIR)/%.c libft/libft.a
+$(OBJS_DIR)/%.o:$(SRCS_DIR)/%.c inc/*.h
 			$(MKDIR) $(dir $@)
 			@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@
 			@printf "$(ERASE)$(CYAN)⤖ $(NAME) : $(RED)[$<]"
@@ -93,10 +93,11 @@ clean:
 fclean:		clean
 			$(RM) $(NAME)
 			$(RM) save.bmp
-			make clean -C ./minilibx
+			$(RM) ./libmlx.dylib
+			@make clean -C ./minilibx
 
 re:			clean all
 			make -C ./Libft/
 
 .PHONY:		all clean fclean re
-.SILENT:	fclean clean re $(NAME) compilation all $(OBJS)
+.SILENT:	fclean clean re $(NAME) compilation all $(OBJS) $(OBJS_DIR)
