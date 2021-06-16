@@ -94,7 +94,7 @@ fclean:		clean
 			$(RM) $(NAME)
 			$(RM) save.bmp
 			$(RM) ./libmlx.dylib
-			@make clean -C ./minilibx
+			make clean -C ./minilibx
 
 re:			clean all
 			make -C ./Libft/
