@@ -55,7 +55,7 @@ RM			= rm -rf
 FLAGS		= -Wall -Wextra -Werror -Ofast
 # FLAGS		= -Wall -Wextra -Werror -g3 -fsanitize=address
 # FLAGS		= -Wall -Wextra -Werror -g #(lldb)
-CFLAGS		= -Iinc -Ilibft/ -Iminilibx -Imlx 
+CFLAGS		= -Iinc -Ilibft/ -Iminilibx -Imlx
 AR			= ar
 ARFLAGS		= rcs
 SRCS_DIR	= srcs
@@ -85,7 +85,7 @@ all:		$(NAME)
 
 bonus:		$(NAME)
 
-clean:		
+clean:
 			$(RM) $(OBJS_DIR)
 			printf "$(ERASE)$(GREEN)⤖ $(CYAN)$(NAME) : $(GREEN)clean$(END)\n"
 			make fclean -C ./Libft/

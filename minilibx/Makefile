@@ -1,6 +1,3 @@
-
-
-
 MODULE_SRC= mlx_image.swift mlx_window.swift mlx_init.swift
 MODULE_OBJ=$(MODULE_SRC:.swift=.swiftmodule)
 
@@ -29,6 +26,10 @@ $(NAME): $(MODULE_OBJ) $(OBJ) $(C_OBJ)
 
 %.swiftmodule: %.swift
 	swiftc $(OPTI) $(INC) -parse-as-library -c $< -o $@ -emit-module -module-name $(patsubst %.swift,%,$<) -module-link-name $(patsubst %.swift,%,$<)
+
+libmlx.dylib: $(MODULE_OBJ) $(OBJ) $(C_OBJ)
+	swiftc $(OPTI) $(INC) -o $(NAME) -emit-library $(OBJ) $(C_OBJ) -lz
+	cp ./libmlx.dylib ./..
 
 clean:
 	rm -f $(NAME) $(OBJ) $(MODULE_OBJ) $(C_OBJ) *.swiftdoc *~
